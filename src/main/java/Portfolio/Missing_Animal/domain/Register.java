@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Register {
+public class Register { //실종 등록
 
     @Id@GeneratedValue
     @Column(name="register_id")

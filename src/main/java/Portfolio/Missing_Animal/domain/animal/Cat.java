@@ -12,10 +12,7 @@ import lombok.Setter;
 @Setter
 public class Cat extends Animal{
 
-    @Id
-    @GeneratedValue
-    @Column(name = "dog_id")
-    private Long id;
+    private String variety;
 
 
 }

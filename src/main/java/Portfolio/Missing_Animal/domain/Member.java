@@ -1,8 +1,6 @@
 package Portfolio.Missing_Animal.domain;
 
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,8 +16,14 @@ public class Member {
     @Column(name="member_id")
     private Long id;
 
+    private String username;
+
+
     @OneToMany(mappedBy = "member")
     List<Register> registers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    List<Report> reports = new ArrayList<>();
 
 
 }
