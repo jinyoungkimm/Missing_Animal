@@ -23,7 +23,6 @@ class AnimalTest {
     void animal()
     {
 
-
         Register report = new Register();
         em.persist(report);
 
@@ -34,12 +33,8 @@ class AnimalTest {
         em.persist(animal);
 
 
-
         em.flush();
         em.clear();
 
     }
-
-
-
 }

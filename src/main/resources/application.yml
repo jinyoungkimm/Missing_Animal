@@ -2,6 +2,15 @@ spring:
   output:
     ansi:
       enabled: always
+  servlet:
+    multipart:
+      max-file-size: 1280KB
+      max-request_size: 12800000KB
+  http:
+    encoding:
+     charset: UTF-8
+     enabled: true
+     force: true
 
   datasource:
     url: jdbc:mysql://localhost:3306/MissingAnimal?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
@@ -18,6 +27,12 @@ spring:
       #show_sql: true
       format_sql: true
 
+server:
+  tomcat:
+    port: 8080
+    uri-encoding: UTF-8
+
 logging.level:
   org.hibernate.SQL: debug
   #org.hibernate.type: true
+

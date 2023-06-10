@@ -27,6 +27,4 @@ public class Report { // 발견 신고(Member와 Animal의 중간 Table 역할)
 
     private LocalDateTime findedTime;
 
-
-
 }
