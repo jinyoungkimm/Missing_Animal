@@ -27,10 +27,9 @@ spring:
       #show_sql: true
       format_sql: true
 
-server:
-  tomcat:
-    port: 8080
-    uri-encoding: UTF-8
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 
 logging.level:
   org.hibernate.SQL: debug

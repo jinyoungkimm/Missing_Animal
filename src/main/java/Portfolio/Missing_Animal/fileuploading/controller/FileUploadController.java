@@ -20,7 +20,7 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+//@Controller
 @Slf4j
 public class FileUploadController {
 
@@ -39,7 +39,7 @@ public class FileUploadController {
 						"serveFile", path.getFileName().toString()).build().toUri().toString())
 				.collect(Collectors.toList()));
 
-		return "uploadForm";
+		return "test";
 	}
 
 	@PostMapping("/")
@@ -63,7 +63,6 @@ public class FileUploadController {
 
 		Resource file = storageService.loadAsResource(filename);
 
-		log.info("asdfasdf");
 
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 						"attachment; filename=\"" + URLEncoder.encode(file.getFilename(),"UTF-8") + "\"")
