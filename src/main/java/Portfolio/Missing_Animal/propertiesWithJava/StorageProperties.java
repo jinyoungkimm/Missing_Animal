@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.fileuploading.storage;
+package Portfolio.Missing_Animal.propertiesWithJava;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

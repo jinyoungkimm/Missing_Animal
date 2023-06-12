@@ -1,8 +1,8 @@
-package Portfolio.Missing_Animal.fileuploading.service;
+package Portfolio.Missing_Animal.service;
 
-import Portfolio.Missing_Animal.fileuploading.storage.StorageFileNotFoundException;
-import Portfolio.Missing_Animal.fileuploading.storage.StorageProperties;
-import Portfolio.Missing_Animal.fileuploading.storage.StorageException;
+import Portfolio.Missing_Animal.exception.StorageFileNotFoundException;
+import Portfolio.Missing_Animal.propertiesWithJava.StorageProperties;
+import Portfolio.Missing_Animal.exception.StorageException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

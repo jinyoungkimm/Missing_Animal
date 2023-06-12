@@ -1,38 +1,34 @@
 package Portfolio.Missing_Animal.controller;
 
 
-import lombok.Getter;
+import Portfolio.Missing_Animal.dto.AddressFormDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AddressController {
 
-    @GetMapping("/")
-    public String createForm(Model model){
+    @GetMapping("/addressApi")
+    public String callAddressApi(Model model){
 
-        model.addAttribute("memberForm",new memberForm());
-        return "members/createMemberForm";
+        model.addAttribute("addressFormDto",new AddressFormDto());
+        return "members/addressForm";
 
     }
 
-    @Getter
-    static class memberForm{
+    @PostMapping("/addressApi")
+    public String resultOfAddressApi(AddressFormDto addressFormDto){
 
-        private String zipcode;
-        private String streetAdr;
-        private String detailAdr;
+        AddressFormDto result = new AddressFormDto(addressFormDto.getZipcode(), addressFormDto.getStreetAdr(), addressFormDto.getDetailAdr());
 
-        protected memberForm(){
+        System.out.println(result);
 
-        }
-
-        public memberForm(String zipcod, String streetAdr, String detaildr) {
-            this.zipcode = zipcod;
-            this.streetAdr = streetAdr;
-            this.detailAdr = detaildr;
-        }
+        return "redirect:/";
     }
+
+
+
 
 }

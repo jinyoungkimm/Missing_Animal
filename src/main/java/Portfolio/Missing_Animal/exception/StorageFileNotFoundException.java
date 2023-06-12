@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.fileuploading.storage;
+package Portfolio.Missing_Animal.exception;
 
 public class StorageFileNotFoundException extends StorageException {
 

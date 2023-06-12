@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.fileuploading.service;
+package Portfolio.Missing_Animal.service;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

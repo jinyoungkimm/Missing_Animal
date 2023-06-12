@@ -1,7 +1,7 @@
 package Portfolio.Missing_Animal;
 
-import Portfolio.Missing_Animal.fileuploading.service.StorageService;
-import Portfolio.Missing_Animal.fileuploading.storage.StorageProperties;
+import Portfolio.Missing_Animal.service.StorageService;
+import Portfolio.Missing_Animal.propertiesWithJava.StorageProperties;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +17,6 @@ public class MissingAnimalApplication {
 		SpringApplication.run(MissingAnimalApplication.class, args);
 
 	}
-
 
 	@Bean
 	CommandLineRunner init(StorageService storageService) {
