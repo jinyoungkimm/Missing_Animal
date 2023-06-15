@@ -1,5 +1,6 @@
 package Portfolio.Missing_Animal.domain.animal;
 
+import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.domain.Report;
 import jakarta.persistence.EntityManager;
@@ -23,18 +24,24 @@ class AnimalTest {
     void animal()
     {
 
-        Register report = new Register();
-        em.persist(report);
-
-        Animal animal = new Dog();
-        animal.setAge(10);
-        animal.setName("사랑이");
-        animal.setRegister(report);
-        em.persist(animal);
-
+        Dog dog = new Dog();
+        em.persist(dog);
+        Long id = dog.getId();
 
         em.flush();
         em.clear();
+
+        Animal anumal = em.createQuery("select a from Animal a where a.id =:id", Animal.class)
+                .setParameter("id", id)
+                .getSingleResult();
+
+        Dog d = (Dog)anumal;
+
+        System.out.println(anumal.getId());
+
+
+
+
 
     }
 }

@@ -18,7 +18,7 @@
 
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-    <form  role="form" action="/addressApi" th:object="${addressFormDto}" method="post">
+    <form  role="form" action="/addressApi" th:object="${address}" method="post">
         <div class="form-group">
             <label th:for="zipcode">우편번호</label>
             <input  type="text" th:field="*{zipcode}" class="form-control" placeholder="우편번호를 [우편번호 찾기] 버튼을 클릭하여 입력하세요" >

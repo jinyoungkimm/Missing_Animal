@@ -12,7 +12,5 @@ import lombok.Setter;
 @Setter
 public class Cat extends Animal{
 
-    private String variety;
-
 
 }

@@ -1,5 +1,8 @@
 package Portfolio.Missing_Animal.domain;
 
+import Portfolio.Missing_Animal.AddressForm;
+import Portfolio.Missing_Animal.EmailForm;
+import Portfolio.Missing_Animal.BirthDateForm;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,12 +21,28 @@ public class Member {
 
     private String username;
 
+    //회원 ID(ex. wlsdud6523)
+    private String userId;
+
+    private String password;
+
+    @Embedded
+    private AddressForm address;
+
+    @Embedded
+    private EmailForm email;
+
+    @Embedded
+    private BirthDateForm birthDate;
+
+    private String phoneNumber;
+
 
     @OneToMany(mappedBy = "member")
-    List<Register> registers = new ArrayList<>();
+    private List<Register> registers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    List<Report> reports = new ArrayList<>();
+    private List<Report> reports = new ArrayList<>();
 
 
 }
