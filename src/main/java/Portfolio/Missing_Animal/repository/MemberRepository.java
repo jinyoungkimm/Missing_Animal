@@ -37,7 +37,16 @@ public class MemberRepository {
 
     }
 
-    public List<Member> findByName(String username){
+    public List<Member> findByUserId(String userId){
+
+        return em.createQuery("SELECT m FROM Member m WHERE m.userId=:userId",Member.class)
+                .setParameter("userId",userId)
+                .getResultList();
+
+    }
+
+    public List<Member> findByName(String username)
+    {
 
         return em.createQuery("SELECT m FROM Member m WHERE m.username=:username",Member.class)
                 .setParameter("username",username)
