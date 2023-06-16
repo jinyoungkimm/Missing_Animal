@@ -4,6 +4,7 @@ import Portfolio.Missing_Animal.AddressForm;
 import Portfolio.Missing_Animal.EmailForm;
 import Portfolio.Missing_Animal.BirthDateForm;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Data
 public class Member {
 
     @Id@GeneratedValue

@@ -14,7 +14,6 @@ import lombok.Setter;
 public class AddressForm {
 
     private String zipcode;
-
     private String streetAdr;
     private String detailAdr;
 

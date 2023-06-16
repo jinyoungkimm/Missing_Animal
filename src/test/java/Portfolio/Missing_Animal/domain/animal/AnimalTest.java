@@ -20,7 +20,7 @@ class AnimalTest {
     EntityManager em;
 
     @Test
-    @Rollback(false)
+    @Rollback(value = false)
     void animal()
     {
 
@@ -32,16 +32,16 @@ class AnimalTest {
         em.clear();
 
         Animal anumal = em.createQuery("select a from Animal a where a.id =:id", Animal.class)
-                .setParameter("id", id)
+                .setParameter("id", 1)
                 .getSingleResult();
 
         Dog d = (Dog)anumal;
 
-        System.out.println(anumal.getId());
+        Register register = new Register();
 
 
+        register.setAnimal(d);
 
-
-
+        em.persist(register);
     }
 }

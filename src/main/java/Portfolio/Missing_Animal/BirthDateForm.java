@@ -9,7 +9,7 @@ import lombok.Data;
 public class BirthDateForm {
 
     private String year;
-    private String moth;
+    private String month;
     private String day;
 
 }

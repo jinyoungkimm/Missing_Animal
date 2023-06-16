@@ -35,17 +35,17 @@ public class FileSystemStorageService implements StorageService {
 	@Override
 	public void store(List<MultipartFile> files) {
 
-		log.info("ssssssssssssss");
 
 		for (MultipartFile file : files)
 
 		{
 
-
 		try {
+
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file.");
 			}
+
 			// 파일이 저장되는 절대 경로를 생성!
 			// destinationFile == C:\\MissingAnimal\\Missing_Animal\\upload-dir\\스크린샷(1013).png
 			Path destinationFile = this.rootLocation.resolve(
@@ -59,6 +59,7 @@ public class FileSystemStorageService implements StorageService {
 				throw new StorageException(
 						"Cannot store file outside current directory.");
 			}
+
 			try (InputStream inputStream = file.getInputStream()) {
 				Files.copy(inputStream, destinationFile,
 						StandardCopyOption.REPLACE_EXISTING);

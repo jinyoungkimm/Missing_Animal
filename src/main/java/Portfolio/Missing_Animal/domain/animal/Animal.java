@@ -21,9 +21,9 @@ public abstract class Animal {
     @Column(name = "animal_id")
     private Long id;
 
-    //@OneToMany
-    @OneToMany(mappedBy = "animal")
-    private List<Register> registers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "animal")
+    //@OneToMany
+    private List<Register> registers = new ArrayList<>();
 
 }

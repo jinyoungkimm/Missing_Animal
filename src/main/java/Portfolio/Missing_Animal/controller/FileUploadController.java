@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,7 +39,7 @@ public class FileUploadController {
 						"serveFile", path.getFileName().toString()).build().toUri().toString())
 				.collect(Collectors.toList()));
 
-		return "test";
+		return "uploadForm";
 	}
 
 	@PostMapping("/")
@@ -48,10 +49,12 @@ public class FileUploadController {
 
 		storageService.store(file);
 
+		/*for(MultipartFile f:file) {
 
-		//redirectAttributes.addFlashAttribute("message",
-		//		"You successfully uploaded " + file.getOriginalFilename() + "!");
+			redirectAttributes.addFlashAttribute("message",
+					"You successfully uploaded " + f.getOriginalFilename() + "!");
 
+		}*/
 		return "redirect:/";
 	}
 
