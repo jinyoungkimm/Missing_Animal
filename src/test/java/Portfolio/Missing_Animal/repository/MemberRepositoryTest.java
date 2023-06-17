@@ -11,15 +11,13 @@ import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 
 @SpringBootTest
 @Transactional
 class MemberRepositoryTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberRepositoryImpl memberRepository;
 
     @Autowired
     EntityManager em;

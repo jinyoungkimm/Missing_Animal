@@ -1,14 +1,12 @@
 package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +23,6 @@ class MemberServiceTest {
 
     @Test
     @Rollback(false)
-    @ExceptionHandler(IllegalStateException.class)
     void duplicate() {
 
         //givien : 기존에 저장되어 있는 데이터
@@ -41,7 +38,7 @@ class MemberServiceTest {
         //when 새롭게 가입!
         Member newMember = new Member();
         newMember.setUsername("김진영");
-        newMember.setUserId("wlsdud65233");
+        newMember.setUserId("wlsdud6523");
         memberService.join(newMember);
 
         //then
