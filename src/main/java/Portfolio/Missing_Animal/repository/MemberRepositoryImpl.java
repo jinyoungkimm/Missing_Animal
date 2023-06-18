@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.repository;
 
 
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

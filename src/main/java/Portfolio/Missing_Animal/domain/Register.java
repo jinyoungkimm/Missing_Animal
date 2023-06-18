@@ -23,6 +23,8 @@ public class Register { //실종 등록
 
     private String filePath;
 
+    private String animalName;
+
     private String animal_sex;
 
     private String animal_age;

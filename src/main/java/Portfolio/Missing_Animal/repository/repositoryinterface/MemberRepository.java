@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.repository;
+package Portfolio.Missing_Animal.repository.repositoryinterface;
 
 import Portfolio.Missing_Animal.domain.Member;
 

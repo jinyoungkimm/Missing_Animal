@@ -2,8 +2,7 @@ package Portfolio.Missing_Animal.service;
 
 
 import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.repository.MemberRepository;
-import Portfolio.Missing_Animal.repository.MemberRepositoryImpl;
+import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
