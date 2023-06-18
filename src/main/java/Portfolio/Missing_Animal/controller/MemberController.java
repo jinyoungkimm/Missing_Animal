@@ -32,7 +32,6 @@ public class MemberController {
     @PostMapping("")
     public String Controller_join_Post(Member member){
 
-        System.out.println(member);
 
         memberService.join(member);
 

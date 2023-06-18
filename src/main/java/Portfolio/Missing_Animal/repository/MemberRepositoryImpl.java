@@ -49,9 +49,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     public List<Member> findByName(String username)
     {
 
-        return em.createQuery("SELECT m FROM Member m WHERE m.username=:username",Member.class)
-                .setParameter("username",username)
+        List<Member> username1 = em.createQuery("SELECT m FROM Member m WHERE m.username=:username", Member.class)
+                .setParameter("username", username)
                 .getResultList();
+
+        return username1;
 
     }
 
