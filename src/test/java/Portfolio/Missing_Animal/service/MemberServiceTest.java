@@ -1,9 +1,9 @@
 package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

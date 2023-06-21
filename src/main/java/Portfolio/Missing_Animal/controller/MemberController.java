@@ -2,10 +2,9 @@ package Portfolio.Missing_Animal.controller;
 
 
 import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.service.MemberService;
+import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

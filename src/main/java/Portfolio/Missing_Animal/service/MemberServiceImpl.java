@@ -3,10 +3,13 @@ package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
-import jakarta.transaction.Transactional;
+import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 
@@ -33,6 +36,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void validateDuplicateMember(Member member) {
 
 
@@ -45,6 +49,7 @@ public class MemberServiceImpl implements MemberService {
 
     //로그인 기능(DB에 저장된 id값을 반환)
     @Override
+    @Transactional(readOnly = true)
     public boolean login(Member member) {
 
         /**
@@ -76,6 +81,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isMemberExist(Member member) {
 
         List<Member> findMember = memberRepository.findByUserId(member.getUserId());

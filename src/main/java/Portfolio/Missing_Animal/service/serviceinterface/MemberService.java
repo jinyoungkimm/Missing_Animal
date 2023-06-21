@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.service;
+package Portfolio.Missing_Animal.service.serviceinterface;
 
 import Portfolio.Missing_Animal.domain.Member;
 import jakarta.transaction.Transactional;
