@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Data
 public class MissingAddress {
 
@@ -34,5 +32,17 @@ public class MissingAddress {
     @OneToMany(mappedBy = "missingAddress")
     private List<Register> registers = new ArrayList<>();
 
+    public MissingAddress(){
 
+    }
+    public MissingAddress(Long id, String zipcode, String city, String gu, String dong, String streetName, String streetNumber, List<Register> registers) {
+        this.id = id;
+        this.zipcode = zipcode;
+        this.city = city;
+        Gu = gu;
+        Dong = dong;
+        this.streetName = streetName;
+        this.streetNumber = streetNumber;
+        this.registers = registers;
+    }
 }

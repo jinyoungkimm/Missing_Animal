@@ -46,7 +46,8 @@ public class Register { //실종 등록
     private RegisterStatus registerStatus;
 
     // 실종 등록 회원 정보
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    //@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
 
@@ -58,7 +59,8 @@ public class Register { //실종 등록
 
 
     // 실종된 주소
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    //@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "missing_address_id")
     private MissingAddress missingAddress;
 
