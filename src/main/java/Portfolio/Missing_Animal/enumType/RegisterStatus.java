@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.domain.animal;
+package Portfolio.Missing_Animal.enumType;
 
 //사건 해결 여부
 public enum RegisterStatus {

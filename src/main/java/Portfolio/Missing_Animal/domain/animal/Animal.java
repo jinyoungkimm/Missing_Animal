@@ -4,6 +4,7 @@ package Portfolio.Missing_Animal.domain.animal;
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.domain.Report;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +14,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
-@Getter
-@Setter
+@Data
 public abstract class Animal {
 
     @Id@GeneratedValue
@@ -25,5 +25,10 @@ public abstract class Animal {
     @OneToMany(mappedBy = "animal")
     //@OneToMany
     private List<Register> registers = new ArrayList<>();
+
+
+    public Animal(){
+
+    }
 
 }

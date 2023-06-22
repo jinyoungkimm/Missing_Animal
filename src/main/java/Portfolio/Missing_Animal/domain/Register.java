@@ -2,16 +2,14 @@ package Portfolio.Missing_Animal.domain;
 
 
 import Portfolio.Missing_Animal.domain.animal.Animal;
-import Portfolio.Missing_Animal.domain.animal.RegisterStatus;
+import Portfolio.Missing_Animal.enumType.RegisterStatus;
+import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -45,6 +43,10 @@ public class Register { //실종 등록
     @Enumerated(EnumType.STRING) // [SOLVED,NOT_SOLVED]
     private RegisterStatus registerStatus;
 
+    // 실종 등록에 대한 신고 여부
+    @Enumerated(EnumType.STRING)
+    private ReportedStatus repotedStatus;
+
     // 실종 등록 회원 정보
     //@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @ManyToOne(fetch = FetchType.LAZY)
@@ -69,19 +71,5 @@ public class Register { //실종 등록
 
     public Register(){
 
-    }
-
-    public Register(Long id, String animaSex, String animalAge, String animalVariety, String animalWeight, String etc, LocalDateTime registerDate, RegisterStatus registerStatus, Member member, Animal animal, MissingAddress missingAddress) {
-        this.id = id;
-        this.animalSex = animaSex;
-        this.animalAge = animalAge;
-        this.animalVariety = animalVariety;
-        this.animalWeight = animalWeight;
-        this.etc = etc;
-        this.registerDate = registerDate;
-        this.registerStatus = registerStatus;
-        this.member = member;
-        this.animal = animal;
-        this.missingAddress = missingAddress;
     }
 }

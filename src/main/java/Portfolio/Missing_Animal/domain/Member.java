@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Data
 public class Member {
 
@@ -46,6 +44,10 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Report> reports = new ArrayList<>();
+
+    public Member() {
+
+    }
 
 
     /**

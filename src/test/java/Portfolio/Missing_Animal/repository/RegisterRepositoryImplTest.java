@@ -43,7 +43,7 @@ class RegisterRepositoryImplTest {
 
         Register register = new Register();
         register.setAnimalName("사랑이");
-        register.setAnimal_age("6");
+        register.setAnimalAge("6");
         register.setRegisterDate(LocalDateTime.now());
         register.setMember(member);
         em.persist(register);
@@ -66,7 +66,7 @@ class RegisterRepositoryImplTest {
         Register register = new Register();
         register.setAnimal(animal);
         register.setAnimalName("사랑이");
-        register.setAnimal_age("6");
+        register.setAnimalAge("6");
         registerRepository.save(register);
 
         Long savedId = register.getId();

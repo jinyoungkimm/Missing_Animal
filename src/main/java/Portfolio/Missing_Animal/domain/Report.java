@@ -2,14 +2,14 @@ package Portfolio.Missing_Animal.domain;
 
 import Portfolio.Missing_Animal.domain.animal.Animal;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Data
 public class Report { // 발견 신고(Member와 Animal의 중간 Table 역할)
 
     @Id
@@ -26,5 +26,10 @@ public class Report { // 발견 신고(Member와 Animal의 중간 Table 역할)
     Animal animal;
 
     private LocalDateTime findedTime;
+
+    public Report(){
+
+    }
+
 
 }
