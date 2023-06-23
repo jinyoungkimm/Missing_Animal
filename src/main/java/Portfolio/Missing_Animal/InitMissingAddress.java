@@ -27,34 +27,34 @@ public class InitMissingAddress {
 
         //충청 남도
         MissingAddress missingAddress1 = createMissingAddress("충청남도","1-1-1","천안시1","천안구1","천안동1","천안대로1_1");
-        createRegister(missingAddress1, "김진영1");
+        createRegister(missingAddress1, "김진영1","사랑이1");
 
         MissingAddress missingAddress2 = createMissingAddress("충청남도","1-1-2","천안시2","천안구2","천안동2","천안대로1_2");
-        createRegister(missingAddress2, "김진영2");
+        createRegister(missingAddress2, "김진영2","사랑이2");
 
         // 충청 북도
         MissingAddress missingAddress3 = createMissingAddress("충청북도","1-2-1","천안군1","천안군1","천안읍1","천안대로2_1");
-        createRegister(missingAddress3, "김진영3");
+        createRegister(missingAddress3, "김진영3","사랑이3");
 
         MissingAddress missingAddress4 = createMissingAddress("충청북도","1-2-2","천안군2","천안군2","천안읍2","천안대로2_2");
-        createRegister(missingAddress4, "김진영4");
+        createRegister(missingAddress4, "김진영4","사랑이4");
 
 
         //전라 남도
         MissingAddress missingAddress5 = createMissingAddress("전라남도","1-3-1","전주시1","전주구1","천주동1","전주대로1_1");
-        createRegister(missingAddress5, "김진영5");
+        createRegister(missingAddress5, "김진영5","사랑이5");
         MissingAddress missingAddress6 = createMissingAddress("전라남도","1-3-2","전주시2","전주구2","천주동2","전주대로1_2");
-        createRegister(missingAddress6, "김진영6");
+        createRegister(missingAddress6, "김진영6","사랑이6");
 
         //전라 북도
         MissingAddress missingAddress7 = createMissingAddress("전라북도","1-4-1","전주군1","전주군1","천주읍1","전주대로2_1");
-        createRegister(missingAddress7, "김진영7");
+        createRegister(missingAddress7, "김진영7","사랑이7");
 
         MissingAddress missingAddress8 = createMissingAddress("전라북도","1-4-2","전주군2","전주군2","천주읍2","전주대로2_2");
-        createRegister(missingAddress8, "김진영8");
+        createRegister(missingAddress8, "김진영8","사랑이8");
 
     }
-    public  Register createRegister(MissingAddress missingAddress,String userName) {
+    public  Register createRegister(MissingAddress missingAddress,String userName,String animalName) {
 
                 em.persist(missingAddress);
 
@@ -62,7 +62,9 @@ public class InitMissingAddress {
                 member.setUsername(userName);
                 em.persist(member);
 
+
                 Register register = new Register();
+                register.setAnimalName(animalName);
                 register.setMissingAddress(missingAddress);
                 register.setMember(member);
                 em.persist(register);
