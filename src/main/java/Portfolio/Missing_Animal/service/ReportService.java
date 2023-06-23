@@ -33,7 +33,6 @@ public class ReportService { // 신고 관련 기능
     }
 
 
-
     @Transactional(readOnly = true)
     public List<MissingAddress> ListingMissingAnimalByMissingAddress(MissingAddress missingAddress){
 
