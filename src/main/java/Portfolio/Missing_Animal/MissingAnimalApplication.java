@@ -20,10 +20,18 @@ public class MissingAnimalApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(StorageService storageService) {
+	CommandLineRunner init1(StorageService storageService) {
 		return (args) -> {
 			storageService.deleteAll();
 			storageService.init();
+		};
+	}
+
+	@Bean
+	CommandLineRunner init2(InitMissingAddress initMissingAddress) {
+		return (args) -> {
+
+			initMissingAddress.init();
 		};
 	}
 
