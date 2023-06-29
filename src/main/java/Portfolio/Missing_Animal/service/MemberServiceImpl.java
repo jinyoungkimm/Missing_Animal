@@ -19,38 +19,29 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder bCryptPasswordEncoder; // passWordEncoder는 [인터페이스]이며, BCryptPasswordEncoder는 그 [구현체]이다.
 
-    //회원가입
+
     @Override
     @Transactional
-    public void join(Member member) {
+    public void join(Member member) { //회원가입
 
         //회원ID 중복 검사!
-        validateDuplicateMember(member);
+        isMemberExist(member);
         System.out.println(member);
+
         /**
          * Plain 비밀번호를 암호화 시켜서, 저장을 시킨다.
          */
+
         Member newMember = member.hashPassword(bCryptPasswordEncoder); // member 객체 안의 평문 비밀번호가 암호화된 비밀번호로 교체된다.
+
         Long saveId = memberRepository.save(newMember);
 
     }
 
+
     @Override
     @Transactional(readOnly = true)
-    public void validateDuplicateMember(Member member) {
-
-
-        List<Member> findMember = memberRepository.findByUserId(member.getUserId());
-
-        if (!findMember.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원ID입니다.");
-        }
-    }
-
-    //로그인 기능(DB에 저장된 id값을 반환)
-    @Override
-    @Transactional(readOnly = true)
-    public boolean login(Member member) {
+    public boolean login(Member member) { //로그인 기능(DB에 저장된 id값을 반환)
 
         /**
          * 먼저, 로그인 시 입력한 ID가, 회원가입이 된 ID인지를 검사해야 한다.
@@ -90,7 +81,7 @@ public class MemberServiceImpl implements MemberService {
             return false;
 
         else
-            return true;
+            throw new IllegalStateException("이미 존재하는 id입니다.");
 
     }
 

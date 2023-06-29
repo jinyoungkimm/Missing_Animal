@@ -14,7 +14,7 @@ public interface MemberService {
     public boolean login(Member member);
 
 
-    public void validateDuplicateMember(Member member);
+   // public void validateDuplicateMember(Member member);
 
     public boolean isMemberExist(Member member);
 
