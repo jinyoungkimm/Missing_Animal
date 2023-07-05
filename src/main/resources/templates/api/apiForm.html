@@ -17,21 +17,15 @@
 
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-    <form  role="form" action="/email" th:object="${emailForm}" method="post">
-
         <div class="form-group">
-            <label th:for="first">이메일 주소</label>
-            <input  type="text" th:field="*{first}" class="form-control"  >
+            <label th:for="first">총 등록 수</label>
+            <p th:text="${solvedIncidentDto.allRegistersCount}"></p>
         </div>
 
         <div class="form-group">
-            <label th:for="last">나머지 주소</label>
-            <input  type="text" th:field="*{last}" class="form-control" >
+            <label th:for="last">해결된 등록 수</label>
+            <p th:text="${solvedIncidentDto.solvedRegistersCount}"></p>
         </div>
-
-        <button type="submit" class="btn btn-primary">입력</button>
-
-    </form>
 
 
 

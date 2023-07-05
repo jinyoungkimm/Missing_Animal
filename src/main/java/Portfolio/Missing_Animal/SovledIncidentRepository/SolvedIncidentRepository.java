@@ -1,9 +1,7 @@
 package Portfolio.Missing_Animal.SovledIncidentRepository;
 
 
-import Portfolio.Missing_Animal.dto.SovledIncidentDto;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
