@@ -11,10 +11,10 @@ public interface RegisterRepository {
 
     public Register findByAnimalId(Long id);
 
-   // public List<Register> findByAnimalVariety(String animalVariety);
 
     public List<Register> findAll();
 
     public List<Register> findByAnimalName(String animalName);
+
 
 }

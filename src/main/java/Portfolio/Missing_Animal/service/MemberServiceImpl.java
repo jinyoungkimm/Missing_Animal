@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.service;
 
 
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 
@@ -82,6 +83,32 @@ public class MemberServiceImpl implements MemberService {
 
         else
             throw new IllegalStateException("이미 존재하는 id입니다.");
+
+    }
+
+    @Override // 회원가입 당시 기입한 정보를 출력!
+    @Transactional(readOnly = true)
+    public Member memberInfo(String userId) {
+
+        List<Member> findMember = memberRepository.findByUserId(userId);
+
+        Member member = findMember.get(0);
+
+        return member;
+
+    }
+
+    @Override // 특정 회원이 등록한 실종 정보가 있다면 출력
+    @Transactional(readOnly = true)
+    public List<Register> findRegiserInfo(String userId) {
+
+        List<Member> findMember = memberRepository.findByUserId(userId);
+
+        List<Register> registers = findMember.get(0).getRegisters();
+        if(registers.isEmpty())
+            return null;
+        else
+            return registers;
 
     }
 

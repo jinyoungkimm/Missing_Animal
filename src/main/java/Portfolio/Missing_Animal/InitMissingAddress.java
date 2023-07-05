@@ -33,7 +33,7 @@ public class InitMissingAddress {
        // MissingAddress missingAddress2 = createMissingAddress("충청남도","1-1-2","천안시2","천안구2","천안동2","천안대로1_2"); // Register : MissingAddress = 1 : 2
        // createRegister(missingAddress1, "김진영2","사랑이2");
         //createRegister(missingAddress1, "김진영1","사랑이2");
-        createRegister(missingAddress1, "김진영1","사랑이1", RegisterStatus.SOLVED,ReportedStatus.YES,
+        createRegister(missingAddress1, "김진영1","wlsdud6523","사랑이1", RegisterStatus.SOLVED,ReportedStatus.YES,
                 "사랑이2" ,RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
 
 
@@ -42,7 +42,7 @@ public class InitMissingAddress {
        // createRegister(missingAddress3, "김진영3","사랑이3");
         //MissingAddress missingAddress4 = createMissingAddress("충청북도","1-2-2","천안군2","천안군2","천안읍2","천안대로2_2");
        // createRegister(missingAddress3, "김진영4","사랑이4");
-        createRegister(missingAddress3, "김진영2","사랑이3",RegisterStatus.SOLVED,ReportedStatus.YES,
+        createRegister(missingAddress3, "김진영2","wlsdud6524","사랑이3",RegisterStatus.SOLVED,ReportedStatus.YES,
                 "사랑이4",RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
 
         //전라 남도
@@ -50,7 +50,7 @@ public class InitMissingAddress {
        // createRegister(missingAddress5, "김진영5","사랑이5");
        // MissingAddress missingAddress6 = createMissingAddress("전라남도","1-3-2","전주시2","전주구2","천주동2","전주대로1_2");
         //createRegister(missingAddress5, "김진영6","사랑이6");
-        createRegister(missingAddress5, "김진영3","사랑이5",RegisterStatus.SOLVED,ReportedStatus.YES,
+        createRegister(missingAddress5, "김진영3","wlsdud6525","사랑이5",RegisterStatus.SOLVED,ReportedStatus.YES,
                 "사랑이6",RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
 
 
@@ -59,10 +59,10 @@ public class InitMissingAddress {
         //createRegister(missingAddress7, "김진영7","사랑이7");
         //MissingAddress missingAddress8 = createMissingAddress("전라북도","1-4-2","전주군2","전주군2","천주읍2","전주대로2_2");
         //createRegister(missingAddress7, "김진영8","사랑이8");
-        createRegister(missingAddress7, "김진영4","사랑이7",RegisterStatus.SOLVED,ReportedStatus.YES,
+        createRegister(missingAddress7, "김진영4","wlsdud6526","사랑이7",RegisterStatus.SOLVED,ReportedStatus.YES,
                 "사랑이8",RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
     }
-    public  void createRegister(MissingAddress missingAddress, String userName, String animalName1, RegisterStatus registerStatus1 , ReportedStatus reportedStatus1,
+    public  void createRegister(MissingAddress missingAddress, String userName,  String userId,String animalName1, RegisterStatus registerStatus1 , ReportedStatus reportedStatus1,
                                 String animalName2, RegisterStatus registerStatus2 , ReportedStatus reportedStatus2
                                 ) {
 
@@ -71,6 +71,7 @@ public class InitMissingAddress {
                 em.persist(missingAddress);
 
                 Member member = new Member();
+                member.setUserId(userId);
                 member.setUsername(userName);
                 em.persist(member);
 

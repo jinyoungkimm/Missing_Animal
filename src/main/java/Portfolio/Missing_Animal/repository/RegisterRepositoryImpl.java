@@ -50,4 +50,6 @@ public class RegisterRepositoryImpl implements RegisterRepository {
                 .setParameter("animalName",animalName)
                 .getResultList();
     }
+
+
 }

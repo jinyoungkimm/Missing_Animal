@@ -1,14 +1,19 @@
 package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -71,4 +76,39 @@ class MemberServiceTest {
         fail("예외가 터졌어야 했다.");
 
     }
+
+    @Test
+    @Rollback(false)
+    void memberInfo(){
+
+        //givien
+        String userId = "wlsdud6523";
+
+        //when
+        Member member = memberService.memberInfo(userId);
+
+        //then
+        assertThat(member.getUsername()).isEqualTo("김진영1");
+
+    }
+
+    @Test
+    @Rollback(false)
+    void findRegiserInfo(){
+
+        //givien
+        String userId = "wlsdud6523";
+
+
+        //when
+        List<Register> regiserInfo = memberService.findRegiserInfo(userId);
+
+
+        //then
+        assertThat(regiserInfo.get(0).getAnimalName()).isEqualTo("사랑이1");
+        assertThat(regiserInfo.get(1).getAnimalName()).isEqualTo("사랑이2");
+
+    }
+
+
 }

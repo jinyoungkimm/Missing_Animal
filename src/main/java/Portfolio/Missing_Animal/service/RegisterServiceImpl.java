@@ -31,8 +31,10 @@ public class RegisterServiceImpl implements RegisterService {
 
         List<Register> all = registerRepository.findAll();
 
-
         return all;
-
     }
+
+
+
+
 }
