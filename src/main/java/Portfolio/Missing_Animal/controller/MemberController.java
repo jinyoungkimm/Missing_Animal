@@ -2,13 +2,17 @@ package Portfolio.Missing_Animal.controller;
 
 
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
@@ -60,17 +64,46 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    String mypage(){ // cookie에 회원ID를 저장시켜서 userId를 받아서 아래의 내용들을 조회를 할 예정!
+    String mypage(Model model){ // cookie에 회원ID를 저장시켜서 userId를 받아서 아래의 내용들을 조회를 할 예정!
 
         // 회원 가입 시 기입한 내용 출력
         //memberService.memberInfo();
 
-
         // 해당 회원이 등록한 실종 정보가 있다면 출력
         //memberService.findRegiserInfo(userId);
 
+        // 임의로 "wlsdud6523"라고 userId를 가정함
+        Member findMember = memberService.memberInfo("wlsdud6523");
+        Register findRegister = memberService.findRegiserInfo("wlsdud6523").get(0);
 
-        return "아직 만들지 않음";
+        model.addAttribute("member",findMember);
+        model.addAttribute("register",findRegister);
+
+        return "members/mypage";
+    }
+
+    // mypage의 [회원 정보] 수정 폼
+    @GetMapping("/mypage/{id}/edit")
+    String mypageUpdateGet(@PathVariable("id") Long id,Model model){
+
+
+        Member member = memberService.findOne(id);
+        model.addAttribute("member",member);
+
+        return "members/mypage-updateForm";
 
     }
+
+    @PostMapping("/mypage/{id}/edit")
+    String mypageUpdatePost(Member member){
+
+        memberService.updateMember(member.getId(), member.getUsername());
+
+
+        return "redirect:/member";
+
+
+    }
+
+
 }

@@ -106,9 +106,29 @@ public class MemberServiceImpl implements MemberService {
 
         List<Register> registers = findMember.get(0).getRegisters();
         if(registers.isEmpty())
-            return null;
+           throw new IllegalStateException("해당 회원이 등록한 실종 정보가 없습니다.");
         else
             return registers;
+
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Member findOne(Long id) {
+
+
+        Member findMember = memberRepository.findById(id);
+
+
+        return findMember;
+    }
+
+    @Override
+    @Transactional // dirty checking을 이요하여 [수정]
+    public void updateMember(Long id, String username) {
+
+        Member findMember = memberRepository.findById(id);
+        findMember.setUsername(username);
 
     }
 

@@ -22,7 +22,8 @@ public interface MemberService {
     // 특정 회원이 등록한 실정 등록 정보가 있다면 출력
     public List<Register> findRegiserInfo(String userId);
 
+    public Member findOne(Long id);
 
-
+    public void updateMember(Long id,String username);
 
 }
