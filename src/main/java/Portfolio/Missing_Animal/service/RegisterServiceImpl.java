@@ -34,7 +34,23 @@ public class RegisterServiceImpl implements RegisterService {
         return all;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Register findOne(Long id) {
 
+        Register register = registerRepository.findByAnimalId(id);
+
+        return register;
+    }
+
+    @Override
+    @Transactional // dirty checking 이용
+    public void updateForm(Long id, String animalName) {
+
+        Register findRegister = registerRepository.findByAnimalId(id);
+        findRegister.setAnimalName(animalName);
+
+    }
 
 
 }

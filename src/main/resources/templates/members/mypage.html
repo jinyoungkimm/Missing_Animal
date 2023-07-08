@@ -21,13 +21,39 @@
                 <td th:text="${member.userId}"></td>
                 <td th:text="${member.username}"></td>
                 <td>
-                    <a href="#" th:href="@{/member/mypage/{id}/edit (id=${member.id})}"
+                    <a href="#" th:href="@{/member/mypage/{id}/editMember (id=${member.id})}"
                        class="btn btn-primary" role="button">수정</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>동물 이름</th>
+                <th>해결 여부</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td th:text="${register.id}"></td>
+                <td th:text="${register.animalName}"></td>
+                <td th:text="${register.registerStatus}"></td>
+                <td>
+                    <a href="#" th:href="@{/member/mypage/{id}/editRegister (id=${register.id})}"
+                       class="btn btn-primary" role="button">수정</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 
 
     <div th:replace="fragments/footer :: footer"/>

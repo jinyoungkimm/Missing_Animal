@@ -20,7 +20,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-
+    private final RegisterService registerService;
 
     //회원 가입 기능
     @GetMapping("")
@@ -83,19 +83,19 @@ public class MemberController {
     }
 
     // mypage의 [회원 정보] 수정 폼
-    @GetMapping("/mypage/{id}/edit")
-    String mypageUpdateGet(@PathVariable("id") Long id,Model model){
+    @GetMapping("/mypage/{id}/editMember")
+    String mypageMemberUpdateGet(@PathVariable("id") Long id,Model model){
 
 
         Member member = memberService.findOne(id);
         model.addAttribute("member",member);
 
-        return "members/mypage-updateForm";
+        return "members/mypage-MemberupdateForm";
 
     }
 
-    @PostMapping("/mypage/{id}/edit")
-    String mypageUpdatePost(Member member){
+    @PostMapping("/mypage/{id}/editMember")
+    String mypageMemberUpdatePost(Member member){
 
         memberService.updateMember(member.getId(), member.getUsername());
 
@@ -105,5 +105,26 @@ public class MemberController {
 
     }
 
+    // mypage의 [실종 등록 정보] 수정 폼
+    @GetMapping("/mypage/{id}/editRegister")
+    String mypageRegisterUpdateGet(@PathVariable("id") Long id,Model model){
+
+
+        Register register = registerService.findOne(id);
+        model.addAttribute("register",register);
+
+        return "members/mypage-RegisterupdateForm";
+
+    }
+
+    @PostMapping("/mypage/{id}/editRegister")
+    String mypageRegisterUpdatePost(Register register){
+
+        registerService.updateForm(register.getId(),register.getAnimalName());
+
+        return "redirect:/member";
+
+
+    }
 
 }
