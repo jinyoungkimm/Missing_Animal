@@ -16,7 +16,6 @@ public class RegisterRepositoryImpl implements RegisterRepository {
 
     private final EntityManager em;
 
-
     @Override
     public Long save(Register register) {
 
