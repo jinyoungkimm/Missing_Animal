@@ -8,13 +8,16 @@ import Portfolio.Missing_Animal.restapi.queryrepository.MemberQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-@RestController("/api/members") // @ResponseBody를 자동으로 붙여줌
+@RestController// @ResponseBody를 자동으로 붙여줌
+@RequestMapping("/api/members")
 @RequiredArgsConstructor
 public class MemberQueryController {
 
@@ -34,7 +37,7 @@ public class MemberQueryController {
     }
 
     @GetMapping("/{userId}")
-    MemberDto getMember(@PathVariable("userId") String userId){
+    List<MemberDto> getMember(@PathVariable("userId") String userId){
 
         List<Member> memberWithUserId = memberQueryRepository.findMemberWithUserId(userId);
 
@@ -42,7 +45,7 @@ public class MemberQueryController {
                 map(m -> new MemberDto(m))
                 .collect(toList());
 
-        return collect.get(0);
+        return collect;
     }
 
 }
