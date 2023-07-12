@@ -36,7 +36,7 @@ public class MissingAddressQueryController {
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/missingaddress")
     MissingAddressDto getMissingAddressWithID(@PathVariable("id") Long id){
 
         List<MissingAddress> findMissingAddress = missingAddressQueryRepository.findById(id);

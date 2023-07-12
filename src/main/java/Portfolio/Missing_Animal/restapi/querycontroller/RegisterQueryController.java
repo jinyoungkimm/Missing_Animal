@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.restapi.querycontroller;
 
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.dto.MemberDto;
+import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 import Portfolio.Missing_Animal.restapi.queryrepository.RegisterQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +49,17 @@ public class RegisterQueryController {
 
     }
 
+    @GetMapping("/{registerId}/missingAddress")
+    MissingAddressDto getMissingAddress(@PathVariable("registerId") Long id){
 
+        List<Register> registerWithId = registerQueryRepository.findRegisterWithId(id);
 
+        List<MissingAddressDto> collect = registerWithId.stream()
+                .map(r -> new MissingAddressDto(r.getMissingAddress()))
+                .collect(toList());
+
+        return collect.get(0);
+    }
 
 
 }
