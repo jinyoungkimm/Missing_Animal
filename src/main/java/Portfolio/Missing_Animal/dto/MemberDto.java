@@ -7,12 +7,12 @@ import lombok.Data;
 
 @Data
 public class MemberDto {
-    Long id;
-    String userId;
-    String username;
-    EmailForm email;
-    String phoneNumber;
-    Boolean isRegister;
+    private Long id;
+    private String userId;
+    private String username;
+    private EmailForm email;
+    private String phoneNumber;
+    private Boolean isRegister;
 
     public MemberDto(Member member) {
 
