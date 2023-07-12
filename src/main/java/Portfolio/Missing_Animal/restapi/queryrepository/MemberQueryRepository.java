@@ -31,7 +31,7 @@ public class MemberQueryRepository {
                         /**
                          * Solution
                          * 1. toOne 관계만 일단 fetch join을 한다.
-                         * 2. 컬렉션 조회는 @Batchsize or default-batch-fetch-size를 설정하여, [IN] 쿼리를 이용하여서 해당 컬렉션 데이터를 SIZE만큼 들고 온다.
+                         * 2. 컬렉션 조회는 @Batchsize or default-batch-fetch-size를 설정하여, [지연로딩]으로 [IN] 쿼리를 이용하여서 해당 컬렉션 데이터를 SIZE만큼 들고 온다.
                          * (참고로, 컬렉션은 단 1개만 FETCH JOIN이 된다. 2개 이상의 컬렉션에 대해서는 FETCH JOIN 못 함)
                          */
 

@@ -16,28 +16,65 @@ public class MissingAddressQueryRepository {
 
     private final EntityManager em;
 
-    public List<MissingAddress> findAllMissingAddress(){
+    public List<MissingAddress> findAllMissingAddress(){ // [페이징] 불가능!
 
-        return  em.createQuery("SELECT mr FROM MissingAddress mr",MissingAddress.class)
-                .getResultList();
+        return  em.createQuery("SELECT mr FROM MissingAddress mr" +
 
-    }
+                                " JOIN FETCH mr.registers r"// 컬렉션을 페치 조인하게 되면, row수가 MissingAddress가 아닌, Register(컬렉션)을 기준으로 늘어 나므로, [페이징]도 Register을 기준으로 연산된다.
+                                                            // DB는 모든 컬렉션을 메모리로 들고와서 페이징을 실행을 하므로, 최악의 경우 장애로 연결이 된다.
 
-    public List<MissingAddress> findById(Long id){
-
-        return em.createQuery("SELECT mr FROM MissingAddress mr" +
-
-                " JOIN FETCH mr.registers r"+ // 컬렉션을 페치 조인하게 되면, row수가 MissingAddress가 아닌, Register(컬렉션)을 기준으로 늘어 나므로, [페이징]도 Register을 기준으로 연산된다.
-                                              // DB는 모든 컬렉션을 메모리로 들고와서 페이징을 실행을 하므로, 최악의 경우 장애로 연결이 된다.
                         /**
                          * Solution
                          * 1. toOne 관계만 일단 fetch join을 한다.
                          * 2. 컬렉션 조회는 @Batchsize or default-batch-fetch-size를 설정하여, [IN] 쿼리를 이용하여서 해당 컬렉션 데이터를 SIZE만큼 들고 온다.
                          */
+                        ,MissingAddress.class)
+                .getResultList();
+
+    }
+
+    public List<MissingAddress> findAllMissingAddress2(int offset,int limit){
+
+        return  em.createQuery("SELECT mr FROM MissingAddress mr"
+
+                               // " JOIN FETCH mr.registers r"
+
+                        ,MissingAddress.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+
+    }
+
+    public List<MissingAddress> findById(Long id){ // [페이징] 불가능
+
+        return em.createQuery("SELECT mr FROM MissingAddress mr" +
+
+                " JOIN FETCH mr.registers r"+
+
                 " WHERE mr.id=:id",MissingAddress.class)
                 .setParameter("id",id)
                 .getResultList();
     }
+
+    /*public List<MissingAddress> findByIdV2(int offset,int limit,Long id){
+
+        return em.createQuery("SELECT mr FROM MissingAddress mr" +
+
+                        //" JOIN FETCH mr.registers r"+ // 컬렉션 조회는 [지연로딩]과 [IN쿼리]를 통해 default-batch-fetch-size에서 설정한 사이즈만큼 조회한다.
+
+                        " WHERE mr.id=:id",MissingAddress.class)
+                .setParameter("id",id)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+
+
+
+
+    }*/
+
+
 
     //여기서부터 아래는 Querydsl로 구현을 할 것이다.
 

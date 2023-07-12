@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class MissingAddressDto {
@@ -28,7 +29,7 @@ public class MissingAddressDto {
 
     private String streetNumber; // ex.해빛로-[11]
 
-    private List<RegisterDto> registers = new ArrayList<>();
+    private List<RegisterDto> registers; // List<Register> registers : X -> 단 1개의 엔티티에라도 의존해서는 X.
 
     public MissingAddressDto(MissingAddress missingAddress){
 
@@ -49,7 +50,10 @@ public class MissingAddressDto {
 
         this.streetNumber = missingAddress.getStreetNumber(); // ex.해빛로-[11]
 
-        this.registers = new ArrayList<>();
+        this.registers = missingAddress.getRegisters()
+                .stream()
+                .map(r->new RegisterDto(r))
+                .collect(Collectors.toList());
 
 
     }

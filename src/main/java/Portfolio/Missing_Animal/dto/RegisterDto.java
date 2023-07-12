@@ -27,8 +27,8 @@ public class RegisterDto {
 
     private ReportedStatus repotedStatus;
 
-    private MemberDto member; // Member member x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
-    private MissingAddressDto missingAddress; // MissingAddress missingAddress x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
+   // private MemberDto member; // Member member x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
+    //private MissingAddressDto missingAddress; // MissingAddress missingAddress x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
 
     public RegisterDto(Register register) {
 
@@ -41,8 +41,8 @@ public class RegisterDto {
         this.repotedStatus = register.getRepotedStatus();
 
         // 엔티티 -> DTO로 전환
-        this.member = new MemberDto(register.getMember());
-        this.missingAddress = new MissingAddressDto(register.getMissingAddress());
+      //  this.member = new MemberDto(register.getMember());
+       // this.missingAddress = new MissingAddressDto(register.getMissingAddress()); //이걸 제거하지 않으면, 무한루프에 빠짐!
 
     }
 

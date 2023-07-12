@@ -6,10 +6,7 @@ import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 import Portfolio.Missing_Animal.restapi.queryrepository.MissingAddressQueryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,10 +20,24 @@ public class MissingAddressQueryController {
 
     private final MissingAddressQueryRepository missingAddressQueryRepository;
 
-    @GetMapping("")
-    List<MissingAddressDto> getAllMissingAddress(){
+   /* @GetMapping("") //[페이징] 불가!
+    List<MissingAddressDto> getAllMissingAddress1(){
 
         List<MissingAddress> allMissingAddress = missingAddressQueryRepository.findAllMissingAddress();
+
+        List<MissingAddressDto> collect = allMissingAddress.stream()
+                .map(mr -> new MissingAddressDto(mr))
+                .collect(toList());
+
+        return collect;
+
+    }*/
+
+    @GetMapping("") // [페이징] 가능!
+    List<MissingAddressDto> getAllMissingAddress2(@RequestParam(value = "offset",defaultValue = "0") int offset,
+                                                  @RequestParam(value="limit",defaultValue = "1") int limit){
+
+        List<MissingAddress> allMissingAddress = missingAddressQueryRepository.findAllMissingAddress2(offset, limit);
 
         List<MissingAddressDto> collect = allMissingAddress.stream()
                 .map(mr -> new MissingAddressDto(mr))
