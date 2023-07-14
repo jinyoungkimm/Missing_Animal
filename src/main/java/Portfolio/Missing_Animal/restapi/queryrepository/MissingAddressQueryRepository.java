@@ -33,7 +33,7 @@ public class MissingAddressQueryRepository {
 
     }
 
-    public List<MissingAddress> findAllMissingAddress2(int offset,int limit){
+    public List<MissingAddress> findAllMissingAddress2(int offset,int limit){ // [페이징 가능]
 
         return  em.createQuery("SELECT mr FROM MissingAddress mr"
 
@@ -56,24 +56,6 @@ public class MissingAddressQueryRepository {
                 .setParameter("id",id)
                 .getResultList();
     }
-
-    /*public List<MissingAddress> findByIdV2(int offset,int limit,Long id){
-
-        return em.createQuery("SELECT mr FROM MissingAddress mr" +
-
-                        //" JOIN FETCH mr.registers r"+ // 컬렉션 조회는 [지연로딩]과 [IN쿼리]를 통해 default-batch-fetch-size에서 설정한 사이즈만큼 조회한다.
-
-                        " WHERE mr.id=:id",MissingAddress.class)
-                .setParameter("id",id)
-                .setFirstResult(offset)
-                .setMaxResults(limit)
-                .getResultList();
-
-
-
-
-    }*/
-
 
 
     //여기서부터 아래는 Querydsl로 구현을 할 것이다.

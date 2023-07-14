@@ -48,7 +48,7 @@ public class MissingAddressQueryController {
     }
 
     @GetMapping("/{id}/missingaddress")
-    MissingAddressDto getMissingAddressWithID(@PathVariable("id") Long id){
+    MissingAddressDto getMissingAddressWithID1(@PathVariable("id") Long id){ //[페이징 불가능]
 
         List<MissingAddress> findMissingAddress = missingAddressQueryRepository.findById(id);
 
@@ -59,6 +59,9 @@ public class MissingAddressQueryController {
         return collect.get(0);
 
     }
+
+
+
 
     // 여기서부터 아래는 Querydsl로 구현을 나중에 할 것이다.
 
