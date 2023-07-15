@@ -6,12 +6,11 @@ import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 import Portfolio.Missing_Animal.restapi.queryrepository.RegisterQueryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -23,7 +22,7 @@ public class RegisterQueryController {
     private final RegisterQueryRepository registerQueryRepository;
 
 
-    @GetMapping("")
+    /*@GetMapping("")
     List<RegisterDto> getAllRegister(){
 
         List<Register> allRegisters = registerQueryRepository.findAllRegisters();
@@ -34,7 +33,23 @@ public class RegisterQueryController {
 
         return collect;
 
+    }*/
+
+    @GetMapping("")
+    List<RegisterDto> getRegistersWithPaging(@RequestParam(value="offset" ,defaultValue = "0") int offset,
+                                             @RequestParam(value="limit",defaultValue = "5") int limit){
+
+
+        List<Register> registersWithPaging = registerQueryRepository.findRegistersWithPaging(offset, limit);
+
+        List<RegisterDto> collect = registersWithPaging.stream()
+                .map(register -> new RegisterDto(register))
+                .collect(toList());
+
+        return collect;
+
     }
+
 
     @GetMapping("/{registerId}/member")
     MemberDto getMemberInfo(@PathVariable("registerId") Long id){

@@ -35,7 +35,7 @@ public class MissingAddressQueryController {
 
     @GetMapping("") // [페이징] 가능!
     List<MissingAddressDto> getAllMissingAddress2(@RequestParam(value = "offset",defaultValue = "0") int offset,
-                                                  @RequestParam(value="limit",defaultValue = "1") int limit){
+                                                  @RequestParam(value="limit",defaultValue = "5") int limit){
 
         List<MissingAddress> allMissingAddress = missingAddressQueryRepository.findAllMissingAddressWithPaging(offset, limit);
 
