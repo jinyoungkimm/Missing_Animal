@@ -27,6 +27,7 @@ public class MemberDto {
     private String phoneNumber;
     private Boolean isRegister;
 
+    // 컬렉션
     private List<Long> registerIds = new ArrayList<>();
 
     public MemberDto(Member member) {
@@ -40,6 +41,7 @@ public class MemberDto {
         this.email = member.getEmail();
 
         this.phoneNumber = member.getPhoneNumber();
+
 
         if(member.getRegisters().isEmpty()) // Lazy Loading 발생(고로, fetch join으로 조회)
             this.isRegister = false;

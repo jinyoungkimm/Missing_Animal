@@ -8,7 +8,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
+/**
+ *  컬렉션 최적화
+ *  -> [1:다] 관계에서의 [다] 조회, 즉 컬렉션을 new 연산자로 [직접] DTO로 반환받기!!(내 포폴에서는 굳이 [직접] DTO로 받아가면서까지 컬렉션을 최적화시키지 X.
+ *  *  Default batch fetch size 설정으로 컬렉션 최적화하는 게 더 적절하므로, 여기에서는 구현하지 x.JPA 활용 2의 P30참조)
+ * 컬렉션 최적화는 [1:다] 관계에서 1에 해당하는 엔티티를 조회하는 Repository가 있고, 거기서 [다]에 해당하는 컬렉션을 조회할 필요가 있을 때 하는 최적화이다.
+ * 고로, [다]에 해당하는 Register를 조회하는 Register(Query)Repository에서는 컬렉션 최적화라는 것이 성립이 안 된다.
+ * (root 쿼리 : 예를 들어,MemberRepository이면, Member를 조회하는 쿼리(ex.  SELECT m FROM Member m ) )
+ */
 
 @Repository
 @RequiredArgsConstructor
@@ -33,11 +40,11 @@ public class MissingAddressQueryRepository {
 
     }
 
-    public List<MissingAddress> findAllMissingAddress2(int offset,int limit){ // [페이징 가능]
+    public List<MissingAddress> findAllMissingAddressWithPaging(int offset,int limit){ // [페이징 가능]
 
         return  em.createQuery("SELECT mr FROM MissingAddress mr"
 
-                               // " JOIN FETCH mr.registers r"
+                               // " JOIN FETCH mr.registers r" // 만약 @xToOne 관계인 엔티티가 있다면, 그건 fetch join을 해야 한다.(여기서는 없을 뿐)
 
                         ,MissingAddress.class)
                 .setFirstResult(offset)
@@ -50,7 +57,7 @@ public class MissingAddressQueryRepository {
 
         return em.createQuery("SELECT mr FROM MissingAddress mr" +
 
-                " JOIN FETCH mr.registers r"+
+                " JOIN FETCH mr.registers r"+ // 컬렉션을 fetch join하게 되면 페이징 불가능
 
                 " WHERE mr.id=:id",MissingAddress.class)
                 .setParameter("id",id)

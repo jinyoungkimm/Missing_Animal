@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -54,8 +55,8 @@ public class Register { //실종 등록
     private Member member;
 
     //실종된 동물의 종류(ex. 강아지, 고양이 등..)
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    //@ManyToOne(fetch = FetchType.LAZY)
+    //@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
@@ -66,8 +67,9 @@ public class Register { //실종 등록
     @JoinColumn(name = "missing_address_id")
     private MissingAddress missingAddress;
 
-
-
+    //신고 정보
+    @OneToMany(mappedBy = "register" )
+    private List<Report> reports;
 
     public Register(){
 

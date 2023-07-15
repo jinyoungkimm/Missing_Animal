@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,12 +20,16 @@ public class Report { // 발견 신고(Member와 Animal의 중간 Table 역할)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "register_id")
+    private Register register;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    Member member;
+    Member member; // 발견자 정보
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_id")
-    Animal animal;
+    Animal animal; // 발견 동물의 종류!(ex. 개, 고양이...)
 
     private LocalDateTime findedTime;
 

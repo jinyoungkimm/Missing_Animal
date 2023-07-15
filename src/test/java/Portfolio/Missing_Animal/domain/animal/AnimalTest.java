@@ -39,7 +39,6 @@ class AnimalTest {
 
         Register register = new Register();
 
-
         register.setAnimal(d);
 
         em.persist(register);

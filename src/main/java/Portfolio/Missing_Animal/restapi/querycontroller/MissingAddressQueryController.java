@@ -37,7 +37,7 @@ public class MissingAddressQueryController {
     List<MissingAddressDto> getAllMissingAddress2(@RequestParam(value = "offset",defaultValue = "0") int offset,
                                                   @RequestParam(value="limit",defaultValue = "1") int limit){
 
-        List<MissingAddress> allMissingAddress = missingAddressQueryRepository.findAllMissingAddress2(offset, limit);
+        List<MissingAddress> allMissingAddress = missingAddressQueryRepository.findAllMissingAddressWithPaging(offset, limit);
 
         List<MissingAddressDto> collect = allMissingAddress.stream()
                 .map(mr -> new MissingAddressDto(mr))

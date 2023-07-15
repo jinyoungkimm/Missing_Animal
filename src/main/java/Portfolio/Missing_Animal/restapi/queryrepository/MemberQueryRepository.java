@@ -2,6 +2,8 @@ package Portfolio.Missing_Animal.restapi.queryrepository;
 
 
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.dto.MemberDto;
+import Portfolio.Missing_Animal.dto.RegisterDto;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -9,20 +11,34 @@ import org.springframework.stereotype.Repository;
 import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
+/**
+ *  컬렉션 최적화
+ *  -> [1:다] 관계에서의 [다] 조회, 즉 컬렉션을 new 연산자로 [직접] DTO로 반환받기!!(내 포폴에서는 굳이 [직접] DTO로 받아가면서까지 컬렉션을 최적화시키지 X.
+ *  Default batch fetch size 설정으로 컬렉션 최적화하는 게 더 적절하므로, 여기에서는 구현하지 x.JPA 활용 2의 P30참조)
+ *  컬렉션 최적화는 [1:다] 관계에서 1에 해당하는 엔티티를 조회하는 Repository가 있고, 거기서 [다]에 해당하는 컬렉션을 조회할 필요가 있을 때 하는 최적화이다.
+ *  고로, [다]에 해당하는 Register를 조회하는 Register(Query)Repository에서는 컬렉션 최적화라는 것이 성립이 안 된다.
+ *  (root 쿼리 : 예를 들어,MemberRepository이면, Member를 조회하는 쿼리(ex.  SELECT m FROM Member m ) )
+ *
+ */
+
+
 @Repository
 @RequiredArgsConstructor
 public class MemberQueryRepository {
 
     private final EntityManager em;
 
-    public List<Member> findAllMembers() {
+    public List<Member> findAllMembers() { // [페이징 불가능]
 
     return em.createQuery("SELECT m FROM Member m" +
-            " JOIN FETCH m.registers r" ,Member.class)
+
+            " JOIN FETCH m.registers r" // 컬렉션을 fetch join하게 되면 페이징 불가능
+
+                    ,Member.class)
             .getResultList();
     }
 
-    public List<Member> findMemberWithUserId(String userId) {
+    public List<Member> findMemberWithUserId(String userId) { // [페이징 불가능]
 
         return em.createQuery("SELECT m FROM Member m" +
 
@@ -39,6 +55,29 @@ public class MemberQueryRepository {
                 .setParameter("userId",userId)
                 .getResultList();
     }
+
+    public List<Member> findAllMembers2() { // [페이징 불가능]
+
+        return em.createQuery("SELECT m FROM Member m"
+
+                                //" JOIN FETCH m.registers r" // 컬렉션을 fetch join하게 되면 페이징 불가능하므로, default batch fetch size로 [지연 로딩]을 통해
+
+                        ,Member.class)
+                .getResultList();
+    }
+
+    public List<Member> findMemberWithUserId2(String userId) { // [페이징 불가능]
+
+        return em.createQuery("SELECT m FROM Member m" +
+
+                       // " JOIN FETCH m.registers r" +
+
+
+                        " WHERE m.userId=:userId",Member.class)
+                .setParameter("userId",userId)
+                .getResultList();
+    }
+
 
 
 }

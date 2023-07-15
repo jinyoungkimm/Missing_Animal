@@ -42,7 +42,7 @@ class RegisterRepositoryImplTest {
         em.persist(member);
 
         Register register = new Register();
-        register.setAnimalName("사랑이");
+        register.setAnimalName("사랑이11111111");
         register.setAnimalAge("6");
         register.setRegisterDate(LocalDateTime.now());
         register.setMember(member);
