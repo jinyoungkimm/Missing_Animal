@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *  쿼리 Rest Api 생성 시, 연관 관계에 있는 엔티티를 반환하지 말고, 그 엔티티의 id를 반환하여
@@ -26,12 +27,11 @@ public class MemberDto {
     private EmailForm email;
     private String phoneNumber;
 
-   // private Boolean isRegister;
     // 컬렉션
     private List<RegisterDto> registers = new ArrayList<>();
 
-    public MemberDto(Long id,String userId,String username,EmailForm email,String phoneNumber) {
-
+    public MemberDto(Long id,String userId,String username,EmailForm email,String phoneNumber) { // [페이징]을 사용허자 얺울 때, 사용하자!(Repository에서 new DTO와 Map을 사용
+                                                                                                            //해서, 만들어 진다(Repository에서 이 생성자가 사용됨)
         this.id = id;
 
         this.userId = userId;
@@ -43,12 +43,29 @@ public class MemberDto {
         this.phoneNumber = phoneNumber;
 
 
-      /*  if(member.getRegisters().isEmpty()) // Lazy Loading 발생(고로, fetch join으로 조회),여기에서 계속 쿼리가 추가 발생함!!!(1+N)문제 발생
-            this.isRegister = false;
-        else
-            this.isRegister = true;*/
+    }
+
+    public MemberDto(Member member) { // [페이징]을 사용할 때 사용하자!(Defaul batch size로 인해 지연로딩된 컬렉션을 그냥 바로 넣으면 된다.)
+
+        this.id = member.getId();
+
+        this.userId = member.getUserId();
+
+        this.username = member.getUsername();
+
+        this.email = member.getEmail();
+
+        this.phoneNumber = member.getPhoneNumber();
+
+        //컬렉션
+        this.registers = member.getRegisters().stream()
+
+                .map(register -> new RegisterDto(register))
+
+                .collect(Collectors.toList());
 
     }
+
 
     public MemberDto(){
 

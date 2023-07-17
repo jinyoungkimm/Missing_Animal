@@ -42,7 +42,8 @@ public class MissingAddressDto {
 
     private List<RegisterDto> registers = new ArrayList<>();
 
-    public MissingAddressDto(Long id,String zipcode,String prefecture,String cityName,String gu,String Dong,String streetName,String streetNumber){
+    public MissingAddressDto(Long id,String zipcode,String prefecture,String cityName,String gu,String Dong,String streetName,String streetNumber){// [페이징]을 사용허자 얺울 때, 사용하자!(Repository에서 new DTO와 Map을 사용
+        //해서, 만들어 진다(Repository에서 이 생성자가 사용됨)
 
 
         this.id = id;
@@ -72,6 +73,33 @@ public class MissingAddressDto {
 
         }*/
 
+    }
+
+    public MissingAddressDto(MissingAddress missingAddress){ // [페이징]을 사용할 때 사용하자!(Defaul batch size로 인해 지연로딩된 컬렉션을 그냥 바로 넣으면 된다.)
+
+
+        this.id = missingAddress.getId();
+
+        this.zipcode = missingAddress.getZipcode();
+
+        this.prefecture = missingAddress.getPrefecture(); // ex. 충청남도, 전라남도( 존재할 수도 있고 안 할 수도 있음 )
+
+        this.cityName = missingAddress.getCityName(); // 부산광역[시], 합천군 ( 존재할 수도 있고 안 할 수도 있음)
+
+        this.gu = missingAddress.getGu(); // ex. 해운대구/기장군
+
+        this.Dong = missingAddress.getDong(); //ex. [일광읍] (존재할 수도 있고 안 할 수도 있음)
+
+        this.streetName = missingAddress.getStreetName();// ex.[해빛로]
+
+        this.streetNumber = missingAddress.getStreetNumber(); // ex.해빛로-[11]
+
+        //컬렉션
+        this.registers = missingAddress.getRegisters().stream()
+
+                .map(register-> new RegisterDto(register))
+
+                .collect(Collectors.toList());
     }
 
     public MissingAddressDto(){

@@ -41,6 +41,8 @@ public class RegisterDto {
    // private MemberDto member; // Member member x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
     //private MissingAddressDto missingAddress; // MissingAddress missingAddress x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
 
+    // [페이징]을 사용허자 얺울 때, 사용하자!(Repository에서 new DTO와 Map을 사용
+    //해서, 만들어 진다(Repository에서 이 생성자가 사용됨)
     public RegisterDto(Long id, String animalName,String animalSex,String animalAge,LocalDateTime registerDate,RegisterStatus registerStatus,ReportedStatus reportedStatus) {
 
         this.id = id;
@@ -54,6 +56,20 @@ public class RegisterDto {
          // 엔티티 -> DTO로 전환
         // this.member = new MemberDto(register.getMember());
         // this.missingAddress = new MissingAddressDto(register.getMissingAddress()); //이걸 제거하지 않으면, 무한루프에 빠짐!
+
+    }
+
+
+    public RegisterDto(Register register) { // [페이징]을 사용할 때 사용하자!(Defaul batch size로 인해 지연로딩된 컬렉션을 그냥 바로 넣으면 된다.)
+
+        this.id = register.getId();
+        this.animalName = register.getAnimalName();
+        this.animalSex = register.getAnimalSex();
+        this.animalAge = register.getAnimalAge();
+        this.registerDate = register.getRegisterDate();
+        this.registerStatus = register.getRegisterStatus();
+        this.reportedStatus = register.getReportedStatus();
+
 
     }
 
