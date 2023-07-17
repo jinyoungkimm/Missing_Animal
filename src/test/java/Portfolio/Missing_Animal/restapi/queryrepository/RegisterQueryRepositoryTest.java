@@ -1,6 +1,8 @@
 package Portfolio.Missing_Animal.restapi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.dto.RegisterDto;
+import Portfolio.Missing_Animal.dto.ReportDto;
 import org.aspectj.lang.annotation.RequiredTypes;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,26 @@ class RegisterQueryRepositoryTest {
 
       }
     }
+
+    @Test
+    void findAllRegisters2() {
+
+        //when
+        List<RegisterDto> allRegisters = repository.findAllRegisters2();
+
+        assertThat(allRegisters.size()).isEqualTo(8);
+
+        //then
+        for(int x = 0; x < allRegisters.size();x++){
+
+            assertThat(allRegisters.get(x).getAnimalName()).isEqualTo("사랑이"+(x+1));
+            System.out.println(allRegisters.get(x).getReports().get(0).getRegisterId());
+            System.out.println(allRegisters.get(x).getReports().get(1).getRegisterId());
+
+        }
+
+    }
+
 
     @Test
     void findRegisterWithId() {

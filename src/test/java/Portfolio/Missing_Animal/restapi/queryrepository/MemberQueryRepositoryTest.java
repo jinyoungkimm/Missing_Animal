@@ -50,6 +50,15 @@ class MemberQueryRepositoryTest {
 
         List<MemberDto> allMembers3 = memberQueryRepository.findAllMembers4();
 
+        assertThat(allMembers3.size()).isEqualTo(4);
+
+        for (MemberDto memberDto : allMembers3) {
+
+            System.out.println(memberDto.getRegisters().get(0).getAnimalName());
+            System.out.println(memberDto.getRegisters().get(1).getAnimalName());
+
+        }
+
     }
 
 

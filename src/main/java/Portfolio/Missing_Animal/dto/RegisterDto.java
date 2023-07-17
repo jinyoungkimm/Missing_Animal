@@ -5,9 +5,12 @@ import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -30,12 +33,22 @@ import java.time.LocalDateTime;
 
 @Data
 public class RegisterDto {
-    private Long id;
+
+    private Long registerId;
+    @JsonIgnore
+    private Long memberId;
+    @JsonIgnore
+    private Long missingAddressId;
+
     private String animalName;
     private String animalSex;
     private String animalAge;
     private LocalDateTime registerDate;
     private RegisterStatus registerStatus;
+
+    //컬렉션
+    private List<ReportDto> reports;
+
     private ReportedStatus reportedStatus;
 
    // private MemberDto member; // Member member x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
@@ -43,9 +56,11 @@ public class RegisterDto {
 
     // [페이징]을 사용허자 얺울 때, 사용하자!(Repository에서 new DTO와 Map을 사용
     //해서, 만들어 진다(Repository에서 이 생성자가 사용됨)
-    public RegisterDto(Long id, String animalName,String animalSex,String animalAge,LocalDateTime registerDate,RegisterStatus registerStatus,ReportedStatus reportedStatus) {
+    public RegisterDto(Long registerId,Long memberId,Long missingAddressId, String animalName,String animalSex,String animalAge,LocalDateTime registerDate,RegisterStatus registerStatus,ReportedStatus reportedStatus) {
 
-        this.id = id;
+        this.registerId = registerId;
+        this.memberId = memberId;
+        this.missingAddressId = missingAddressId;
         this.animalName = animalName;
         this.animalSex = animalSex;
         this.animalAge =animalAge ;
@@ -62,7 +77,7 @@ public class RegisterDto {
 
     public RegisterDto(Register register) { // [페이징]을 사용할 때 사용하자!(Defaul batch size로 인해 지연로딩된 컬렉션을 그냥 바로 넣으면 된다.)
 
-        this.id = register.getId();
+        this.registerId = register.getId();
         this.animalName = register.getAnimalName();
         this.animalSex = register.getAnimalSex();
         this.animalAge = register.getAnimalAge();
@@ -70,6 +85,11 @@ public class RegisterDto {
         this.registerStatus = register.getRegisterStatus();
         this.reportedStatus = register.getReportedStatus();
 
+        this.reports = register.getReports().stream()
+
+                .map(report -> new ReportDto(report))
+
+                .collect(Collectors.toList());
 
     }
 

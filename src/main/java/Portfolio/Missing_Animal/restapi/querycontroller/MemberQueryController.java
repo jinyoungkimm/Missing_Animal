@@ -41,15 +41,9 @@ public class MemberQueryController {
         List<Member> memberWithUserId = memberQueryRepository.findMemberWithUserId(userId);
 
         List<MemberDto> collect = memberWithUserId.stream().
-                map(m ->{
 
-                    MemberDto memberDto = new MemberDto(m);
+                map(m ->  new MemberDto(m))
 
-                    //컬렉션은 setter를 사용하여 따로 set한다.
-
-                    memberDto.setRegisters(m.getRegisters());
-
-                })
                 .collect(toList());
 
         return collect;

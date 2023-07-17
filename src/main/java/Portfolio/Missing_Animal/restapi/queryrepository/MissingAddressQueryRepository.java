@@ -2,11 +2,17 @@ package Portfolio.Missing_Animal.restapi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.dto.MemberDto;
+import Portfolio.Missing_Animal.dto.MissingAddressDto;
+import Portfolio.Missing_Animal.dto.RegisterDto;
+import Portfolio.Missing_Animal.dto.ReportDto;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *  컬렉션 최적화
@@ -52,6 +58,78 @@ public class MissingAddressQueryRepository {
                 .getResultList();
 
     }
+
+    public List<MissingAddressDto> findAllMissingAddress2(){
+
+        // root 조회(toOne 관계를 1번에 모두 조회)
+        List<MissingAddressDto> missingAddress = findMissingAddress(); // toOne에 대한 조회
+
+        List<Long> missingAddressIds = toOrderIds(missingAddress);
+
+        Map<Long,List<RegisterDto>> registerMap = findRegisterMap(missingAddressIds); // toMany(컬렉션)에 대한 조회
+
+        //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
+        missingAddress.forEach(missingAddressdto  -> {
+
+            Long id = missingAddressdto .getMissingAddressId();
+
+            List<RegisterDto> registerDto = registerMap.get(id);
+
+            missingAddressdto.setRegisters(registerDto);
+
+        });
+
+        return missingAddress;
+
+    }
+
+    public List<MissingAddressDto> findMissingAddress(){
+
+        return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
+
+                                "MissingAddressDto(m.id,m.zipcode,m.prefecture,m.cityName,m.gu,m.Dong,m.streetName,m.streetNumber)" +
+
+                                " FROM MissingAddress m" // Member에 대해서 @xToOne 관계인 엔티티는 없다.
+
+                        ,MissingAddressDto.class)
+                .getResultList();
+
+    }
+
+    public List<Long> toOrderIds(List<MissingAddressDto> missingAddressDtos){
+
+        return missingAddressDtos.stream()
+
+                .map(missingAddressDto -> missingAddressDto.getMissingAddressId())
+
+                .collect(Collectors.toList());
+
+
+    }
+
+    public  Map<Long,List<RegisterDto>> findRegisterMap(List<Long> missingAddressIds){
+
+        List<RegisterDto> registerDtos = em.createQuery(
+
+                        "SELECT new Portfolio.Missing_Animal.dto."+
+
+                                "RegisterDto(r.id,r.member.id,r.missingAddress.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)"+
+
+                                " FROM Register r" +
+
+                                " WHERE r.missingAddress.id IN :missingAddressIds", RegisterDto.class)
+
+                .setParameter("missingAddressIds", missingAddressIds)
+
+                .getResultList();
+
+        // RegisterDto의 id값을 기준으로, RigserDto를 Grouping~~!!!
+        return registerDtos.stream()
+
+                .collect(Collectors.groupingBy(RegisterDto::getMissingAddressId));
+
+    }
+
 
     public List<MissingAddress> findById(Long id){ // [페이징] 불가능
 

@@ -5,6 +5,7 @@ import Portfolio.Missing_Animal.dto.MemberDto;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 
+import Portfolio.Missing_Animal.restapi.queryrepository.MissingAddressQueryRepository;
 import Portfolio.Missing_Animal.restapi.queryrepository.RegisterQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +23,8 @@ import static java.util.stream.Collectors.toList;
 public class RegisterQueryController {
 
     private final RegisterQueryRepository registerQueryRepository;
+
+    private final MissingAddressQueryRepository missingAddressQueryRepository;
 
 
     /*@GetMapping("")
@@ -52,14 +55,14 @@ public class RegisterQueryController {
 
     }*/
 
-  /*  @GetMapping("")
+    @GetMapping("")
     List<RegisterDto> getRegistersWithPaging(@RequestParam("pageNumber") int pageNumber) {
 
         int limit = 5;
         int offset = (pageNumber * limit) - limit;
 
 
-        List<Register> registersWithPaging = registerQueryRepository.findRegistersWithPaging(offset, limit);
+        List<Register> registersWithPaging = registerQueryRepository.findAllRegistersWithPaging(offset, limit);
 
         List<RegisterDto> collect = registersWithPaging.stream()
                 .map(register -> new RegisterDto(register))
@@ -69,38 +72,23 @@ public class RegisterQueryController {
 
     }
 
+    @GetMapping("/{registerId}")
+    List<RegisterDto> getRegistersWithId(@PathVariable("registerId") Long id) {
 
 
 
-    @GetMapping("/{registerId}/missingAddress")
-    MissingAddressDto getMissingAddress(@PathVariable("registerId") Long id,
-                                        @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber){
+        List<Register> registersWithPaging = registerQueryRepository.findRegisterWithId(id);
 
-        int limit;
-        int offset;
-        if(pageNumber == 0){ // 클라이언트가 pageNumber를 입력하지 않았을 때!
+        List<RegisterDto> collect = registersWithPaging.stream()
 
-            offset = 0; limit = Integer.MAX_VALUE; // 전체 조회
+                .map(register -> new RegisterDto(register))
 
-        }
-        else if(pageNumber >= 1){
-
-            limit = 5;
-            offset = (pageNumber * limit) - limit;
-
-        }
-        else
-            throw new IllegalStateException("pageNumber는 1부터 입력 가능합니다.");
-
-        List<Register> registerWithId = registerQueryRepository.findRegisterWithId(id,offset,limit);
-
-        List<MissingAddressDto> collect = registerWithId.stream()
-                .map(r -> new MissingAddressDto(r.getMissingAddress()))
                 .collect(toList());
 
-        return collect.get(0);
+        return collect;
+
     }
-*/
+
 
 
 

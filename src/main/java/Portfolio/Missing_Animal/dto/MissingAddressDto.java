@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Data
 public class MissingAddressDto {
 
-    private Long id;
+    private Long missingAddressId;
 
     private String zipcode;
 
@@ -42,11 +42,11 @@ public class MissingAddressDto {
 
     private List<RegisterDto> registers = new ArrayList<>();
 
-    public MissingAddressDto(Long id,String zipcode,String prefecture,String cityName,String gu,String Dong,String streetName,String streetNumber){// [페이징]을 사용허자 얺울 때, 사용하자!(Repository에서 new DTO와 Map을 사용
+    public MissingAddressDto(Long missingAddressId,String zipcode,String prefecture,String cityName,String gu,String Dong,String streetName,String streetNumber){// [페이징]을 사용허자 얺울 때, 사용하자!(Repository에서 new DTO와 Map을 사용
         //해서, 만들어 진다(Repository에서 이 생성자가 사용됨)
 
 
-        this.id = id;
+        this.missingAddressId = missingAddressId;
 
         this.zipcode = zipcode;
 
@@ -78,7 +78,7 @@ public class MissingAddressDto {
     public MissingAddressDto(MissingAddress missingAddress){ // [페이징]을 사용할 때 사용하자!(Defaul batch size로 인해 지연로딩된 컬렉션을 그냥 바로 넣으면 된다.)
 
 
-        this.id = missingAddress.getId();
+        this.missingAddressId = missingAddress.getId();
 
         this.zipcode = missingAddress.getZipcode();
 

@@ -83,7 +83,7 @@ public class MemberQueryRepository {
         // 그런데 이 과정에서 컬렉션을 조회할 때마다 쿼리문이 추가가 되기 때문에 [1+N] 문제가 발생을 한다.
         members.forEach(memberDto -> {
 
-            List<RegisterDto> registers = findRegisters(memberDto.getId());
+            List<RegisterDto> registers = findRegisters(memberDto.getMemberId());
 
             memberDto.setRegisters(registers);
 
@@ -113,7 +113,7 @@ public class MemberQueryRepository {
 
         return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
 
-                "RegisterDto(r.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)" +
+                "RegisterDto(r.member.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)" +
 
                         " FROM Register r" +
 
@@ -130,21 +130,22 @@ public class MemberQueryRepository {
     public List<MemberDto> findAllMembers4() { // (1+N) 문제 [해결]
 
         // root 조회(toOne 관계를 1번에 모두 조회)
-        List<MemberDto> members = findMembers();
+        List<MemberDto> members = findMembers(); // toOne에 대한 조회
 
         List<Long> memberIds = toOrderIds(members);
 
-        Map<Long,List<RegisterDto>> registerMap = findRegisterMap(memberIds);
+        System.out.println(memberIds.size());
+
+        Map<Long,List<RegisterDto>> registerMap = findRegisterMap(memberIds); // toMany(컬렉션)에 대한 조회
 
         //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
         members.forEach(memberDto -> {
 
-            Long id = memberDto.getId();
+            Long id = memberDto.getMemberId();
 
             List<RegisterDto> registerDto = registerMap.get(id);
 
             memberDto.setRegisters(registerDto);
-
 
         });
 
@@ -157,7 +158,7 @@ public class MemberQueryRepository {
 
         return result.stream()
 
-                .map(registerDto -> registerDto.getId())
+                .map(memberDto -> memberDto.getMemberId())
 
                 .collect(Collectors.toList());
     }
@@ -168,7 +169,7 @@ public class MemberQueryRepository {
 
                         "SELECT new Portfolio.Missing_Animal.dto."+
 
-                                "RegisterDto(r.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)"+
+                                "RegisterDto(r.id,r.member.id,r.missingAddress.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)"+
 
                         " FROM Register r" +
                                 // IN 쿼리를 사용하여 Member의 id값들을 모두 다 넣는다 -> 1 번의 쿼리 호출로 RegisterDTO 다 들고 옴 -> [1 + N] 문제 해결됨!!
@@ -181,7 +182,7 @@ public class MemberQueryRepository {
         // RegisterDto의 id값을 기준으로, RigserDto를 Grouping~~!!!
         return orderItems.stream()
 
-                .collect(Collectors.groupingBy(RegisterDto::getId));
+                .collect(Collectors.groupingBy(RegisterDto::getMemberId));
     }
 
 

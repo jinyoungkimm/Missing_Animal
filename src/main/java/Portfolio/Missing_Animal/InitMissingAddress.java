@@ -5,6 +5,7 @@ import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.domain.Report;
+import Portfolio.Missing_Animal.dto.ReportDto;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import jakarta.annotation.PostConstruct;
@@ -29,36 +30,22 @@ public class InitMissingAddress {
 
         //충청 남도(사랑이1,2를 똑같은 주소에서 실종했다고 가정)
         MissingAddress missingAddress1 = createMissingAddress("충청남도","1-1-1","천안시1","천안구1","천안동1","천안대로1_1");
-       // createRegister(missingAddress1, "김진영1","사랑이1");
-       // MissingAddress missingAddress2 = createMissingAddress("충청남도","1-1-2","천안시2","천안구2","천안동2","천안대로1_2"); // Register : MissingAddress = 1 : 2
-       // createRegister(missingAddress1, "김진영2","사랑이2");
-        //createRegister(missingAddress1, "김진영1","사랑이2");
         createRegister(missingAddress1, "김진영1","wlsdud6523","사랑이1", RegisterStatus.SOLVED,ReportedStatus.YES,
                 "사랑이2" ,RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
 
-
         // 충청 북도
         MissingAddress missingAddress3 = createMissingAddress("충청북도","1-2-1","천안군1","천안군1","천안읍1","천안대로2_1");
-       // createRegister(missingAddress3, "김진영3","사랑이3");
-        //MissingAddress missingAddress4 = createMissingAddress("충청북도","1-2-2","천안군2","천안군2","천안읍2","천안대로2_2");
-       // createRegister(missingAddress3, "김진영4","사랑이4");
         createRegister(missingAddress3, "김진영2","wlsdud6524","사랑이3",RegisterStatus.SOLVED,ReportedStatus.YES,
                 "사랑이4",RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
 
         //전라 남도
         MissingAddress missingAddress5 = createMissingAddress("전라남도","1-3-1","전주시1","전주구1","천주동1","전주대로1_1");
-       // createRegister(missingAddress5, "김진영5","사랑이5");
-       // MissingAddress missingAddress6 = createMissingAddress("전라남도","1-3-2","전주시2","전주구2","천주동2","전주대로1_2");
-        //createRegister(missingAddress5, "김진영6","사랑이6");
         createRegister(missingAddress5, "김진영3","wlsdud6525","사랑이5",RegisterStatus.SOLVED,ReportedStatus.YES,
                 "사랑이6",RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
 
 
         //전라 북도
         MissingAddress missingAddress7 = createMissingAddress("전라북도","1-4-1","전주군1","전주군1","천주읍1","전주대로2_1");
-        //createRegister(missingAddress7, "김진영7","사랑이7");
-        //MissingAddress missingAddress8 = createMissingAddress("전라북도","1-4-2","전주군2","전주군2","천주읍2","전주대로2_2");
-        //createRegister(missingAddress7, "김진영8","사랑이8");
         createRegister(missingAddress7, "김진영4","wlsdud6526","사랑이7",RegisterStatus.SOLVED,ReportedStatus.YES,
                 "사랑이8",RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
     }
@@ -92,7 +79,30 @@ public class InitMissingAddress {
                 em.persist(register2);
 
 
-            }
+                //report : Register == 1 : 2
+                Report report1 = new Report();
+                report1.setRegister(register1);
+                report1.setMember(member);
+                em.persist(report1);
+
+                Report report2 = new Report();
+                report2.setRegister(register1);
+                report2.setMember(member);
+                em.persist(report2);
+
+
+                Report report3 = new Report();
+                report3.setRegister(register2);
+                report3.setMember(member);
+                em.persist(report3);
+
+                Report report4 = new Report();
+                report4.setRegister(register2);
+                report4.setMember(member);
+                em.persist(report4);
+
+
+    }
 
             public  MissingAddress createMissingAddress(String prefecture,String zipcode,String cityName,String Gu,String Dong,String streetName){
 

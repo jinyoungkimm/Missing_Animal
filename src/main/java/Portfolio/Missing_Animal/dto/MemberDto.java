@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 
 @Data
 public class MemberDto {
-    private Long id;
+
+    private Long memberId;
     private String userId;
     private String username;
     private EmailForm email;
@@ -30,9 +31,12 @@ public class MemberDto {
     // 컬렉션
     private List<RegisterDto> registers = new ArrayList<>();
 
-    public MemberDto(Long id,String userId,String username,EmailForm email,String phoneNumber) { // [페이징]을 사용허자 얺울 때, 사용하자!(Repository에서 new DTO와 Map을 사용
+    //컬렉션
+    private List<ReportDto> reports = new ArrayList<>();
+
+    public MemberDto(Long memberId,String userId,String username,EmailForm email,String phoneNumber) { // [페이징]을 사용허자 얺울 때, 사용하자!(Repository에서 new DTO와 Map을 사용
                                                                                                             //해서, 만들어 진다(Repository에서 이 생성자가 사용됨)
-        this.id = id;
+        this.memberId = memberId;
 
         this.userId = userId;
 
@@ -47,7 +51,7 @@ public class MemberDto {
 
     public MemberDto(Member member) { // [페이징]을 사용할 때 사용하자!(Defaul batch size로 인해 지연로딩된 컬렉션을 그냥 바로 넣으면 된다.)
 
-        this.id = member.getId();
+        this.memberId = member.getId();
 
         this.userId = member.getUserId();
 
@@ -63,6 +67,9 @@ public class MemberDto {
                 .map(register -> new RegisterDto(register))
 
                 .collect(Collectors.toList());
+
+        //컬렉션
+        this.reports = member.getReports().stream().map(report -> new ReportDto(report)).collect(Collectors.toList());
 
     }
 

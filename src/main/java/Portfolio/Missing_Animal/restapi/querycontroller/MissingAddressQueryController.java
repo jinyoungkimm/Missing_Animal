@@ -34,7 +34,7 @@ public class MissingAddressQueryController {
 
     }*/
 
-   /* @GetMapping("") // [페이징] 가능!
+    @GetMapping("") // [페이징] 가능!
     List<MissingAddressDto> getAllMissingAddress2(@RequestParam(value = "offset",defaultValue = "0") int offset,
                                                   @RequestParam(value="limit",defaultValue = "5") int limit){
 
@@ -46,10 +46,10 @@ public class MissingAddressQueryController {
 
         return collect;
 
-    }*/
+    }
 
-   /* @GetMapping("/{id}/missingaddress")
-    MissingAddressDto getMissingAddressWithID1(@PathVariable("id") Long id){ //[페이징 불가능]
+    @GetMapping("/{id}")
+    MissingAddressDto getMissingAddressWithID1(@PathVariable("id") Long id){
 
         List<MissingAddress> findMissingAddress = missingAddressQueryRepository.findById(id);
 
@@ -59,13 +59,13 @@ public class MissingAddressQueryController {
 
         return collect.get(0);
 
-    }*/
+    }
+
 
 
 
 
     // 여기서부터 아래는 Querydsl로 구현을 나중에 할 것이다.
-
     /**
      * 2. api/missingaddress/{prefecture }
      * 3. api/missingaddress/{prefecture }/{cityName}
@@ -76,7 +76,7 @@ public class MissingAddressQueryController {
      * @return
      */
 
-   /* @GetMapping("/{prefecture}")
+    @GetMapping("/{prefecture}")
     List<MissingAddressDto> getRegisterInPrefecture(@PathVariable("prefecture") String prefecture){
 
         List<MissingAddress> missingAddressesWithPrefecture = missingAddressQueryRepository.findRegisterWithPrefecture(prefecture);
@@ -87,7 +87,7 @@ public class MissingAddressQueryController {
 
         return collect;
 
-    }*/
+    }
 
 
   /* @GetMapping("/{cityName}/{streetName}")
