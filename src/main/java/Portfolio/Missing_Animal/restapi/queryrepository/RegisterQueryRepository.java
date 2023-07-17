@@ -29,18 +29,6 @@ public class RegisterQueryRepository {
 
     }
 
-    public List<Register> findRegisterWithId(Long id){
-
-        return em.createQuery("SELECT r FROM Register r" +
-
-                " JOIN FETCH r.member m" +// @xToOne 관계의 엔티티는 fetch join으로 최적화를 하면 된다.
-                " JOIN FETCH r.missingAddress mr" +// @xToOne 관계의 엔티티는 fetch join으로 최적화를 하면 된다.
-
-                " WHERE r.id=:id",Register.class)
-                .setParameter("id",id)
-                .getResultList();
-    }
-
     public List<Register> findRegistersWithPaging(int offset,int limit){
 
         return em.createQuery("SELECT r FROM Register r" +
@@ -55,10 +43,25 @@ public class RegisterQueryRepository {
 
     }
 
+    public List<Register> findRegisterWithId(Long id,int offest,int limit){
+
+        List<Register> id1 = em.createQuery("SELECT r FROM Register r" +
+
+                        " JOIN FETCH r.member m" +// @xToOne 관계의 엔티티는 fetch join으로 최적화를 하면 된다.
+                        " JOIN FETCH r.missingAddress mr" +// @xToOne 관계의 엔티티는 fetch join으로 최적화를 하면 된다.
+
+                        " WHERE r.id=:id", Register.class)
+                .setParameter("id", id)
+                //  .setFirstResult(offest)
+                //  .setMaxResults(limit)
+                .getResultList();
+
+        System.out.println("55555555555555555555555");
+
+        return id1;
 
 
 
-
-
+    }
 
 }

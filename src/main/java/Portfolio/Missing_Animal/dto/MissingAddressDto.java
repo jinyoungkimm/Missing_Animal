@@ -38,37 +38,40 @@ public class MissingAddressDto {
 
     private String streetNumber; // ex.해빛로-[11]
 
-    private List<Long> registerIds = new ArrayList<>();
+    //private List<Long> registerIds = new ArrayList<>();
 
-    public MissingAddressDto(MissingAddress missingAddress){
+    private List<RegisterDto> registers = new ArrayList<>();
+
+    public MissingAddressDto(Long id,String zipcode,String prefecture,String cityName,String gu,String Dong,String streetName,String streetNumber){
 
 
-        this.id = missingAddress.getId();
+        this.id = id;
 
-        this.zipcode = missingAddress.getZipcode();
+        this.zipcode = zipcode;
 
-        this.prefecture = missingAddress.getPrefecture(); // ex. 충청남도, 전라남도( 존재할 수도 있고 안 할 수도 있음 )
+        this.prefecture = prefecture; // ex. 충청남도, 전라남도( 존재할 수도 있고 안 할 수도 있음 )
 
-        this.cityName = missingAddress.getCityName(); // 부산광역[시], 합천군 ( 존재할 수도 있고 안 할 수도 있음)
+        this.cityName =cityName; // 부산광역[시], 합천군 ( 존재할 수도 있고 안 할 수도 있음)
 
-        this.gu = missingAddress.getGu(); // ex. 해운대구/기장군
+        this.gu = gu; // ex. 해운대구/기장군
 
-        this.Dong = missingAddress.getDong(); //ex. [일광읍] (존재할 수도 있고 안 할 수도 있음)
+        this.Dong =Dong ; //ex. [일광읍] (존재할 수도 있고 안 할 수도 있음)
 
-        this.streetName = missingAddress.getStreetName();// ex.[해빛로]
+        this.streetName = streetName;// ex.[해빛로]
 
-        this.streetNumber = missingAddress.getStreetNumber(); // ex.해빛로-[11]
+        this.streetNumber = streetNumber; // ex.해빛로-[11]
 
         /*this.registers = missingAddress.getRegisters()
                 .stream()
                 .map(r->new RegisterDto(r))
                 .collect(Collectors.toList());*/
-        List<Register> registers = missingAddress.getRegisters();
+        /*List<Register> registers = missingAddress.getRegisters();
         for(Register r:registers)
         {
             this.registerIds.add(r.getId());
 
-        }
+        }*/
+
     }
 
     public MissingAddressDto(){

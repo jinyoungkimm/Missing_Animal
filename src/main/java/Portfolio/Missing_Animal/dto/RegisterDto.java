@@ -41,15 +41,15 @@ public class RegisterDto {
    // private MemberDto member; // Member member x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
     //private MissingAddressDto missingAddress; // MissingAddress missingAddress x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
 
-    public RegisterDto(Register register) {
+    public RegisterDto(Long id, String animalName,String animalSex,String animalAge,LocalDateTime registerDate,RegisterStatus registerStatus,ReportedStatus repotedStatus) {
 
-        this.id = register.getId();
-        this.animalName = register.getAnimalName();
-        this.animalSex = register.getAnimalSex();
-        this.animalAge = register.getAnimalAge();
-        this.registerDate = register.getRegisterDate();
-        this.registerStatus = register.getRegisterStatus();
-        this.repotedStatus = register.getRepotedStatus();
+        this.id = id;
+        this.animalName = animalName;
+        this.animalSex = animalSex;
+        this.animalAge =animalAge ;
+        this.registerDate = registerDate;
+        this.registerStatus = registerStatus;
+        this.repotedStatus = repotedStatus;
 
          // 엔티티 -> DTO로 전환
         // this.member = new MemberDto(register.getMember());

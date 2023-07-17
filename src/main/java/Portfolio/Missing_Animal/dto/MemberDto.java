@@ -25,39 +25,28 @@ public class MemberDto {
     private String username;
     private EmailForm email;
     private String phoneNumber;
-    private Boolean isRegister;
 
+   // private Boolean isRegister;
     // 컬렉션
-    private List<Long> registerIds = new ArrayList<>();
+    private List<RegisterDto> registers = new ArrayList<>();
 
-    public MemberDto(Member member) {
+    public MemberDto(Long id,String userId,String username,EmailForm email,String phoneNumber) {
 
-        this.id = member.getId();
+        this.id = id;
 
-        this.userId = member.getUserId();
+        this.userId = userId;
 
-        this.username = member.getUsername();
+        this.username = username;
 
-        this.email = member.getEmail();
+        this.email = email;
 
-        this.phoneNumber = member.getPhoneNumber();
+        this.phoneNumber = phoneNumber;
 
 
-        if(member.getRegisters().isEmpty()) // Lazy Loading 발생(고로, fetch join으로 조회)
+      /*  if(member.getRegisters().isEmpty()) // Lazy Loading 발생(고로, fetch join으로 조회),여기에서 계속 쿼리가 추가 발생함!!!(1+N)문제 발생
             this.isRegister = false;
         else
-            this.isRegister = true;
-
-        if(this.isRegister == true)
-        {
-            List<Register> registers = member.getRegisters();
-            for(Register r:registers)
-            {
-                this.registerIds.add(r.getId());
-
-            }
-
-        }
+            this.isRegister = true;*/
 
     }
 
