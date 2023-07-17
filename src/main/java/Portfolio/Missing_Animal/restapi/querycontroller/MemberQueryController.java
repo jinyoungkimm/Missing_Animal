@@ -20,16 +20,18 @@ public class MemberQueryController {
 
     private final MemberQueryRepository memberQueryRepository;
 
-   /* @GetMapping("")
+    @GetMapping("")
     List<MemberDto> getMembersInfo(){
 
-        List<Member> all = memberQueryRepository.findAllMembers();
+        /*List<Member> all = memberQueryRepository.findAllMembers();
 
         List<MemberDto> collect = all.stream()
                 .map(m -> new MemberDto(m))
-                .collect(toList());
+                .collect(toList());*/
 
-        return collect;
+        List<MemberDto> allMembers = memberQueryRepository.findAllMembers4();
+
+        return allMembers;
 
     }
 
@@ -39,12 +41,20 @@ public class MemberQueryController {
         List<Member> memberWithUserId = memberQueryRepository.findMemberWithUserId(userId);
 
         List<MemberDto> collect = memberWithUserId.stream().
-                map(m -> new MemberDto(m))
+                map(m ->{
+
+                    MemberDto memberDto = new MemberDto(m);
+
+                    //컬렉션은 setter를 사용하여 따로 set한다.
+
+                    memberDto.setRegisters(m.getRegisters());
+
+                })
                 .collect(toList());
 
         return collect;
     }
-*/
+
 
 
 

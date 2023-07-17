@@ -68,17 +68,7 @@ public class MemberQueryRepository {
                 .getResultList();
     }
 
-    public List<Member> findMemberWithUserId2(String userId) { // [페이징 가능]
 
-        return em.createQuery("SELECT m FROM Member m" +
-
-                       // " JOIN FETCH m.registers r" +
-
-
-                        " WHERE m.userId=:userId",Member.class)
-                .setParameter("userId",userId)
-                .getResultList();
-    }
 
     // new DTO로 직접 [컬렉션]을 [따로] 조회 1
     public List<MemberDto> findAllMembers3() { // (1+N) 문제 발생
@@ -146,6 +136,17 @@ public class MemberQueryRepository {
 
         Map<Long,List<RegisterDto>> registerMap = findRegisterMap(memberIds);
 
+        //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
+        members.forEach(memberDto -> {
+
+            Long id = memberDto.getId();
+
+            List<RegisterDto> registerDto = registerMap.get(id);
+
+            memberDto.setRegisters(registerDto);
+
+
+        });
 
         return members;
 
@@ -161,7 +162,7 @@ public class MemberQueryRepository {
                 .collect(Collectors.toList());
     }
 
-    private Map<Long, List<RegisterDto>> findRegisterMap(List<Long> memberIds) {
+    private Map<Long, List<RegisterDto>> findRegisterMap(List<Long> memberIds) { // Map<Long,...>을 사용하기에, Member에 대한 [페이징 가능]
 
         List<RegisterDto> orderItems = em.createQuery(
 

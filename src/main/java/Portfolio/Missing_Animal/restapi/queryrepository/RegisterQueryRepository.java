@@ -1,11 +1,9 @@
 package Portfolio.Missing_Animal.restapi.queryrepository;
 
-
 import Portfolio.Missing_Animal.domain.Register;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
 import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
@@ -43,7 +41,7 @@ public class RegisterQueryRepository {
 
     }
 
-    public List<Register> findRegisterWithId(Long id,int offest,int limit){
+    public List<Register> findRegisterWithId(Long id){
 
         List<Register> id1 = em.createQuery("SELECT r FROM Register r" +
 
@@ -52,14 +50,35 @@ public class RegisterQueryRepository {
 
                         " WHERE r.id=:id", Register.class)
                 .setParameter("id", id)
-                //  .setFirstResult(offest)
-                //  .setMaxResults(limit)
                 .getResultList();
-
-
 
         return id1;
 
+
+    }
+
+
+    public List<Register> findAllRegisters2(){
+
+        return em.createQuery("SELECT r FROM Register r" +
+
+                                " JOIN FETCH r.member m" + // @xToOne 관계의 엔티티는 fetch join으로 최적화를 하면 된다.
+                                " JOIN FETCH r.missingAddress mr" // @xToOne 관계의 엔티티는 fetch join으로 최적화를 하면 된다.
+                        ,Register.class)
+                .getResultList();
+
+    }
+
+    public List<Register> findRegistersWithPaging2(int offset,int limit){
+
+        return em.createQuery("SELECT r FROM Register r" +
+
+                                " JOIN FETCH r.member m" + // @xToOne 관계의 엔티티는 fetch join으로 최적화를 하면 된다.
+                                " JOIN FETCH r.missingAddress mr" // @xToOne 관계의 엔티티는 fetch join으로 최적화를 하면 된다.
+                        ,Register.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
 
 
     }
