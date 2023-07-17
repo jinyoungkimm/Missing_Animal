@@ -36,12 +36,12 @@ public class RegisterDto {
     private String animalAge;
     private LocalDateTime registerDate;
     private RegisterStatus registerStatus;
-    private ReportedStatus repotedStatus;
+    private ReportedStatus reportedStatus;
 
    // private MemberDto member; // Member member x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
     //private MissingAddressDto missingAddress; // MissingAddress missingAddress x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
 
-    public RegisterDto(Long id, String animalName,String animalSex,String animalAge,LocalDateTime registerDate,RegisterStatus registerStatus,ReportedStatus repotedStatus) {
+    public RegisterDto(Long id, String animalName,String animalSex,String animalAge,LocalDateTime registerDate,RegisterStatus registerStatus,ReportedStatus reportedStatus) {
 
         this.id = id;
         this.animalName = animalName;
@@ -49,7 +49,7 @@ public class RegisterDto {
         this.animalAge =animalAge ;
         this.registerDate = registerDate;
         this.registerStatus = registerStatus;
-        this.repotedStatus = repotedStatus;
+        this.reportedStatus = reportedStatus;
 
          // 엔티티 -> DTO로 전환
         // this.member = new MemberDto(register.getMember());

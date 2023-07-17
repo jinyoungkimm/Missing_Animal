@@ -52,7 +52,7 @@ public class RegisterQueryController {
 
     }*/
 
-    @GetMapping("")
+  /*  @GetMapping("")
     List<RegisterDto> getRegistersWithPaging(@RequestParam("pageNumber") int pageNumber) {
 
         int limit = 5;
@@ -100,6 +100,8 @@ public class RegisterQueryController {
 
         return collect.get(0);
     }
+*/
+
 
 
 }

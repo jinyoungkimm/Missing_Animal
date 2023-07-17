@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.restapi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.dto.MemberDto;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,17 @@ class MemberQueryRepositoryTest {
        allMembers.get(0).getRegisters().get(1).getAnimalName(); // fetch join을 사용하였기에 (1+N) 문제 해결
 
     }
+
+    @Test
+    @Transactional
+    void findMembers3(){
+
+        List<MemberDto> allMembers3 = memberQueryRepository.findAllMembers3();
+
+    }
+
+
+
 
     @Test
     void findMemberWithUserId() {

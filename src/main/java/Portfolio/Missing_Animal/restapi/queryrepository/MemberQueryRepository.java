@@ -38,7 +38,7 @@ public class MemberQueryRepository {
             .getResultList();
     }
 
-    public List<Member> findMemberWithUserId(String userId) { // [페이징 불가능]
+    public List<Member> findMemberWithUserId(String userId) { // [페이징 불가능](사실, 1개의 Member만 조회되므로 페이징을 할 필요가 전혀 없다)
 
         return em.createQuery("SELECT m FROM Member m" +
 
@@ -56,7 +56,7 @@ public class MemberQueryRepository {
                 .getResultList();
     }
 
-    public List<Member> findAllMembers2() { // [페이징 불가능]
+    public List<Member> findAllMembers2() { // [페이징 가능]
 
         return em.createQuery("SELECT m FROM Member m"
 
@@ -66,7 +66,7 @@ public class MemberQueryRepository {
                 .getResultList();
     }
 
-    public List<Member> findMemberWithUserId2(String userId) { // [페이징 불가능]
+    public List<Member> findMemberWithUserId2(String userId) { // [페이징 가능]
 
         return em.createQuery("SELECT m FROM Member m" +
 
@@ -78,6 +78,77 @@ public class MemberQueryRepository {
                 .getResultList();
     }
 
+    // new DTO로 직접 [컬렉션]을 [따로] 조회 1
+    public List<MemberDto> findAllMembers3() { // (1+N) 문제 발생
 
+        List<MemberDto> members = findMembers(); // @xToOne 엔티티를  inner join으로 먼저 조회!
+                                                 // fetch join을 쓸 필요가 없다.
+                                                // 왜냐하면, new DTO(~~) 안의 매개 변수에 맞춰서, 특정값만 들고 오니깐,
+                                                // FETCH JOIN처럼 모~든 값을 들고올 필요가 X.
+
+        //  컬렉션을 [따로] 조회를 하여 MemberDTO의 SETTER를 활용을 하여 컬렉션을 set한다.
+        // 그런데 이 과정에서 컬렉션을 조회할 때마다 쿼리문이 추가가 되기 때문에 [1+N] 문제가 발생을 한다.
+        members.forEach(memberDto -> {
+
+            List<RegisterDto> registers = findRegisters(memberDto.getId());
+
+            memberDto.setRegisters(registers);
+
+        });
+
+        return members;
+
+    }
+
+    public  List<MemberDto> findMembers( )
+    {
+
+        return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
+
+                                "MemberDto(m.id,m.userId,m.username,m.email,m.phoneNumber)" +
+
+                                " FROM Member m" // Member에 대해서 @xToOne 관계인 엔티티는 없다.
+
+                        ,MemberDto.class)
+                .getResultList();
+
+    }
+
+
+    public List<RegisterDto> findRegisters(Long memberId){
+
+
+        return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
+
+                "RegisterDto(r.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)" +
+
+                        " FROM Register r" +
+
+                        " WHERE r.member.id =:id",RegisterDto.class)
+                .setParameter("id",memberId)
+
+                .getResultList();
+
+
+    }
+
+
+    // new DTO로 직접 [컬렉션]을 [따로] 조회 2
+    public List<MemberDto> findAllMembers4() { // (1+N) 문제 [해결]
+
+        List<MemberDto> members = findMembers();
+
+
+        members.forEach(memberDto -> {
+
+            List<RegisterDto> registers = findRegisters(memberDto.getId());
+
+            memberDto.setRegisters(registers);
+
+        });
+
+        return members;
+
+    }
 
 }

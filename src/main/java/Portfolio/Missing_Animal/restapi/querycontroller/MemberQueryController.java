@@ -20,7 +20,7 @@ public class MemberQueryController {
 
     private final MemberQueryRepository memberQueryRepository;
 
-    @GetMapping("")
+   /* @GetMapping("")
     List<MemberDto> getMembersInfo(){
 
         List<Member> all = memberQueryRepository.findAllMembers();
@@ -44,6 +44,8 @@ public class MemberQueryController {
 
         return collect;
     }
+*/
+
 
 
 }

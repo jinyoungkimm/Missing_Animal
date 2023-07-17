@@ -80,7 +80,7 @@ public class InitMissingAddress {
                 register1.setMissingAddress(missingAddress);
                 register1.setMember(member);
                 register1.setRegisterStatus(registerStatus1);
-                register1.setRepotedStatus(reportedStatus1);
+                register1.setReportedStatus(reportedStatus1);
                 em.persist(register1);
 
                 Register register2 = new Register();
@@ -88,7 +88,7 @@ public class InitMissingAddress {
                 register2.setMissingAddress(missingAddress);
                 register2.setMember(member);
                 register2.setRegisterStatus(registerStatus2);
-                register2.setRepotedStatus(reportedStatus2);
+                register2.setReportedStatus(reportedStatus2);
                 em.persist(register2);
 
 

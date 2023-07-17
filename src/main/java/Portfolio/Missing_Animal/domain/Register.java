@@ -46,7 +46,7 @@ public class Register { //실종 등록
 
     // 실종 등록에 대한 신고 여부
     @Enumerated(EnumType.STRING)
-    private ReportedStatus repotedStatus;
+    private ReportedStatus reportedStatus;
 
     // 실종 등록 회원 정보
     //@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)

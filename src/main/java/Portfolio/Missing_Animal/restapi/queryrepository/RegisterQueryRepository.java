@@ -56,7 +56,7 @@ public class RegisterQueryRepository {
                 //  .setMaxResults(limit)
                 .getResultList();
 
-        System.out.println("55555555555555555555555");
+
 
         return id1;
 
