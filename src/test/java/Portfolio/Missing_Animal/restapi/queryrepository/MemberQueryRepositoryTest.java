@@ -44,7 +44,13 @@ class MemberQueryRepositoryTest {
 
     }
 
+    @Test
+    @Transactional
+    void findMembers4(){
 
+        List<MemberDto> allMembers3 = memberQueryRepository.findAllMembers4();
+
+    }
 
 
     @Test

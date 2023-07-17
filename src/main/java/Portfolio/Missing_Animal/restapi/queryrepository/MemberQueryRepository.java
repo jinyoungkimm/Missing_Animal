@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.swing.text.html.parser.Entity;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *  컬렉션 최적화
@@ -81,6 +83,7 @@ public class MemberQueryRepository {
     // new DTO로 직접 [컬렉션]을 [따로] 조회 1
     public List<MemberDto> findAllMembers3() { // (1+N) 문제 발생
 
+        // 루트 조회(toOne 코드를 모두 한 번에 조회)
         List<MemberDto> members = findMembers(); // @xToOne 엔티티를  inner join으로 먼저 조회!
                                                  // fetch join을 쓸 필요가 없다.
                                                 // 왜냐하면, new DTO(~~) 안의 매개 변수에 맞춰서, 특정값만 들고 오니깐,
@@ -133,22 +136,52 @@ public class MemberQueryRepository {
     }
 
 
-    // new DTO로 직접 [컬렉션]을 [따로] 조회 2
+    // new DTO로 직접 [컬렉션]을 [따로] 조회 2( 컬렉션 조회 시, IN 쿼리에 Member의 id값들을 다 넣어서, 거기에 해당하는 Register를 추출)
     public List<MemberDto> findAllMembers4() { // (1+N) 문제 [해결]
 
+        // root 조회(toOne 관계를 1번에 모두 조회)
         List<MemberDto> members = findMembers();
 
+        List<Long> memberIds = toOrderIds(members);
 
-        members.forEach(memberDto -> {
+        Map<Long,List<RegisterDto>> registerMap = findRegisterMap(memberIds);
 
-            List<RegisterDto> registers = findRegisters(memberDto.getId());
-
-            memberDto.setRegisters(registers);
-
-        });
 
         return members;
 
     }
+
+    // List<MemberDto>에 있는 모든 id값들을 추출하여, 다시 List<Long>으로 반환!
+    private List<Long> toOrderIds(List<MemberDto> result) {
+
+        return result.stream()
+
+                .map(registerDto -> registerDto.getId())
+
+                .collect(Collectors.toList());
+    }
+
+    private Map<Long, List<RegisterDto>> findRegisterMap(List<Long> memberIds) {
+
+        List<RegisterDto> orderItems = em.createQuery(
+
+                        "SELECT new Portfolio.Missing_Animal.dto."+
+
+                                "RegisterDto(r.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)"+
+
+                        " FROM Register r" +
+                                // IN 쿼리를 사용하여 Member의 id값들을 모두 다 넣는다 -> 1 번의 쿼리 호출로 RegisterDTO 다 들고 옴 -> [1 + N] 문제 해결됨!!
+                                " WHERE r.member.id IN :memberIds", RegisterDto.class)
+
+                .setParameter("memberIds", memberIds)
+
+                .getResultList();
+
+        // RegisterDto의 id값을 기준으로, RigserDto를 Grouping~~!!!
+        return orderItems.stream()
+
+                .collect(Collectors.groupingBy(RegisterDto::getId));
+    }
+
 
 }
