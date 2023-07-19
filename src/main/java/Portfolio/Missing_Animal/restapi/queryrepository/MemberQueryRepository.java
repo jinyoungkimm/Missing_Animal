@@ -41,7 +41,7 @@ public class MemberQueryRepository {
             .getResultList();
     }
 
-    public List<Member> findMemberWithUserId(String userId) { // [페이징 불가능](사실, 1개의 Member만 조회되므로 페이징을 할 필요가 전혀 없다)
+    public List<Member> findMemberWithOneUserId(String userId) { // [페이징 불가능](사실, 1개의 Member만 조회되므로 페이징을 할 필요가 전혀 없다)
 
         return em.createQuery("SELECT m FROM Member m" +
 

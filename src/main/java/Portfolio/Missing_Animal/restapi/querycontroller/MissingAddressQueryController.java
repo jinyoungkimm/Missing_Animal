@@ -51,7 +51,7 @@ public class MissingAddressQueryController {
     @GetMapping("/{id}")
     MissingAddressDto getMissingAddressWithID1(@PathVariable("id") Long id){
 
-        List<MissingAddress> findMissingAddress = missingAddressQueryRepository.findById(id);
+        List<MissingAddress> findMissingAddress = missingAddressQueryRepository.findByOneId(id);
 
         List<MissingAddressDto> collect = findMissingAddress.stream()
                 .map(mr -> new MissingAddressDto(mr))

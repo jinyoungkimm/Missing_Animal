@@ -62,7 +62,7 @@ class MissingAddressQueryRepositoryTest {
         Long id = 3L;
 
         //when
-        MissingAddress findMissingAddress = repository.findById(id).get(0);
+        MissingAddress findMissingAddress = repository.findByOneId(id).get(0);
 
 
         //then

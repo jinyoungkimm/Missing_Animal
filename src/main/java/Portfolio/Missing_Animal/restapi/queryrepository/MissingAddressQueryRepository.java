@@ -131,7 +131,7 @@ public class MissingAddressQueryRepository {
     }
 
 
-    public List<MissingAddress> findById(Long id){ // [페이징] 불가능
+    public List<MissingAddress> findByOneId(Long id){ // [페이징] 불가능
 
         return em.createQuery("SELECT mr FROM MissingAddress mr" +
 

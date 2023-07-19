@@ -135,7 +135,7 @@ public class RegisterQueryRepository {
 
     }
 
-    public List<Register> findRegisterWithId(Long id){
+    public List<Register> findRegisterWithOneId(Long id){
 
         List<Register> id1 = em.createQuery("SELECT r FROM Register r" +
 

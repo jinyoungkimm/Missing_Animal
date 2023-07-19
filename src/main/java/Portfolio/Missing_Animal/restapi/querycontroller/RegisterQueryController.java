@@ -77,7 +77,7 @@ public class RegisterQueryController {
 
 
 
-        List<Register> registersWithPaging = registerQueryRepository.findRegisterWithId(id);
+        List<Register> registersWithPaging = registerQueryRepository.findRegisterWithOneId(id);
 
         List<RegisterDto> collect = registersWithPaging.stream()
 

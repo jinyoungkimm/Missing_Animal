@@ -38,7 +38,7 @@ public class MemberQueryController {
     @GetMapping("/{userId}")
     List<MemberDto> getMember(@PathVariable("userId") String userId){
 
-        List<Member> memberWithUserId = memberQueryRepository.findMemberWithUserId(userId);
+        List<Member> memberWithUserId = memberQueryRepository.findMemberWithOneUserId(userId);
 
         List<MemberDto> collect = memberWithUserId.stream().
 
