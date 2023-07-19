@@ -74,7 +74,7 @@ class MemberQueryRepositoryTest {
         String userId = "wlsdud6523";
 
         //when
-        List<Member> memberWithUserId = memberQueryRepository.findMemberWithUserId(userId);
+        List<Member> memberWithUserId = memberQueryRepository.findMemberWithOneUserId(userId);
 
         //then
         // fetch join을 사용하였기에 (1+N) 문제 해결

@@ -38,4 +38,24 @@ public class Report { // 발견 신고(Member와 Animal의 중간 Table 역할)
     }
 
 
+    // 연관 관계 메서드
+    public void setMember(Member member){
+
+        this.member = member;
+
+        member.getReports().add(this);
+
+    }
+
+    public void setRegister(Register register){
+
+        this.register = register;
+
+        register.getReports().add(this);
+
+    }
+
+
+
+
 }

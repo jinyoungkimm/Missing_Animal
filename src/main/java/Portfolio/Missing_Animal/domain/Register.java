@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -69,9 +70,38 @@ public class Register { //실종 등록
 
     //신고 정보
     @OneToMany(mappedBy = "register" )
-    private List<Report> reports;
+    private List<Report> reports = new ArrayList<>();
 
     public Register(){
 
     }
+
+
+    // 연관 관계 메서드 : @ToOne 관계의 엔티티를 getter를 사용하여 호출하고, 거기에 Register 엔티티를 추가하자!!!
+    // -> [수정,추가,삭제]에는 영향을 미치지는 않겠지만 Service 계층 등에서 Context에 있는 @toOne 엔티티를 캐싱하여 사용 가능!
+    public void setMember(Member member){ // Register : Member = 다 : 1
+
+        this.member = member; // Register가 연관관계 주인이므로, 여기에서만 Member가 저장된다.
+
+        member.getRegisters().add(this); // 여기가 핵심임!
+
+    }
+
+    public void setMissingAddress(MissingAddress missingAddress){ // Register : MissingAddress = 다 : 1
+
+        this.missingAddress = missingAddress; // Register가 연관관계 주인이므로, 여기에서만 MissingAddress가 저장된다.
+
+        missingAddress.getRegisters().add(this); // 여기가 핵심임!
+
+    }
+
+    public void addReport(Report report) // Register : Report = 1 : 다
+    {
+
+        this.reports.add(report); // 여기가 핵심
+
+        report.setRegister(this); // Report가 연관 관계 주인이므로, 이 코드에서 Register가 저장이 된다.
+
+    }
+
 }
