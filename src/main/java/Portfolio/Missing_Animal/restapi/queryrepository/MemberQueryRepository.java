@@ -4,6 +4,7 @@ package Portfolio.Missing_Animal.restapi.queryrepository;
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.dto.MemberDto;
 import Portfolio.Missing_Animal.dto.RegisterDto;
+import Portfolio.Missing_Animal.dto.ReportDto;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -134,9 +135,11 @@ public class MemberQueryRepository {
 
         List<Long> memberIds = toOrderIds(members);
 
-        System.out.println(memberIds.size());
 
-        Map<Long,List<RegisterDto>> registerMap = findRegisterMap(memberIds); // toMany(컬렉션)에 대한 조회
+        Map<Long,List<RegisterDto>> registerMap = findRegisterMap(memberIds); // toMany(컬렉션 Register)에 대한 조회 1.
+
+        Map<Long,List<ReportDto>> reportMap = findReportMap(memberIds); // toMany(컬렉션 Report)에 대한 조회 2
+
 
         //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
         members.forEach(memberDto -> {
@@ -144,9 +147,10 @@ public class MemberQueryRepository {
             Long id = memberDto.getMemberId();
 
             List<RegisterDto> registerDto = registerMap.get(id);
+            List<ReportDto> reportDto = reportMap.get(id);
 
             memberDto.setRegisters(registerDto);
-
+            memberDto.setReports(reportDto);
         });
 
         return members;
@@ -179,11 +183,37 @@ public class MemberQueryRepository {
 
                 .getResultList();
 
-        // RegisterDto의 id값을 기준으로, RigserDto를 Grouping~~!!!
+        // RegisterDto의 memberId값을 기준으로, RigserDto를 Grouping~~!!!
         return orderItems.stream()
 
                 .collect(Collectors.groupingBy(RegisterDto::getMemberId));
     }
 
+    public  Map<Long, List<ReportDto>> findReportMap(List<Long> memberIds){
+
+
+        List<ReportDto> report = em.createQuery(
+
+                        "SELECT new Portfolio.Missing_Animal.dto."+
+
+                                "ReportDto(r.id,rg.id,m.id,m.userId,r.findedTime)"+
+
+                                " FROM Report r" +
+                                " INNER JOIN r.register rg" +
+                                " INNER JOIN r.member m" +
+
+                                " WHERE r.member.id IN :memberIds", ReportDto.class)
+
+                .setParameter("memberIds", memberIds)
+
+                .getResultList();
+
+        // ReportDto의 memberId값을 기준으로, ReportDto를 Grouping~~!!!
+        return report.stream()
+
+                .collect(Collectors.groupingBy(ReportDto::getMemberId));
+
+
+    }
 
 }

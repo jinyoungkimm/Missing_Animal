@@ -57,6 +57,11 @@ class MemberQueryRepositoryTest {
             System.out.println(memberDto.getRegisters().get(0).getAnimalName());
             System.out.println(memberDto.getRegisters().get(1).getAnimalName());
 
+            System.out.println(memberDto.getReports().get(0).getFinderUserId());
+            System.out.println(memberDto.getReports().get(1).getFinderUserId());
+            System.out.println(memberDto.getReports().get(2).getFinderUserId());
+            System.out.println(memberDto.getReports().get(3).getFinderUserId());
+
         }
 
     }
