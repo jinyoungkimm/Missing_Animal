@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
@@ -129,6 +130,24 @@ class RegisterServiceImplTest {
             assertThat(registers.get(x-1).getAnimalName()).isEqualTo("사랑이"+x);
         }
 
+
+    }
+
+    @Test
+    void listingMissingAnimalByMissingAddress() {
+
+
+        //givien
+        MissingAddress missingAddress = new MissingAddress();
+        missingAddress.setCityName("천안시1");
+
+        //when
+        List<Register> registers = registerService.ListingMissingAnimalByMissingAddress(missingAddress);
+
+
+        //then
+        Assertions.assertThat(registers.get(0).getAnimalName()).isEqualTo("사랑이1");
+        Assertions.assertThat(registers.get(1).getAnimalName()).isEqualTo("사랑이2");
 
     }
 }
