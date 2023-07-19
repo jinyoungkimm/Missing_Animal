@@ -8,10 +8,15 @@ import Portfolio.Missing_Animal.dto.RegisterDto;
 import Portfolio.Missing_Animal.restapi.queryrepository.MissingAddressQueryRepository;
 import Portfolio.Missing_Animal.restapi.queryrepository.RegisterQueryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,6 +94,19 @@ public class RegisterQueryController {
 
     }
 
+   /* @GetMapping("/{registerId}/image")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable("registerId") Long registerId) throws UnsupportedEncodingException {
+
+
+        Resource file = storageService.loadAsResource(filename);
+
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + URLEncoder.encode(file.getFilename(),"UTF-8") + "\"")
+                .body(file);
+
+    }*/
 
 
 

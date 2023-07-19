@@ -78,7 +78,6 @@ class ReportTest {
         member2.setPassword("eoskan6524");
         em.persist(member2);
 
-
         register1.setMember(member1); // 연관 관계 메서드 사용(member1에도 양방향으로 register1을 가리키고 있음)
 
         report1.setMember(member1);      // 연관 관계 메서드 사용(member1에도 양방향으로 report1을 가리키고 있음)
@@ -102,11 +101,6 @@ class ReportTest {
 
         Assertions.assertThat(report1.getRegister().getMember().getRegisters().get(0).getAnimalName()).isEqualTo("사랑이1");
         Assertions.assertThat(report2.getRegister().getMember().getRegisters().get(0).getAnimalName()).isEqualTo("사랑이2");
-
-
-
-
-
 
     }
 

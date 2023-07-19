@@ -45,7 +45,7 @@ public class MissingAnimalApplication {
 	}
 
 
-	@Bean
+/*	@Bean
 	public ServletWebServerFactory servletContainer() {
 		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {@Override
 		protected void postProcessContext(Context context) {
@@ -68,6 +68,6 @@ public class MissingAnimalApplication {
 		connector.setSecure(false);
 		connector.setRedirectPort(8443);
 		return connector;
-	}
+	}*/
 
 }

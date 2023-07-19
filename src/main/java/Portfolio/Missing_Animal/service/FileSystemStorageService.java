@@ -34,12 +34,10 @@ public class FileSystemStorageService implements StorageService {
 	}
 
 	@Override
-	public void store(List<MultipartFile> files) {
+	public void store(MultipartFile file) {
 
 
-		for (MultipartFile file : files)
 
-		{
 
 		try {
 
@@ -69,7 +67,7 @@ public class FileSystemStorageService implements StorageService {
 			throw new StorageException("Failed to store file.", e);
 		}
 	}
-	}
+
 
 	@Override
 	public Stream<Path> loadAll() {
@@ -87,7 +85,9 @@ public class FileSystemStorageService implements StorageService {
 	@Override
 	public Path load(String filename) {
 
-		return rootLocation.resolve(filename);
+		Path resolve = rootLocation.resolve(filename);
+
+		return resolve;
 
 	}
 
