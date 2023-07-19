@@ -43,9 +43,9 @@ public class RegisterController {
         // 고로, cascade(연쇄 반응).Persist를 설정하여, [register 엔티티를 영속화할 때, 연관된 엔티티도 자동으로 영속화 시켜줘야 한다.]
 
         String originalFilename = file.getOriginalFilename();
-        register.setFilePath(originalFilename);
-        registerService.registerMissing(register);
+        register.setFileName(originalFilename);
 
+        registerService.registerMissing(register);
 
         return "redirect:/register";
 

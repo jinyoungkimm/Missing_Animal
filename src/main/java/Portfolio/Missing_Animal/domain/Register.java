@@ -23,7 +23,7 @@ public class Register { //실종 등록
     @Column(name="register_id")
     private Long id;
 
-    private String filePath;
+    private String fileName;
 
     private String animalName;
 

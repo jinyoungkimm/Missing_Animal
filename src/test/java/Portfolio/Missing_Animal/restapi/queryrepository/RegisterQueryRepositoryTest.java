@@ -65,9 +65,9 @@ class RegisterQueryRepositoryTest {
         int offset = 0;
         int limit = Integer.MAX_VALUE;
         //when
-        Register registerWithId1 = repository.findRegisterWithOneId(id1).get(0);
-        Register registerWithId2 = repository.findRegisterWithOneId(id2).get(0);
-        Register registerWithId3 = repository.findRegisterWithOneId(id3).get(0);
+        Register registerWithId1 = repository.findRegisterWithOneId(id1);
+        Register registerWithId2 = repository.findRegisterWithOneId(id2);
+        Register registerWithId3 = repository.findRegisterWithOneId(id3);
 
         //then
         assertThat(registerWithId1.getAnimalName()).isEqualTo("사랑이1");

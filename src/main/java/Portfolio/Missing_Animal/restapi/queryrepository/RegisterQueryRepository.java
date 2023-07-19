@@ -135,18 +135,11 @@ public class RegisterQueryRepository {
 
     }
 
-    public List<Register> findRegisterWithOneId(Long id){
+    public Register findRegisterWithOneId(Long id){
 
-        List<Register> id1 = em.createQuery("SELECT r FROM Register r" +
+        Register register = em.find(Register.class, id);
 
-                        " JOIN FETCH r.member m" +// @xToOne 관계의 엔티티는 fetch join으로 최적화를 하면 된다.
-                        " JOIN FETCH r.missingAddress mr" +// @xToOne 관계의 엔티티는 fetch join으로 최적화를 하면 된다.
-
-                        " WHERE r.id=:id", Register.class)
-                .setParameter("id", id)
-                .getResultList();
-
-        return id1;
+        return register;
 
 
     }

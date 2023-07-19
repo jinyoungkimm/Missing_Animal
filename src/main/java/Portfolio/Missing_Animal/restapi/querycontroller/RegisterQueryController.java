@@ -7,10 +7,13 @@ import Portfolio.Missing_Animal.dto.RegisterDto;
 
 import Portfolio.Missing_Animal.restapi.queryrepository.MissingAddressQueryRepository;
 import Portfolio.Missing_Animal.restapi.queryrepository.RegisterQueryRepository;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +32,7 @@ public class RegisterQueryController {
 
     private final RegisterQueryRepository registerQueryRepository;
 
-    private final MissingAddressQueryRepository missingAddressQueryRepository;
+    private final StorageService storageService;
 
 
     /*@GetMapping("")
@@ -78,36 +81,35 @@ public class RegisterQueryController {
     }
 
     @GetMapping("/{registerId}")
-    List<RegisterDto> getRegistersWithId(@PathVariable("registerId") Long id) {
+    RegisterDto getRegistersWithId(@PathVariable("registerId") Long id) {
 
+        Register registersWithPaging = registerQueryRepository.findRegisterWithOneId(id);
 
+        RegisterDto registerDto = new RegisterDto(registersWithPaging);
 
-        List<Register> registersWithPaging = registerQueryRepository.findRegisterWithOneId(id);
-
-        List<RegisterDto> collect = registersWithPaging.stream()
-
-                .map(register -> new RegisterDto(register))
-
-                .collect(toList());
-
-        return collect;
+        return registerDto;
 
     }
 
-   /* @GetMapping("/{registerId}/image")
+    @GetMapping("/{registerId}/image")
     @ResponseBody
+    @Transactional
     public ResponseEntity<Resource> serveFile(@PathVariable("registerId") Long registerId) throws UnsupportedEncodingException {
 
+        System.out.println(11111111);
+
+        Register register = registerQueryRepository.findRegisterWithOneId(registerId);
+
+        System.out.println(register.getAnimalName());
+
+        String filename = register.getFileName();
 
         Resource file = storageService.loadAsResource(filename);
 
+        return ResponseEntity.status(HttpStatus.OK)
+                               .contentType(MediaType.valueOf("image/png"))
+                                .body(file);
 
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + URLEncoder.encode(file.getFilename(),"UTF-8") + "\"")
-                .body(file);
-
-    }*/
-
-
+    }
 
 }

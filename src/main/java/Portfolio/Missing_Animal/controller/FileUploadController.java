@@ -55,6 +55,7 @@ public class FileUploadController {
 					"You successfully uploaded " + f.getOriginalFilename() + "!");
 
 		}*/
+
 		return "redirect:/";
 	}
 
