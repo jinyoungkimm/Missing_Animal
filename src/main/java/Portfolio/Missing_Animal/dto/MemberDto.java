@@ -49,8 +49,8 @@ public class MemberDto {
 
     }
 
-    public MemberDto(Member member) { // [페이징]을 사용할 때 사용하자!(Defaul batch size로 인해 지연로딩된 컬렉션을 그냥 바로 넣으면 된다.)
-
+    public MemberDto(Member member) {  // 이 생성자는 좋지 않는 예시이다. 컬렉션 생성자 호출 실행 중에 양방향 무한 루프나, (1+n) 문제가 일어날 수가 있다.
+                                       // 되도록이면 new DTO를 사용하여서, Projectino 크기도 줄이고, 위 문제들도 해결하자.
         this.memberId = member.getId();
 
         this.userId = member.getUserId();
@@ -69,7 +69,11 @@ public class MemberDto {
                 .collect(Collectors.toList());
 
         //컬렉션
-        this.reports = member.getReports().stream().map(report -> new ReportDto(report)).collect(Collectors.toList());
+        this.reports = member.getReports().stream()
+
+                .map(report -> new ReportDto(report))
+
+                .collect(Collectors.toList());
 
     }
 

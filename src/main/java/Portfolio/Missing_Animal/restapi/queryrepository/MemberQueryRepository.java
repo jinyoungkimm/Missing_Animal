@@ -41,11 +41,11 @@ public class MemberQueryRepository {
             .getResultList();
     }
 
-    public List<Member> findMemberWithOneUserId(String userId) { // [페이징 불가능](사실, 1개의 Member만 조회되므로 페이징을 할 필요가 전혀 없다)
+    public Member findMemberWithOneUserId(String userId) {
 
         return em.createQuery("SELECT m FROM Member m" +
 
-                " JOIN FETCH m.registers r" +// 컬렉션을 페치 조인하게 되면, row수가 MissingAddress가 아닌, Register(컬렉션)을 기준으로 늘어 나므로, [페이징]도 Register을 기준으로 연산된다.
+                //" JOIN FETCH m.registers r" +// 컬렉션을 페치 조인하게 되면, row수가 MissingAddress가 아닌, Register(컬렉션)을 기준으로 늘어 나므로, [페이징]도 Register을 기준으로 연산된다.
                                             // DB는 모든 컬렉션을 메모리로 들고와서 페이징을 실행을 하므로, 최악의 경우 장애로 연결이 된다.
                         /**
                          * Solution
@@ -56,7 +56,7 @@ public class MemberQueryRepository {
 
                         " WHERE m.userId=:userId",Member.class)
                 .setParameter("userId",userId)
-                .getResultList();
+                .getSingleResult();
     }
 
     public List<Member> findAllMembers2() { // [페이징 가능]

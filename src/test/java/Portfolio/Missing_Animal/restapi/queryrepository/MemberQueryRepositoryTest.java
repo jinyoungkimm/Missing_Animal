@@ -74,12 +74,12 @@ class MemberQueryRepositoryTest {
         String userId = "wlsdud6523";
 
         //when
-        List<Member> memberWithUserId = memberQueryRepository.findMemberWithOneUserId(userId);
+        Member member = memberQueryRepository.findMemberWithOneUserId(userId);
 
         //then
         // fetch join을 사용하였기에 (1+N) 문제 해결
-        assertThat(memberWithUserId.get(0).getRegisters().get(0).getAnimalName()).isEqualTo("사랑이1");
-        assertThat(memberWithUserId.get(0).getRegisters().get(1).getAnimalName()).isEqualTo("사랑이2");
+        assertThat(member.getRegisters().get(0).getAnimalName()).isEqualTo("사랑이1");
+        assertThat(member.getRegisters().get(1).getAnimalName()).isEqualTo("사랑이2");
 
 
     }

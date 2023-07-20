@@ -35,6 +35,7 @@ public class ReportDto {
     public ReportDto(Report report){
 
         this.reportId = report.getId();
+        this.findedTime = report.getFindedTime();
 
     }
 

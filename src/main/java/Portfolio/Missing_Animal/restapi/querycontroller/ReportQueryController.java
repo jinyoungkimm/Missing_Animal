@@ -36,7 +36,6 @@ public class ReportQueryController {
 
         return reportDto;
 
-
     }
 
 }
