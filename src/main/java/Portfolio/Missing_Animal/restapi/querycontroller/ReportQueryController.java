@@ -20,10 +20,11 @@ public class ReportQueryController {
     @GetMapping("")
     public List<ReportDto> allReport(){
 
-        List<ReportDto> all = reportQueryRepository.findAll();
+        List<ReportDto> all = reportQueryRepository.findAll(); // 페이징 기능 x.
+
+        //List<ReportDto> allWithPaging = reportQueryRepository.findAllWithPaging(offset,limit);// 페이징 기능 o
 
         return all;
-
 
     }
 
