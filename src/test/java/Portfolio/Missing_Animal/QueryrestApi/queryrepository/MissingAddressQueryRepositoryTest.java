@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.restapi.queryrepository;
+package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
@@ -11,9 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest

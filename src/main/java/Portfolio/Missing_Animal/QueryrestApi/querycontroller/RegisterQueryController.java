@@ -1,17 +1,12 @@
-package Portfolio.Missing_Animal.restapi.querycontroller;
+package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.dto.MemberDto;
-import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 
-import Portfolio.Missing_Animal.restapi.queryrepository.MissingAddressQueryRepository;
-import Portfolio.Missing_Animal.restapi.queryrepository.RegisterQueryRepository;
+import Portfolio.Missing_Animal.QueryrestApi.queryrepository.RegisterQueryRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 

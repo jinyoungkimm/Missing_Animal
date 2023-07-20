@@ -1,17 +1,13 @@
-package Portfolio.Missing_Animal.restapi.querycontroller;
+package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.dto.MemberDto;
-import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
-import Portfolio.Missing_Animal.restapi.queryrepository.MemberQueryRepository;
+import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MemberQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController// @ResponseBody를 자동으로 붙여줌
 @RequestMapping("/api/members")

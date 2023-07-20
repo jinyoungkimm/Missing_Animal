@@ -23,7 +23,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void join(Member member) { //회원가입
+    public Long join(Member member) { //회원가입
 
         //회원ID 중복 검사!
         isMemberExist(member);
@@ -36,6 +36,8 @@ public class MemberServiceImpl implements MemberService {
         Member newMember = member.hashPassword(bCryptPasswordEncoder); // member 객체 안의 평문 비밀번호가 암호화된 비밀번호로 교체된다.
 
         Long saveId = memberRepository.save(newMember);
+
+        return saveId;
 
     }
 

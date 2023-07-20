@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.restapi.queryrepository;
+package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.dto.RegisterDto;
@@ -6,7 +6,7 @@ import Portfolio.Missing_Animal.dto.ReportDto;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import javax.swing.text.html.parser.Entity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

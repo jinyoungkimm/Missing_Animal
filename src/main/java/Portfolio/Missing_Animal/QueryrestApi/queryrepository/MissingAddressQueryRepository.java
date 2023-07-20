@@ -1,11 +1,8 @@
-package Portfolio.Missing_Animal.restapi.queryrepository;
+package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.MissingAddress;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.dto.MemberDto;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.RegisterDto;
-import Portfolio.Missing_Animal.dto.ReportDto;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

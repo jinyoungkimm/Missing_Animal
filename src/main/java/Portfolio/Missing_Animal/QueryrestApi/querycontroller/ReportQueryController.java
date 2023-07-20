@@ -1,7 +1,7 @@
-package Portfolio.Missing_Animal.restapi.querycontroller;
+package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 import Portfolio.Missing_Animal.dto.ReportDto;
-import Portfolio.Missing_Animal.restapi.queryrepository.ReportQueryRepository;
+import Portfolio.Missing_Animal.QueryrestApi.queryrepository.ReportQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
