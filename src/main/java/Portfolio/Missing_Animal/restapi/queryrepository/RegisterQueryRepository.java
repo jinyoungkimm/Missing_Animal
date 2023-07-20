@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -101,7 +102,7 @@ public class RegisterQueryRepository {
                                 " FROM Report r" +
 
                                 " INNER JOIN r.member m" +
-                                " INNER JOINT r.register rg" +
+                                " INNER JOIN r.register rg" +
 
                                 " WHERE r.register.id IN :registerIds", ReportDto.class)
 
@@ -144,6 +145,36 @@ public class RegisterQueryRepository {
 
         return register;
 
+    }
+
+    public RegisterDto findRegisterWithOneId2(Long id){
+
+        RegisterDto registerDto = em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
+
+                                "RegisterDto(r.id,m.id,mr.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)" +
+
+                                " FROM Register r" +
+
+                                " INNER JOIN r.member m" + // toOne에 대해서는 여기서 조인
+
+                                " INNER JOIN r.missingAddress mr" + // toOne에 대해서는 여기서 조인
+                                " WHERE r.id=:id"
+
+                        , RegisterDto.class)
+                .setParameter("id", id)
+                .getSingleResult();
+
+
+        Long registerId = registerDto.getRegisterId();
+        List<Long> registerIds = new ArrayList<>();
+        registerIds.add(registerId);
+
+        Map<Long, List<ReportDto>> reportMap = findReportMap(registerIds);
+        List<ReportDto> reportDtos = reportMap.get(registerId);
+
+        registerDto.setReports(reportDtos);
+
+        return registerDto;
 
     }
 
