@@ -17,7 +17,7 @@ public class ReportQueryRepository {
     public List<ReportDto> findAll(){
 
         return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
-                        "ReportDto(r.id,rg.id,m.id,m.userId,r.findedTime)" +
+                        "ReportDto(r.id,rg.id,m.id,r.findedTime)" +
                         " FROM Report r" +
                                 " INNER JOIN r.member m" + // toOne 관계는 여기서 바로 inner join
                                 " INNER JOIN r.register rg" // toOne 관계는 여기서 바로 inner join
@@ -28,7 +28,7 @@ public class ReportQueryRepository {
     public List<ReportDto> findAllWithPaging(int offset,int limit){
 
         return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
-                        "ReportDto(r.id,rg.id,m.id,m.userId,r.findedTime)" +
+                        "ReportDto(r.id,rg.id,m.id,r.findedTime)" +
                         " FROM Report r" +
                         " INNER JOIN r.member m" + // toOne 관계는 여기서 바로 inner join
                         " INNER JOIN r.register rg" // toOne 관계는 여기서 바로 inner join

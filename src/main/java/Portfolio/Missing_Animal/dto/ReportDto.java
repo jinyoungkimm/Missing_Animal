@@ -18,16 +18,16 @@ public class ReportDto {
     @JsonIgnore
     Long memberId;
 
-    String finderUserId;
+    //String finderUserId;
 
     LocalDateTime findedTime;
 
-    public ReportDto(Long reportId,Long registerId,Long memberId,String finderUserId,LocalDateTime findedTime){
+    public ReportDto(Long reportId,Long registerId,Long memberId,LocalDateTime findedTime){
 
         this.reportId = reportId;
         this.registerId = registerId;
         this.memberId = memberId;
-        this.finderUserId = finderUserId;
+       // this.finderUserId = finderUserId;
         this.findedTime = findedTime;
 
     }

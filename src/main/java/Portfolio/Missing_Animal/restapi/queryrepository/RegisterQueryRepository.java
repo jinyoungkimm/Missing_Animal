@@ -96,9 +96,12 @@ public class RegisterQueryRepository {
 
                         "SELECT new Portfolio.Missing_Animal.dto." +
 
-                                "ReportDto(r.register.id)" +
+                                "ReportDto(r.id,rg.id,m.id,r.findedTime)" +
 
                                 " FROM Report r" +
+
+                                " INNER JOIN r.member m" +
+                                " INNER JOINT r.register rg" +
 
                                 " WHERE r.register.id IN :registerIds", ReportDto.class)
 

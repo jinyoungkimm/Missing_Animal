@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,33 +32,55 @@ public class MemberQueryRepository {
 
     private final EntityManager em;
 
-    public List<Member> findAllMembers() { // [페이징 불가능]
+    public List<Member> findAllMembers() { // [페이징 불가능](findAllMembers4() : 최종 최적화 메서드)
 
-    return em.createQuery("SELECT m FROM Member m" +
+    return em.createQuery("SELECT m FROM Member m"+
 
             " JOIN FETCH m.registers r" // 컬렉션을 fetch join하게 되면 페이징 불가능
-
-                    ,Member.class)
-            .getResultList();
+            // " JOIN FETCH m.report rp" // 불가능 : 컬렉션 1개에 대해서만 fetch join과 default size에 의한 지연 로딩이 일어난다.
+                    ,Member.class)       // (FETCH JOIN 컬렉션이 있으면, Default batch size를 설정을 해놔도 report에 대한 지연로딩이 일어나지x)
+            .getResultList();            // 만약 컬렉션이 2개 이상 있으면, default batch size에 대한 지연로딩이 일어 나지 않는다.
     }
 
     public Member findMemberWithOneUserId(String userId) {
 
-        return em.createQuery("SELECT m FROM Member m" +
-
-                //" JOIN FETCH m.registers r" +// 컬렉션을 페치 조인하게 되면, row수가 MissingAddress가 아닌, Register(컬렉션)을 기준으로 늘어 나므로, [페이징]도 Register을 기준으로 연산된다.
-                                            // DB는 모든 컬렉션을 메모리로 들고와서 페이징을 실행을 하므로, 최악의 경우 장애로 연결이 된다.
-                        /**
-                         * Solution
-                         * 1. toOne 관계만 일단 fetch join을 한다.
-                         * 2. 컬렉션 조회는 @Batchsize or default-batch-fetch-size를 설정하여, [지연로딩]으로 [IN] 쿼리를 이용하여서 해당 컬렉션 데이터를 SIZE만큼 들고 온다.
-                         * (참고로, 컬렉션은 단 1개만 FETCH JOIN이 된다. 2개 이상의 컬렉션에 대해서는 FETCH JOIN 못 함)
-                         */
-
+        return em.createQuery("SELECT m FROM Member m" + // Register,Report 컬렉션에 대해, default batch size에 의한 지연로딩이 일어날 것 같지만
+                                                                // 컬렉션이 2개 이상일 때에는 default batch size에 의해 지연 로딩이 일어나지 x.
+                                                                // 또한 fetch join은 컬렉션에 대해서는 딱 1개에만 쓸 수가 있다.
                         " WHERE m.userId=:userId",Member.class)
                 .setParameter("userId",userId)
                 .getSingleResult();
     }
+
+    public MemberDto findMemberWithOneUserId2(String userId){
+
+        MemberDto memberDto = em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
+
+                                "MemberDto(m.id,m.userId,m.username,m.email,m.phoneNumber)" +
+
+                                " FROM Member m" +
+                                " WHERE m.userId=:userId" // Member에 대해서 @xToOne 관계인 엔티티는 없다.
+
+                        , MemberDto.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+
+        List<Long> memberIds = new ArrayList<>();
+        Long memberId = memberDto.getMemberId();
+        memberIds.add(memberId);
+
+        Map<Long, List<RegisterDto>> registerMap = findRegisterMap(memberIds); // 컬렉션 Registers에 대한 조회
+        Map<Long, List<ReportDto>> reportMap = findReportMap(memberIds); // 컬렉션 Reports에 대한 조회
+
+        List<RegisterDto> registerDtos = registerMap.get(memberId);
+        List<ReportDto> reportDtos = reportMap.get(memberId);
+
+        memberDto.setRegisters(registerDtos);
+        memberDto.setReports(reportDtos);
+
+        return memberDto;
+    }
+
 
     public List<Member> findAllMembers2() { // [페이징 가능]
 
@@ -114,7 +137,7 @@ public class MemberQueryRepository {
 
         return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
 
-                "RegisterDto(r.member.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)" +
+                "RegisterDto(r.id,r.member.id,r.missingAddress.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)" +
 
                         " FROM Register r" +
 
@@ -196,7 +219,7 @@ public class MemberQueryRepository {
 
                         "SELECT new Portfolio.Missing_Animal.dto."+
 
-                                "ReportDto(r.id,rg.id,m.id,m.userId,r.findedTime)"+
+                                "ReportDto(r.id,rg.id,m.id,r.findedTime)"+
 
                                 " FROM Report r" +
                                 " INNER JOIN r.register rg" +

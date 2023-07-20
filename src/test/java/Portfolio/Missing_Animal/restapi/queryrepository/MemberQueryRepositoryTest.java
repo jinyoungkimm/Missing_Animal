@@ -57,10 +57,7 @@ class MemberQueryRepositoryTest {
             System.out.println(memberDto.getRegisters().get(0).getAnimalName());
             System.out.println(memberDto.getRegisters().get(1).getAnimalName());
 
-            System.out.println(memberDto.getReports().get(0).getFinderUserId());
-            System.out.println(memberDto.getReports().get(1).getFinderUserId());
-            System.out.println(memberDto.getReports().get(2).getFinderUserId());
-            System.out.println(memberDto.getReports().get(3).getFinderUserId());
+
 
         }
 
@@ -82,5 +79,28 @@ class MemberQueryRepositoryTest {
         assertThat(member.getRegisters().get(1).getAnimalName()).isEqualTo("사랑이2");
 
 
+
     }
+
+    @Test
+    void findMemberWithUserId2() {
+
+        //givien
+        String userId = "wlsdud6523";
+
+        //when
+        MemberDto member = memberQueryRepository.findMemberWithOneUserId2(userId);
+
+        //then
+        // fetch join을 사용하였기에 (1+N) 문제 해결
+        assertThat(member.getRegisters().get(0).getAnimalName()).isEqualTo("사랑이1");
+        assertThat(member.getRegisters().get(1).getAnimalName()).isEqualTo("사랑이2");
+
+        assertThat(member.getReports().get(0).getReportId()).isEqualTo(1);
+        assertThat(member.getReports().get(1).getReportId()).isEqualTo(2);
+        assertThat(member.getReports().get(2).getReportId()).isEqualTo(3);
+        assertThat(member.getReports().get(3).getReportId()).isEqualTo(4);
+
+    }
+
 }
