@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,6 +45,43 @@ public class MissingAddressQueryRepository {
                         ,MissingAddress.class)
                 .getResultList();
 
+    }
+
+    public MissingAddress findByOneId(Long id){ // [페이징] 불가능
+
+        return em.createQuery("SELECT mr FROM MissingAddress mr" +
+
+                        " JOIN FETCH mr.registers r"+ // 컬렉션을 fetch join하게 되면 페이징 불가능
+
+                        " WHERE mr.id=:id",MissingAddress.class)
+                .setParameter("id",id)
+                .getSingleResult();
+    }
+
+    public MissingAddressDto findByOneId2(Long id){
+
+        MissingAddressDto missingAddressDto = em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
+
+                                "MissingAddressDto(m.id,m.zipcode,m.prefecture,m.cityName,m.gu,m.Dong,m.streetName,m.streetNumber)" +
+
+                                " FROM MissingAddress m" + //MissingAddress에 대해서 @xToOne 관계인 엔티티는 없다.
+                                " WHERE m.id=:id"          //만약에 있다면, 여기서 fetch join을 사용하여서 조회를 하면 된다.
+
+                        , MissingAddressDto.class)
+                .setParameter("id",id)
+                .getSingleResult();
+
+
+        Long missingAddressId = missingAddressDto.getMissingAddressId();
+        List<Long> missingAddressIds = new ArrayList<>();
+        missingAddressIds.add(missingAddressId);
+
+        Map<Long, List<RegisterDto>> registerMap = findRegisterMap(missingAddressIds);
+        List<RegisterDto> registerDtos = registerMap.get(missingAddressId);
+
+        missingAddressDto.setRegisters(registerDtos);
+
+        return missingAddressDto;
     }
 
     public List<MissingAddress> findAllMissingAddressWithPaging(int offset,int limit){ // [페이징 가능]
@@ -131,16 +169,7 @@ public class MissingAddressQueryRepository {
     }
 
 
-    public List<MissingAddress> findByOneId(Long id){ // [페이징] 불가능
 
-        return em.createQuery("SELECT mr FROM MissingAddress mr" +
-
-                " JOIN FETCH mr.registers r"+ // 컬렉션을 fetch join하게 되면 페이징 불가능
-
-                " WHERE mr.id=:id",MissingAddress.class)
-                .setParameter("id",id)
-                .getResultList();
-    }
 
 
     //여기서부터 아래는 Querydsl로 구현을 할 것이다.

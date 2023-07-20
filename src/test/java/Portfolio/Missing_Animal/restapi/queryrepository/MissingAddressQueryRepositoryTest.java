@@ -62,11 +62,31 @@ class MissingAddressQueryRepositoryTest {
         Long id = 3L;
 
         //when
-        MissingAddress findMissingAddress = repository.findByOneId(id).get(0);
+        MissingAddress findMissingAddress = repository.findByOneId(id);
 
 
         //then
         assertThat(findMissingAddress.getCityName()).isEqualTo("전주시1");
+
+    }
+
+    @Test
+    void findById2() {
+
+        //givien
+        Long id = 3L;
+
+        //when
+        MissingAddressDto findMissingAddress = repository.findByOneId2(id);
+
+        List<RegisterDto> registers = findMissingAddress.getRegisters();
+
+
+        //then
+        assertThat(findMissingAddress.getCityName()).isEqualTo("전주시1");
+
+        assertThat(registers.get(0).getAnimalName()).isEqualTo("사랑이5");
+        assertThat(registers.get(1).getAnimalName()).isEqualTo("사랑이6");
 
     }
 
