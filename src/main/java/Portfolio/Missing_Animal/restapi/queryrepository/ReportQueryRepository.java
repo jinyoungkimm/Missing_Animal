@@ -16,12 +16,9 @@ public class ReportQueryRepository {
 
     public List<ReportDto> findAll(){
 
-        return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
-                        "ReportDto(r.id,rg.id,m.id,r.findedTime)" +
-                        " FROM Report r" +
-                                " INNER JOIN r.member m" + // toOne 관계는 여기서 바로 inner join
-                                " INNER JOIN r.register rg" // toOne 관계는 여기서 바로 inner join
-                ,ReportDto.class).getResultList();
+        List<ReportDto> report = findReport(); // toOne에 대한 조회를 여기서 한 번에!!!
+
+        return report;
 
     }
 
@@ -53,6 +50,19 @@ public class ReportQueryRepository {
                 .getSingleResult();
 
         return id1;
+
+    }
+
+    public List<ReportDto> findReport(){
+
+        return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
+                                "ReportDto(r.id,rg.id,m.id,r.findedTime)" +
+                                " FROM Report r" +
+                                " INNER JOIN r.member m" + // toOne 관계는 여기서 바로 inner join
+                                " INNER JOIN r.register rg" // toOne 관계는 여기서 바로 inner join
+                        ,ReportDto.class)
+                .getResultList();
+
 
     }
 
