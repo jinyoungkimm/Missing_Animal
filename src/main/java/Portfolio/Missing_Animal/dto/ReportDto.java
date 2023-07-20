@@ -24,7 +24,7 @@ public class ReportDto {
 
     public ReportDto(Long reportId,Long registerId,Long memberId,String finderUserId,LocalDateTime findedTime){
 
-        this.reportId = memberId;
+        this.reportId = reportId;
         this.registerId = registerId;
         this.memberId = memberId;
         this.finderUserId = finderUserId;
