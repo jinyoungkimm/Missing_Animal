@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.dto.RegisterDto;
+import Portfolio.Missing_Animal.dto.ReportDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.ITERABLE;
 
 @SpringBootTest
 class RegisterQueryRepositoryTest {
@@ -69,6 +71,28 @@ class RegisterQueryRepositoryTest {
         assertThat(registerWithId1.getAnimalName()).isEqualTo("사랑이1");
         assertThat(registerWithId2.getAnimalName()).isEqualTo("사랑이2");
         assertThat(registerWithId3.getAnimalName()).isEqualTo("사랑이3");
+
+
+    }
+
+    @Test
+    void findedAddress(){
+
+
+        List<RegisterDto> allRegisters2 = repository.findAllRegisters2();
+        for (RegisterDto registerDto : allRegisters2) {
+            List<ReportDto> reports = registerDto.getReports();
+            for (ReportDto report : reports) {
+                System.out.println(report.getFindedAddress());
+            }
+        }
+
+        RegisterDto registerWithOneId2 = repository.findRegisterWithOneId2(1L);
+        List<ReportDto> reports = registerWithOneId2.getReports();
+        for (ReportDto report : reports) {
+            System.out.println(report.getFindedAddress());
+        }
+
 
 
     }

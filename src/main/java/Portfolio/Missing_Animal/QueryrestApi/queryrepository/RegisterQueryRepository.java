@@ -99,7 +99,7 @@ public class RegisterQueryRepository {
 
                         "SELECT new Portfolio.Missing_Animal.dto." +
 
-                                "ReportDto(r.id,rg.id,m.id,r.findedTime)" +
+                                "ReportDto(r.id,rg.id,m.id,r.findedTime,r.findedAddress)" +
 
                                 " FROM Report r" +
 

@@ -1,7 +1,9 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domain.Report;
 import Portfolio.Missing_Animal.dto.MemberDto;
+import Portfolio.Missing_Animal.dto.ReportDto;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +99,24 @@ class MemberQueryRepositoryTest {
         assertThat(member.getReports().get(1).getReportId()).isEqualTo(2);
         assertThat(member.getReports().get(2).getReportId()).isEqualTo(3);
         assertThat(member.getReports().get(3).getReportId()).isEqualTo(4);
+
+    }
+
+    @Test
+    void findedAddress(){
+
+        List<MemberDto> allMembers = memberQueryRepository.findAllMembers4();
+
+        for (MemberDto allMember : allMembers) {
+
+            List<ReportDto> reports = allMember.getReports();
+
+            for (ReportDto report : reports) {
+                System.out.println(report.getFindedAddress());
+            }
+
+        }
+
 
     }
 
