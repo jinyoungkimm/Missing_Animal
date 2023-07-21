@@ -1,6 +1,8 @@
 package Portfolio.Missing_Animal.service;
 
+import Portfolio.Missing_Animal.AddressForm;
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.domain.Report;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,35 +34,56 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
 
     private final ReportRepository reportRepository;
 
-    // 실종 리스트 페이지에 있는 실종 등록된 리스트를 클릭을 하면 id값을 전달받아,즉 Register 엔티티의 id을 전달받아 실종 등록 내역을 조회한다.
+
+    @Override
     @Transactional
-    public Report showingRegisterContentById(Long registerId,String userId) {
+    public Long saveReport(Long registerId, AddressForm findedAddress) {
 
+        //Register 조회
         Register register = registerRepository.findById(registerId);
-
-        //신고됨을 알림
         register.setReportedStatus(ReportedStatus.YES);
 
-        //신고자 정보
-        //추후에 cookie에 id를 설정하여서, 서버에서 받을 것이다.
+        //Member 조회
+        Member member = register.getMember();
+
+
+        Report report = new Report();
+        report.setRegister(register);
+        report.setMember(member);
+        report.setFindedTime(LocalDateTime.now());
+        report.setFindedAddress(findedAddress);
+
+        //report 저장
+        Long saveId = reportRepository.save(report);
+
+        return saveId;
+    }
+
+
+    @Override
+    @Transactional
+    public Report findOne(Long reportId){
+
         try {
-            Member finder = memberRepository.findByUserId("wlsdud6523");
-
-            Report report = new Report();
-            report.setRegister(register);
-            report.setMember(finder);
-            report.setFindedTime(LocalDateTime.now());
-
-            reportRepository.save(report);
+            Report report = reportRepository.findById(reportId);
 
             return report;
-        } catch (NonUniqueResultException e) {
-
-            throw new IllegalStateException("해당 id의 회원이 2개 이상 조회가 되었습니다.");
-
-        } catch (NoResultException e) {
-            throw new IllegalStateException("해당 id의 회원이 조회되지 않습니다.");
         }
+        catch(NonUniqueResultException e){
+            throw new IllegalStateException("해당 id의 Report가 2개이상 조회됨");
+        }
+        catch (NoResultException e){
+            throw new IllegalStateException("해당 id의 Report가 조회되지 않음");
+        }
+    }
+
+    @Override
+    @Transactional
+    public List<Report> findAllReports() {
+
+        List<Report> all = reportRepository.findAll();
+
+        return all;
 
     }
 }

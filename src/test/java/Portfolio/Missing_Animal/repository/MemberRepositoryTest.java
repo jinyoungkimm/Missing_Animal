@@ -1,6 +1,8 @@
 package Portfolio.Missing_Animal.repository;
 
 import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.domain.Report;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
@@ -68,19 +70,24 @@ class MemberRepositoryTest {
     @Rollback(false)
     void findAll(){
 
-        //given
-        Member member1 = new Member();
-        member1.setUsername("kim1");
-        Member member2 = new Member();
-        member2.setUsername("kim2");
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-
-        em.flush();
-        em.clear();
 
         //when
         List<Member> findMembers = memberRepository.findAll();
+        for (Member findMember : findMembers) {
+
+            System.out.println("=============");
+            List<Register> registers = findMember.getRegisters();
+            for (Register register : registers) {
+                System.out.println(register.getId());
+            }
+
+            System.out.println("=============");
+            List<Report> reports = findMember.getReports();
+            for (Report report : reports) {
+                System.out.println(report.getId());
+            }
+
+        }
         Assertions.assertThat(findMembers.get(0).getId()).isEqualTo(1);
         Assertions.assertThat(findMembers.get(1).getId()).isEqualTo(2);
 

@@ -14,6 +14,15 @@ public class MissingAddressRepository {
 
     private final EntityManager em;
 
+    public MissingAddress findById(Long id){
+
+        return em.createQuery("SELECT mr FROM MissingAddress mr" +
+                " WHERE mr.id=:id",MissingAddress.class)
+                .setParameter("id",id)
+                .getSingleResult();
+
+    }
+
     // ex) prefecture : 충청남도, 전라남도...
     public List<MissingAddress> findByPrefecture(String prefecture){
 

@@ -39,13 +39,13 @@ public class InitMissingAddress {
                 "사랑이4",RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
 
         //전라 남도
-        MissingAddress missingAddress5 = createMissingAddress("전라남도","1-3-1","전주시1","전주구1","천주동1","전주대로1_1");
+        MissingAddress missingAddress5 = createMissingAddress("전라남도","1-3-1","전주시1","전주구1","전주동1","전주대로1_1");
         createRegister(missingAddress5, "김진영3","wlsdud6525","사랑이5",RegisterStatus.SOLVED,ReportedStatus.YES,
                 "사랑이6",RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
 
 
         //전라 북도
-        MissingAddress missingAddress7 = createMissingAddress("전라북도","1-4-1","전주군1","전주군1","천주읍1","전주대로2_1");
+        MissingAddress missingAddress7 = createMissingAddress("전라북도","1-4-1","전주군1","전주군1","전주읍1","전주대로2_1");
         createRegister(missingAddress7, "김진영4","wlsdud6526","사랑이7",RegisterStatus.SOLVED,ReportedStatus.YES,
                 "사랑이8",RegisterStatus.NOT_SOLVED,ReportedStatus.NO);
     }

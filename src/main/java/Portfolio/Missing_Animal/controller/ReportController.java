@@ -1,14 +1,16 @@
 package Portfolio.Missing_Animal.controller;
 
 
+import Portfolio.Missing_Animal.AddressForm;
+import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.repository.MissingAddressRepository;
+import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.ReportServiceImpl;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/report")
@@ -17,17 +19,33 @@ public class ReportController {
 
     private final ReportService reportService;
 
+    private final RegisterRepository registerRepository;
+
     private final MissingAddressRepository missingAddressRepository;
 
-    @GetMapping("")
-    String reporting(@RequestParam("registerId") Long registerId,
-                     @RequestParam("userId") String userId){ // userId : 신고자 ID
+    @GetMapping("/{registerId}")
+    String clickRegisterForReport(@RequestParam("registerId") Long registerId, Model model){
 
-        reportService.showingRegisterContentById(registerId,userId);
+        Register register = registerRepository.findById(registerId);
+        AddressForm findedAddress = new AddressForm();
+
+        model.addAttribute("register",register);
+        model.addAttribute("findedAddress",findedAddress);
 
         return "reports/report";
 
     }
+
+    @PostMapping("/{registerId}")
+    String report(@PathVariable("registerId") Long registerId,
+                  @ModelAttribute AddressForm findedAddress){
+
+        Long saveId = reportService.saveReport(registerId, findedAddress);
+
+
+        return "redirecg:/";
+    }
+
 
     /*@GetMapping("~~~")
     List<RegisterDto> showAllRegisterWithMissingAddress(MissingAddress missingAddress){

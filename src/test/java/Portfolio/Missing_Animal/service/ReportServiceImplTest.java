@@ -1,11 +1,19 @@
 package Portfolio.Missing_Animal.service;
 
+import Portfolio.Missing_Animal.AddressForm;
+import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.domain.Report;
+import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
+import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,25 +22,55 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ReportServiceImplTest {
 
     @Autowired
-    ReportServiceImpl reportServiceImpl;
+    RegisterRepository registerRepository;
+
+    @Autowired
+    ReportService reportService;
 
 
     @Test
     @Rollback(value = false)
-    void showingRegisterContentById() {
-        // Register 엔티티의 id : 1 ~ 8
+    void saveReport() {
 
-        Report report = reportServiceImpl.showingRegisterContentById(1L,"wlsdud6523");
+        //givien
+        Long registerId = 1L;
 
-        System.out.println(report.getMember().getUsername());
+        AddressForm addressForm = new AddressForm();
+        addressForm.setDetailAdr("a");
+        addressForm.setStreetAdr("b");
+        addressForm.setZipcode("c");
 
-        System.out.println(report.getRegister().getAnimalName());
-        System.out.println(report.getRegister().getReportedStatus());
+        //when
+        Long saveId = reportService.saveReport(registerId, addressForm);
 
+        Report findReport = reportService.findOne(saveId);
+
+        //then
+        Member member = findReport.getMember();
+        Register register = findReport.getRegister();
+
+        Assertions.assertThat(member.getUsername()).isEqualTo("김진영1");
+        Assertions.assertThat(register.getAnimalName()).isEqualTo("사랑이1");
+        Assertions.assertThat(findReport.getFindedAddress().getZipcode()).isEqualTo("c");
+        Assertions.assertThat(findReport.getFindedAddress().getStreetAdr()).isEqualTo("b");
+        Assertions.assertThat(findReport.getFindedAddress().getDetailAdr()).isEqualTo("a");
 
     }
 
+    @Test
+    void findAll(){
 
+        List<Report> allReports = reportService.findAllReports();
+
+        for(int x = 0; x < allReports.size();x++){
+
+            Report report = allReports.get(x);
+            Assertions.assertThat(report.getId()).isEqualTo(x+1);
+
+        }
+
+
+    }
 
 
 }
