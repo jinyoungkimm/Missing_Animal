@@ -5,6 +5,8 @@ import Portfolio.Missing_Animal.dto.RegisterDto;
 
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.RegisterQueryRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -76,12 +78,23 @@ public class RegisterQueryController {
     @GetMapping("/{registerId}")
     RegisterDto getRegistersWithId(@PathVariable("registerId") Long id) {
 
-        Register registersWithPaging = registerQueryRepository.findRegisterWithOneId(id);
+        try {
+            Register registersWithPaging = registerQueryRepository.findRegisterWithOneId(id);
 
-        RegisterDto registerDto = new RegisterDto(registersWithPaging);
+            RegisterDto registerDto = new RegisterDto(registersWithPaging);
 
-        return registerDto;
+            return registerDto;
+        }
+        catch (NonUniqueResultException e){
 
+            throw new IllegalStateException("해당 id의 Register이 2개이상 조회됨");
+
+        }
+        catch (NoResultException e){
+
+            throw new IllegalStateException("해당 id의 Register이 조회되지 않습니다.");
+
+        }
     }
 
     @GetMapping("/{registerId}/image")

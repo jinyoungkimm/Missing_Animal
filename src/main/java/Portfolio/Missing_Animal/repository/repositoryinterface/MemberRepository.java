@@ -12,7 +12,7 @@ public interface MemberRepository {
 
     public List<Member> findAll();
 
-    public List<Member> findByUserId(String userId);
+    public Member findByUserId(String userId);
 
     public List<Member> findByName(String username);
 

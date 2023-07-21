@@ -6,6 +6,8 @@ import Portfolio.Missing_Animal.dto.MemberDto;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 import Portfolio.Missing_Animal.dto.ReportDto;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -41,9 +43,9 @@ public class MemberQueryRepository {
             .getResultList();            // 만약 컬렉션이 2개 이상 있으면, default batch size에 대한 지연로딩이 일어 나지 않는다.
     }
 
-    public Member findMemberWithOneUserId(String userId) {
+    public Member findMemberWithOneUserId(String userId) throws NonUniqueResultException, NoResultException {
 
-        return em.createQuery("SELECT m FROM Member m" + // Register,Report 컬렉션에 대해, default batch size에 의한 지연로딩이 일어날 것 같지만
+         return em.createQuery("SELECT m FROM Member m" + // Register,Report 컬렉션에 대해, default batch size에 의한 지연로딩이 일어날 것 같지만
                                                                 // 컬렉션이 2개 이상일 때에는 default batch size에 의해 지연 로딩이 일어나지 x.
                                                                 // 또한 fetch join은 컬렉션에 대해서는 딱 1개에만 쓸 수가 있다.
                         " WHERE m.userId=:userId",Member.class)
@@ -51,7 +53,7 @@ public class MemberQueryRepository {
                 .getSingleResult();
     }
 
-    public MemberDto findMemberWithOneUserId2(String userId){
+    public MemberDto findMemberWithOneUserId2(String userId) throws NonUniqueResultException, NoResultException{
 
         MemberDto memberDto = em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
 

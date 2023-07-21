@@ -6,6 +6,8 @@ import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +29,6 @@ public class MemberServiceImpl implements MemberService {
 
         //회원ID 중복 검사!
         isMemberExist(member);
-        System.out.println(member);
 
         /**
          * Plain 비밀번호를 암호화 시켜서, 저장을 시킨다.
@@ -46,45 +47,64 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     public boolean login(Member member) { //로그인 기능(DB에 저장된 id값을 반환)
 
-        /**
-         * 먼저, 로그인 시 입력한 ID가, 회원가입이 된 ID인지를 검사해야 한다.
-         */
 
-        //먼저 해당 ID가 이미 가입되어 있는지를 검사한다.
-        List<Member> findUser = memberRepository.findByUserId(member.getUserId());
-       if(findUser.isEmpty() == true)
-           throw new IllegalStateException("로그인 시 입력한 ID의 회원이 존재하지 않습니다.");
+        try {
+            /**
+             * 먼저, 로그인 시 입력한 ID가, 회원가입이 된 ID인지를 검사해야 한다.( NoResultException, NonUniqueResultException 이용 )
+             */
+            Member findMember = memberRepository.findByUserId(member.getUserId());
 
-        /**
-         *  이 시점에서, 해당 ID가 가입된 ID임은 증명이 됐다.
-         *  다음으로는 db에 저장된 비밀번호와 로그인 시 입력한 비밀번호가 맞는지를 검사한다.
-         */
 
-        // [암호화된 비밀번호]가 들어 있는 Member 객체이다.
-        Member findMember = findUser.get(0);
+            /**
+             *  이 시점에서, 해당 ID가 가입된 ID임은 증명이 됐다.
+             *  다음으로는 db에 저장된 비밀번호와 로그인 시 입력한 비밀번호가 맞는지를 검사한다.
+             */
 
-        // 암호화된 비밀번호(findMember::password)와 평문 비밀번호(매개변수 member::password)를 비교한다.
-        boolean isSame = findMember.checkPassword(member.getPassword(), bCryptPasswordEncoder);
+            // 암호화된 비밀번호(findMember::password)와 평문 비밀번호(매개변수 member::password)를 비교한다.
+            boolean isSame = findMember.checkPassword(member.getPassword(), bCryptPasswordEncoder);
 
-        // 비교해서 맞으면, controller에 true를 넘기고, 아니면 throw를 날려 준다.
-        if(isSame == true)
-            return true;
-        else
-            throw new IllegalStateException("비밀번호가 틀렸습니다.");
+            // 비교해서 맞으면, controller에 true를 넘기고, 아니면 throw를 날려 준다.
+            if(isSame == true)
+                return true;
+
+            else
+                throw new IllegalStateException("비밀번호가 틀렸습니다.");
+
+
+        }
+        catch(NonUniqueResultException e){ // 결과 값이 2개 이상일 떄!
+
+            throw new IllegalStateException("결과값이 2개 이상 조회되었습니다.");
+
+        }
+        catch (NoResultException e){ // 결과값이 하나도 없을 떄!
+
+            throw  new IllegalStateException("로그인 시 입력한 id가 존재하지 않습니다");
+        }
+
+
 
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional // 회원 가입 시, id 중복 검사!
     public boolean isMemberExist(Member member) {
 
-        List<Member> findMember = memberRepository.findByUserId(member.getUserId());
+            try {
 
-        if(findMember.isEmpty() == true)
-            return false;
+                Member findMember = memberRepository.findByUserId(member.getUserId());
 
-        else
-            throw new IllegalStateException("이미 존재하는 id입니다.");
+                throw new IllegalStateException("중복되는 id가 1개 존재합니다.");
+            }
+            catch(NonUniqueResultException e){ // 결과 값이 2개 이상일 떄!
+
+                throw new IllegalStateException("결과값이 2개 이상 조회되었습니다.");
+
+            }
+            catch (NoResultException e){ // 결과값이 하나도 없을 떄!
+
+                return false;
+            }
 
     }
 
@@ -92,11 +112,20 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     public Member memberInfo(String userId) {
 
-        List<Member> findMember = memberRepository.findByUserId(userId);
 
-        Member member = findMember.get(0);
+        try {
+            Member findMember = memberRepository.findByUserId(userId);
 
-        return member;
+
+            return findMember;
+        }
+        catch(NonUniqueResultException e){
+            throw new IllegalStateException("결과값이 2개 이상 조회됨");
+        }
+        catch(NoResultException e){
+
+            throw  new IllegalStateException("해당 Member가 존재하지 않습니다.");
+        }
 
     }
 
@@ -104,13 +133,36 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     public List<Register> findRegiserInfo(String userId) {
 
-        List<Member> findMember = memberRepository.findByUserId(userId);
+      /*  List<Member> findMember = memberRepository.findByUserId(userId);
 
         List<Register> registers = findMember.get(0).getRegisters();
         if(registers.isEmpty())
            throw new IllegalStateException("해당 회원이 등록한 실종 정보가 없습니다.");
         else
-            return registers;
+            return registers;*/
+
+        try {
+            Member findMember = memberRepository.findByUserId(userId);
+
+            List<Register> registers = findMember.getRegisters();
+
+            if(registers.isEmpty())
+                throw new IllegalStateException("해당 회원이 등록한 실종 정보가 없습니다.");
+
+            else
+                return registers;
+
+        }
+        catch(NonUniqueResultException e){
+
+            throw new IllegalStateException("결과값이 2개 이상 조회됨");
+
+        }
+        catch(NoResultException e){
+
+            throw  new IllegalStateException("해당 Member는 존재하지 않습니다.");
+        }
+
 
     }
 
@@ -130,6 +182,7 @@ public class MemberServiceImpl implements MemberService {
     public void updateMember(Long id, String username) {
 
         Member findMember = memberRepository.findById(id);
+
         findMember.setUsername(username);
 
     }

@@ -3,6 +3,8 @@ package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.dto.ReportDto;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -37,7 +39,7 @@ public class ReportQueryRepository {
     }
 
 
-    public ReportDto findById(Long id){
+    public ReportDto findById(Long id) throws NonUniqueResultException, NoResultException {
 
         ReportDto id1 = em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
                                 "ReportDto(r.id,rg.id,m.id,m.userId,r.findedTime)" +

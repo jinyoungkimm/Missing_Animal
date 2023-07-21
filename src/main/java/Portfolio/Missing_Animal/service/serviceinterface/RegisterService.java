@@ -9,7 +9,7 @@ import java.util.List;
 public interface RegisterService {
 
     //실종 등록
-    public void registerMissing(Register register);
+    public Long registerMissing(Register register);
 
     //실종 목록
     public List<Register> listingRegister();

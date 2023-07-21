@@ -7,5 +7,4 @@ public interface ReportRepository {
     public Long save(Report report);
 
 
-
 }

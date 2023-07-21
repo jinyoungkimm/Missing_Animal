@@ -33,19 +33,19 @@ class MemberServiceTest {
 
         //givien(회원 가입)
         Member oldMember = new Member();
-        oldMember.setUserId("wlsdud6523");
+        oldMember.setUserId("wlsdud65231");
         oldMember.setPassword("eoskan6523");
         memberService.join(oldMember);
 
 
         //when(로그인)
         Member newMember = new Member();
-        newMember.setUserId("wlsdud6523");
+        newMember.setUserId("wlsdud65231");
         newMember.setPassword("eoskan6523");
         boolean login = memberService.login(newMember);
 
         //then
-       // Assertions.assertThat(login).isFalse();
+        assertThat(login).isTrue();
 
         // commit()을 만나기 전에는 절대 DB에 SQL문이 반영X.(flush()를 하면, 스냅샵 DB에는 반영이 됨)
     }
@@ -57,7 +57,7 @@ class MemberServiceTest {
         //givien : 기존에 저장되어 있는 데이터
         Member member = new Member();
         member.setUsername("김진영");
-        member.setUserId("wlsdud6523");
+        member.setUserId("wlsdud65231");
         member.setPassword("123");
         //em.persist(member);
         memberService.join(member);
@@ -68,7 +68,7 @@ class MemberServiceTest {
         //when 새롭게 가입!
         Member newMember = new Member();
         newMember.setUsername("김진영");
-        newMember.setUserId("wlsdud6523");
+        newMember.setUserId("wlsdud65231");
         newMember.setPassword("123");
         memberService.join(newMember);
 
@@ -107,6 +107,16 @@ class MemberServiceTest {
         //then
         assertThat(regiserInfo.get(0).getAnimalName()).isEqualTo("사랑이1");
         assertThat(regiserInfo.get(1).getAnimalName()).isEqualTo("사랑이2");
+
+    }
+
+    @Test
+    void findOne( ){
+
+        Member one = memberService.findOne(2L);
+
+        assertThat(one.getUsername()).isEqualTo("김진영2");
+
 
     }
 

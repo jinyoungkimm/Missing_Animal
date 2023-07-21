@@ -4,6 +4,8 @@ package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.dto.MemberDto;
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MemberQueryRepository;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +21,6 @@ public class MemberQueryController {
     @GetMapping("")
     List<MemberDto> getMembersInfo(){
 
-        /*List<Member> all = memberQueryRepository.findAllMembers();
-
-        List<MemberDto> collect = all.stream()
-                .map(m -> new MemberDto(m))
-                .collect(toList());*/
 
         List<MemberDto> allMembers = memberQueryRepository.findAllMembers4();
 
@@ -34,14 +31,22 @@ public class MemberQueryController {
     @GetMapping("/{userId}")
     MemberDto getMember(@PathVariable("userId") String userId){
 
-        Member member = memberQueryRepository.findMemberWithOneUserId(userId);
+        try {
+            MemberDto member = memberQueryRepository.findMemberWithOneUserId2(userId);
 
-        MemberDto collect = new MemberDto(member);
+            return member;
 
-        return collect;
+        }
+        catch (NonUniqueResultException e){
+
+            throw new IllegalStateException("해당 id의 회원이 2개이상 조회됨");
+
+        }
+        catch (NoResultException e){
+
+            throw new IllegalStateException("해당 id의 회원이 조회되지 않습니다.");
+
+        }
     }
-
-
-
 
 }

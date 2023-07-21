@@ -1,19 +1,14 @@
 package Portfolio.Missing_Animal.controller;
 
 
-import Portfolio.Missing_Animal.domain.MissingAddress;
-import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.repository.MissingAddressRepository;
-import Portfolio.Missing_Animal.service.ReportService;
+import Portfolio.Missing_Animal.service.ReportServiceImpl;
+import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/report")
@@ -29,7 +24,6 @@ public class ReportController {
                      @RequestParam("userId") String userId){ // userId : 신고자 ID
 
         reportService.showingRegisterContentById(registerId,userId);
-
 
         return "reports/report";
 

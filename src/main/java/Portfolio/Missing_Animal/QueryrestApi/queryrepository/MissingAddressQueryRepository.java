@@ -4,6 +4,8 @@ import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -44,7 +46,7 @@ public class MissingAddressQueryRepository {
 
     }
 
-    public MissingAddress findByOneId(Long id){ // [페이징] 불가능
+    public MissingAddress findByOneId(Long id) throws NonUniqueResultException, NoResultException { // [페이징] 불가능
 
         return em.createQuery("SELECT mr FROM MissingAddress mr" +
 
@@ -55,7 +57,7 @@ public class MissingAddressQueryRepository {
                 .getSingleResult();
     }
 
-    public MissingAddressDto findByOneId2(Long id){
+    public MissingAddressDto findByOneId2(Long id) throws NonUniqueResultException, NoResultException{
 
         MissingAddressDto missingAddressDto = em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
 

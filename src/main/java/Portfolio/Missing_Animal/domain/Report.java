@@ -1,5 +1,6 @@
 package Portfolio.Missing_Animal.domain;
 
+import Portfolio.Missing_Animal.AddressForm;
 import Portfolio.Missing_Animal.domain.animal.Animal;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,6 +31,10 @@ public class Report { // 발견 신고(Member와 Animal의 중간 Table 역할)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_id")
     Animal animal; // 발견 동물의 종류!(ex. 개, 고양이...)
+
+
+    @Embedded
+    private AddressForm findedAddress;
 
     private LocalDateTime findedTime;
 

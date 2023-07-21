@@ -26,7 +26,7 @@ public class RegisterRepositoryImpl implements RegisterRepository {
     }
 
     @Override
-    public Register findByAnimalId(Long id) {
+    public Register findById(Long id) {
 
         Register register = em.find(Register.class, id);
         return register;

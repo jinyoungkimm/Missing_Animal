@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.API.APIcontroller;
+package Portfolio.Missing_Animal.restAPI.APIcontroller;
 
 
 import Portfolio.Missing_Animal.APIdto.LoginRequestDto;
@@ -7,8 +7,6 @@ import Portfolio.Missing_Animal.APIdto.MemberRequestDto;
 import Portfolio.Missing_Animal.APIdto.MemberResponseDto;
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
-import jakarta.validation.Valid;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/memberApi")
 @RequiredArgsConstructor
-public class MemberApiController {
+public class MemberRestApiController {
 
     private final MemberService memberService;
 

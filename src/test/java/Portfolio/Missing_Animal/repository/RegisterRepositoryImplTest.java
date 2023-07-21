@@ -72,7 +72,7 @@ class RegisterRepositoryImplTest {
         Long savedId = register.getId();
 
         //when
-        Register findRegister = registerRepository.findByAnimalId(savedId);
+        Register findRegister = registerRepository.findById(savedId);
 
         //then
         assertThat(findRegister.getAnimalName()).isEqualTo("사랑이");

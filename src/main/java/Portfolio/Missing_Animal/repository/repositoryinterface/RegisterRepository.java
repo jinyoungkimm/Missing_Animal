@@ -9,7 +9,7 @@ public interface RegisterRepository {
 
     public Long save(Register register);
 
-    public Register findByAnimalId(Long id);
+    public Register findById(Long id);
 
 
     public List<Register> findAll();

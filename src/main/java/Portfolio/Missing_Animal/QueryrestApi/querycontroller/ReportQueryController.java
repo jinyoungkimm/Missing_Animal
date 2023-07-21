@@ -2,6 +2,8 @@ package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 import Portfolio.Missing_Animal.dto.ReportDto;
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.ReportQueryRepository;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,11 +33,21 @@ public class ReportQueryController {
     @GetMapping("/{reportId}")
     public ReportDto getReportWithId(@PathVariable("reportId") Long reportId){
 
+        try {
+            ReportDto reportDto = reportQueryRepository.findById(reportId);
 
-        ReportDto reportDto = reportQueryRepository.findById(reportId);
+            return reportDto;
+        }
+        catch (NonUniqueResultException e){
 
-        return reportDto;
+            throw new IllegalStateException("해당 id의 Report가 2개 이상 조회됨");
 
+        }
+        catch (NoResultException e){
+
+            throw new IllegalStateException("해당 id의 Report가 조회되지 않음");
+
+        }
     }
 
 }

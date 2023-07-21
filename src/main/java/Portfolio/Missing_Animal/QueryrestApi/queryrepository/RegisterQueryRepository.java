@@ -4,6 +4,8 @@ import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 import Portfolio.Missing_Animal.dto.ReportDto;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -147,7 +149,7 @@ public class RegisterQueryRepository {
 
     }
 
-    public RegisterDto findRegisterWithOneId2(Long id){
+    public RegisterDto findRegisterWithOneId2(Long id) throws NonUniqueResultException, NoResultException {
 
         RegisterDto registerDto = em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
 

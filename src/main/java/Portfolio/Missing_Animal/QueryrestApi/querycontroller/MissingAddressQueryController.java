@@ -3,6 +3,8 @@ package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MissingAddressQueryRepository;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,13 +50,21 @@ public class MissingAddressQueryController {
     @GetMapping("/{id}")
     MissingAddressDto getMissingAddressWithID1(@PathVariable("id") Long id){
 
-        MissingAddress findMissingAddress = missingAddressQueryRepository.findByOneId(id);
+        try {
+            MissingAddressDto findMissingAddress = missingAddressQueryRepository.findByOneId2(id);
 
-        MissingAddressDto missingAddressDto = new MissingAddressDto(findMissingAddress);
+            return findMissingAddress;
+        }
+          catch (NonUniqueResultException e){
 
+            throw new IllegalStateException("해당 id의 missingAddress가 2개이상 조회됨");
 
-        return missingAddressDto;
+        }
+        catch (NoResultException e){
 
+            throw new IllegalStateException("해당 id의 missingAddress가 조회되지 않습니다.");
+
+        }
     }
 
 

@@ -4,6 +4,8 @@ package Portfolio.Missing_Animal.repository;
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +29,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     public Member findById(Long id){
 
         Member member = em.find(Member.class, id);
+
         return member;
 
     }
@@ -39,11 +42,11 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     }
     @Override
-    public List<Member> findByUserId(String userId){
+    public Member findByUserId(String userId) throws NoResultException, NonUniqueResultException {
 
         return em.createQuery("SELECT m FROM Member m WHERE m.userId=:userId",Member.class)
                 .setParameter("userId",userId)
-                .getResultList();
+                .getSingleResult();
 
     }
     @Override
