@@ -80,25 +80,32 @@ public class InitMissingAddress {
 
 
                 //report : Register == 1 : 2
+                AddressForm addressForm1 = new AddressForm("1","2","3");
                 Report report1 = new Report();
                 report1.setRegister(register1);
                 report1.setMember(member);
+                report1.setFindedAddress(addressForm1);
                 em.persist(report1);
 
+                AddressForm addressForm2 = new AddressForm("4","5","6");
                 Report report2 = new Report();
                 report2.setRegister(register1);
                 report2.setMember(member);
+                report2.setFindedAddress(addressForm2);
                 em.persist(report2);
 
-
+                AddressForm addressForm3 = new AddressForm("7","8","9");
                 Report report3 = new Report();
                 report3.setRegister(register2);
                 report3.setMember(member);
+                report3.setFindedAddress(addressForm3);
                 em.persist(report3);
 
+                AddressForm addressForm4 = new AddressForm("10","11","12");
                 Report report4 = new Report();
                 report4.setRegister(register2);
                 report4.setMember(member);
+                report4.setFindedAddress(addressForm4);
                 em.persist(report4);
 
 

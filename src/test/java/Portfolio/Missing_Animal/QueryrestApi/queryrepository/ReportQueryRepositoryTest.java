@@ -82,4 +82,17 @@ class ReportQueryRepositoryTest {
 
         }
     }
+
+    @Test
+    void addressForm(){
+
+
+        List<ReportDto> report = reportQueryRepository.findReport();
+        for (ReportDto reportDto : report) {
+
+            System.out.println(reportDto.getFindedAddress());
+        }
+
+    }
+
 }

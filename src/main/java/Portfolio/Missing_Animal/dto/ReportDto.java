@@ -1,6 +1,6 @@
 package Portfolio.Missing_Animal.dto;
 
-
+import Portfolio.Missing_Animal.AddressForm;
 import Portfolio.Missing_Animal.EmailForm;
 import Portfolio.Missing_Animal.domain.Report;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,12 +20,15 @@ public class ReportDto {
 
     LocalDateTime findedTime;
 
-    public ReportDto(Long reportId,Long registerId,Long memberId,LocalDateTime findedTime){
+    AddressForm findedAddress;
+
+    public ReportDto(Long reportId,Long registerId,Long memberId,LocalDateTime findedTime,AddressForm findedAddress){
 
         this.reportId = reportId;
         this.registerId = registerId;
         this.memberId = memberId;
         this.findedTime = findedTime;
+        this.findedAddress = findedAddress;
 
     }
 
