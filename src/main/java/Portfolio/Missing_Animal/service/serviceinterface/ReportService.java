@@ -9,12 +9,13 @@ import java.util.List;
 
 public interface ReportService {
 
-
     Long saveReport(Long registerId, AddressForm findedAddress);
 
     Report findOne(Long reportId);
 
     List<Report> findAllReports();
+
+    void updateReport(Long reportId,Report report);
 
 
 }

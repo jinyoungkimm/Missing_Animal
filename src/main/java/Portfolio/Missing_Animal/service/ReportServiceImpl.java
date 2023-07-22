@@ -61,7 +61,7 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Report findOne(Long reportId){
 
         try {
@@ -78,12 +78,27 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Report> findAllReports() {
 
         List<Report> all = reportRepository.findAll();
 
         return all;
+
+    }
+
+    @Override
+    @Transactional // dirty checking 이용
+    public void updateReport(Long reportId, Report report) {
+
+        Report findreport = reportRepository.findById(reportId);
+
+        //dirty checking!
+        findreport.setFindedTime(report.getFindedTime());
+        findreport.setFindedAddress(report.getFindedAddress());
+        findreport.setAnimal(report.getAnimal());
+
+
 
     }
 }

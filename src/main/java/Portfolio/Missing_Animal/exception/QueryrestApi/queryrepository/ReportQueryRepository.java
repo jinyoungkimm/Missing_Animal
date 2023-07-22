@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
+package Portfolio.Missing_Animal.exception.QueryrestApi.queryrepository;
 
 
 import Portfolio.Missing_Animal.dto.ReportDto;

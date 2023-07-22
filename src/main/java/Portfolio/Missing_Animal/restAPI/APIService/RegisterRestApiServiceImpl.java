@@ -3,6 +3,8 @@ package Portfolio.Missing_Animal.restAPI.APIService;
 
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.dto.SolvedIncidentDto;
+import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import jakarta.persistence.NoResultException;
@@ -48,6 +50,31 @@ public class RegisterRestApiServiceImpl implements RegisterRestApiService {
             throw new IllegalStateException("해당 id의 회원이 조회되지 않습니다.");
 
         }
+
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SolvedIncidentDto countAllRegisters() {
+
+
+            List<Register> registers = registerRepository.findAll();
+
+            if(registers.isEmpty())
+                throw new IllegalStateException("실종 등록된 것이 1개도 없습니다.");
+
+            int allRegistersCount=registers.size();
+            int solvedRegistersCount=0;
+            for (Register register : registers) {
+
+                if(register.getRegisterStatus() == RegisterStatus.SOLVED)
+                    solvedRegistersCount++;
+
+            }
+            SolvedIncidentDto solvedIncidentDto = new SolvedIncidentDto();
+            solvedIncidentDto.setAllRegistersCount(allRegistersCount);
+            solvedIncidentDto.setSolvedRegistersCount(solvedRegistersCount);
+            return solvedIncidentDto;
 
     }
 }
