@@ -15,7 +15,7 @@ public interface ReportService {
 
     List<Report> findAllReports();
 
-    void updateReport(Long reportId,Report report);
+    Long updateReport(Long reportId,Report report);
 
 
 }

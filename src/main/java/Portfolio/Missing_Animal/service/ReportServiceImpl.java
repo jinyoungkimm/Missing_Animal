@@ -89,7 +89,7 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
 
     @Override
     @Transactional // dirty checking 이용
-    public void updateReport(Long reportId, Report report) {
+    public Long updateReport(Long reportId, Report report) {
 
         Report findreport = reportRepository.findById(reportId);
 
@@ -98,6 +98,6 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
         findreport.setFindedAddress(report.getFindedAddress());
         findreport.setAnimal(report.getAnimal());
 
-
+        return reportId;
     }
 }

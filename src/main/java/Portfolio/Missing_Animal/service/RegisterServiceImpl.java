@@ -54,18 +54,35 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional // dirty checking 이용
-    public void updateForm(Long registerId, Register register) {
+    public Long updateForm(Long registerId, Register register) {
 
         Register findRegister = registerRepository.findById(registerId);
 
-        findRegister.setFileName(register.getFileName());
-        findRegister.setAnimalName(register.getAnimalName());
-        findRegister.setAnimalSex(register.getAnimalSex());
-        findRegister.setAnimalVariety(register.getAnimalVariety());
-        findRegister.setAnimalWeight(register.getAnimalWeight());
-        findRegister.setEtc(register.getEtc());
-        findRegister.setRegisterStatus(register.getRegisterStatus());
-        findRegister.setReportedStatus(register.getReportedStatus());
+        if(register.getFileName() != null)
+            findRegister.setFileName(register.getFileName());
+
+        if(register.getAnimalName() != null)
+            findRegister.setAnimalName(register.getAnimalName());
+
+        if(register.getAnimalSex() != null)
+            findRegister.setAnimalSex(register.getAnimalSex());
+
+        if(register.getAnimalVariety() != null)
+            findRegister.setAnimalVariety(register.getAnimalVariety());
+
+        if(register.getAnimalWeight()!= null)
+            findRegister.setAnimalWeight(register.getAnimalWeight());
+
+        if(register.getEtc() != null)
+            findRegister.setEtc(register.getEtc());
+
+        if(register.getRegisterStatus() != null)
+            findRegister.setRegisterStatus(register.getRegisterStatus());
+
+        if(register.getRegisterStatus() != null)
+            findRegister.setReportedStatus(register.getReportedStatus());
+
+        return registerId;
     }
 
     @Override

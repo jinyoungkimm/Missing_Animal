@@ -5,9 +5,19 @@ import lombok.Data;
 @Data
 public class UpdateReportResponse {
 
-
-    Long id;
+    Long reportId;
 
     Boolean complete;
+
+    public UpdateReportResponse(Long reportId,Boolean complete){
+
+        this.reportId = reportId;
+        this.complete  = complete;
+
+    }
+
+    public UpdateReportResponse(){
+
+    }
 
 }

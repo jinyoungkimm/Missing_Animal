@@ -112,7 +112,23 @@ public class FileSystemStorageService implements StorageService {
 
 	@Override
 	public void deleteAll() {
+
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
+
+	}
+
+	@Override
+	public void deleteOne(String fileName) throws IOException {
+
+		// 파일이 저장되는 절대 경로를 생성!
+		// destinationFile == C:\\MissingAnimal\\Missing_Animal\\upload-dir\\스크린샷(1013).png
+		Path destinationFile = this.rootLocation.resolve(
+						Paths.get(fileName)) // file.getOriginalFilename == 스크린샷(1013).png
+				.normalize() // upload-dir\\스크린샷(1013).png
+				.toAbsolutePath();  // C:\\MissingAnimal\\Missing_Animal\\upload-dir\\스크린샷(1013).png
+
+		FileSystemUtils.deleteRecursively(destinationFile);
+
 	}
 
 	@Override

@@ -1,15 +1,16 @@
 package Portfolio.Missing_Animal.restAPI.APIcontroller;
 
+import Portfolio.Missing_Animal.APIdto.*;
 import Portfolio.Missing_Animal.dto.SolvedIncidentDto;
 import Portfolio.Missing_Animal.restAPI.APIService.RegisterRestApiService;
-import Portfolio.Missing_Animal.APIdto.RegisterRequestDto;
-import Portfolio.Missing_Animal.APIdto.RegisterResponseDto;
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
+import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,9 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class RegisterRestApiController {
 
-    private final RegisterRestApiService registerService;
+    private final RegisterRestApiService registerRestApiService;
+
+    private final RegisterService registerService;
 
     private final MemberService memberService;
 
@@ -38,7 +41,7 @@ public class RegisterRestApiController {
         registerResponseDto.setComplete(false);
         if (login == true) {
 
-            Long saveId = registerService.registerApi(register);
+            Long saveId = registerRestApiService.registerApi(register);
             registerResponseDto.setComplete(true);
             return registerResponseDto;
         }
@@ -49,12 +52,44 @@ public class RegisterRestApiController {
         }
     }
 
+    // 실종 등록 내용 [수정] API
+    @PostMapping("/{registerId}/edit")
+    public UpdateRegisterResponse updateRegister(@PathVariable("registerId") Long registerId,
+                                                 @RequestBody UpdateRegisterRequest updateRegisterRequest){
+
+        Register register = new Register();
+
+        register.setAnimalName(updateRegisterRequest.getAnimalName());
+        register.setAnimalAge(updateRegisterRequest.getAnimalAge());
+        register.setAnimalSex(updateRegisterRequest.getAnimalSex());
+        register.setAnimalWeight(updateRegisterRequest.getAnimalWeight());
+        register.setAnimalVariety(updateRegisterRequest.getAnimalVariety());
+
+        register.setRegisterStatus(updateRegisterRequest.getRegisterStatus());
+        register.setReportedStatus(updateRegisterRequest.getReportedStatus());
+
+        Long updateId = registerService.updateForm(registerId, register);
+
+        if(updateId != null){
+
+            UpdateRegisterResponse updateRegisterResponse = new UpdateRegisterResponse(registerId, true);
+            return updateRegisterResponse;
+
+        }
+        else{
+
+            UpdateRegisterResponse updateRegisterResponse = new UpdateRegisterResponse(registerId, false);
+            return updateRegisterResponse;
+
+        }
+
+    }
     // 총 등록된 Register 개수와 그 중 해결된 Register 개수를 반환
     @GetMapping("/solvedIncident")
     public SolvedIncidentDto querySolvedIncident( ){
 
 
-        SolvedIncidentDto solvedIncidentDto = registerService.countAllRegisters();
+        SolvedIncidentDto solvedIncidentDto = registerRestApiService.countAllRegisters();
 
 
         return solvedIncidentDto;

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -47,6 +48,43 @@ public class RegisterController {
 
         return "redirect:/register";
 
+    }
+
+    @GetMapping("/{registerId}/edit")
+    String updateRegisterGet(@PathVariable("registerId") Long registerId, Model model){
+
+        Register findRegister = registerService.findOne(registerId);
+
+        model.addAttribute("register",findRegister);
+
+        return "registerUpdate";
+    }
+
+    @PostMapping("/{registerId}/edit")
+    public String updateRegister(//@PathVariable("registerId") Long registerId,
+                                 Register register,
+                                 @RequestParam("file") MultipartFile file) throws IOException {
+
+        System.out.println(register.getId());
+
+        Register findRegister = registerService.findOne(register.getId());
+
+        if(file != null)
+        {
+            String fileName = findRegister.getFileName();
+
+            storageService.deleteOne(fileName); // 이전에 저장한 파일 삭제!
+
+            storageService.store(file); // 새로 수정한 사진 저장!
+
+        }
+
+        String originalFilename = file.getOriginalFilename();
+        register.setFileName(originalFilename);
+
+        registerService.updateForm(register.getId(), register);
+
+        return "redirect:/reigster";
     }
 
     @GetMapping("/missingAddress")

@@ -9,4 +9,11 @@ public class UpdateRegisterResponse {
 
     Boolean complete;
 
+    public UpdateRegisterResponse(Long regiserId,Boolean complete){
+        this.regiserId = regiserId;
+        this.complete = complete;
+    }
+
+    public UpdateRegisterResponse(){}
+
 }
