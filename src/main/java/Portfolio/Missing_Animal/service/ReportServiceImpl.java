@@ -99,6 +99,5 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
         findreport.setAnimal(report.getAnimal());
 
 
-
     }
 }

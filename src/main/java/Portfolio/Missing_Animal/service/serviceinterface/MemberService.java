@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.service.serviceinterface;
 
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.domain.Report;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public interface MemberService {
 
     // 특정 회원이 등록한 실정 등록 정보가 있다면 출력
     public List<Register> findRegiserInfo(String userId);
+
+    public List<Report> findReportInfo(String userId);
 
     public Member findOne(Long id);
 

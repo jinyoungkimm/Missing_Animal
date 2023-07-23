@@ -15,7 +15,7 @@ public interface RegisterService {
     public List<Register> listingRegister();
 
     public Register findOne(Long id);
-    void updateForm(Long id,String animalName);
+    void updateForm(Long registerId,Register register);
 
     public List<Register> ListingMissingAnimalByMissingAddress(MissingAddress missingAddress);
 

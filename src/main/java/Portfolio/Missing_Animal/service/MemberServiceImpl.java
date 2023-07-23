@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.domain.Report;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 
@@ -163,6 +164,27 @@ public class MemberServiceImpl implements MemberService {
             throw  new IllegalStateException("해당 Member는 존재하지 않습니다.");
         }
 
+
+    }
+    @Override
+    public List<Report> findReportInfo(String userId) {
+
+        try{
+
+            Member findMember = memberRepository.findByUserId(userId);
+            List<Report> reports = findMember.getReports();
+
+            if(reports.isEmpty())
+                throw new IllegalStateException("해당 회원의 내역이 없습니다.");
+            else
+                return reports;
+        }
+        catch (NonUniqueResultException e){
+            throw new IllegalStateException("해당 id의 회원이 2개 이상 조회되었습니다.");
+        }
+        catch(NoResultException e){
+            throw new IllegalStateException("해당 id의 회원이 조회되지 않습니다.");
+        }
 
     }
 

@@ -32,7 +32,7 @@ public class RegisterController {
     }
 
     @PostMapping("")
-    public String registerMissingPost( Register register,
+    public String registerMissingPost(Register register,
                                       @RequestParam("file") MultipartFile file){
 
         storageService.store(file);

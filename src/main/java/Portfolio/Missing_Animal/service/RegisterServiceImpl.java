@@ -54,11 +54,18 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional // dirty checking 이용
-    public void updateForm(Long id, String animalName) {
+    public void updateForm(Long registerId, Register register) {
 
-        Register findRegister = registerRepository.findById(id);
-        findRegister.setAnimalName(animalName);
+        Register findRegister = registerRepository.findById(registerId);
 
+        findRegister.setFileName(register.getFileName());
+        findRegister.setAnimalName(register.getAnimalName());
+        findRegister.setAnimalSex(register.getAnimalSex());
+        findRegister.setAnimalVariety(register.getAnimalVariety());
+        findRegister.setAnimalWeight(register.getAnimalWeight());
+        findRegister.setEtc(register.getEtc());
+        findRegister.setRegisterStatus(register.getRegisterStatus());
+        findRegister.setReportedStatus(register.getReportedStatus());
     }
 
     @Override
