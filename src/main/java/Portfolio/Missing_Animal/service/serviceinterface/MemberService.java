@@ -27,6 +27,6 @@ public interface MemberService {
 
     public Member findOne(Long id);
 
-    public void updateMember(Long id,String username);
+    public Long updateMember(Long memberId,Member member);
 
 }

@@ -1,17 +1,11 @@
 package Portfolio.Missing_Animal.restAPI.APIcontroller;
 
 
-import Portfolio.Missing_Animal.APIdto.LoginRequestDto;
-import Portfolio.Missing_Animal.APIdto.LoginResponseDto;
-import Portfolio.Missing_Animal.APIdto.MemberRequestDto;
-import Portfolio.Missing_Animal.APIdto.MemberResponseDto;
+import Portfolio.Missing_Animal.APIdto.*;
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/memberApi")
@@ -79,8 +73,33 @@ public class MemberRestApiController {
         return memberResponseDto;
     }
 
+    // 회원 정보 [수정] API
+    @PostMapping("/{memberId}/edit")
+    UpdateMemberResponse updateMember(@PathVariable("memberId") Long memberId,
+                                    @RequestBody UpdateMemberRequest updateMemberRequest){
+
+        Member member = new Member();
+
+        member.setUsername(updateMemberRequest.getUsername());
+        member.setAddress(updateMemberRequest.getAddress());
+        member.setEmail(updateMemberRequest.getEmail());
+        member.setBirthDate(updateMemberRequest.getBirthDate());
+        member.setPhoneNumber(updateMemberRequest.getPhoneNumber());
 
 
+        Long updateId = memberService.updateMember(memberId,member);
 
+        if(updateId != null) {
 
+            UpdateMemberResponse updateMemberResponse = new UpdateMemberResponse(memberId, true);
+            return updateMemberResponse;
+        }
+
+        else{
+
+            UpdateMemberResponse updateMemberResponse = new UpdateMemberResponse(memberId,false);
+            return updateMemberResponse;
+        }
+
+    }
 }

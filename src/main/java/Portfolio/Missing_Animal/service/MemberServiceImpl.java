@@ -88,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional // 회원 가입 시, id 중복 검사!
+    @Transactional(readOnly = true) // 회원 가입 시, id 중복 검사!
     public boolean isMemberExist(Member member) {
 
             try {
@@ -167,6 +167,7 @@ public class MemberServiceImpl implements MemberService {
 
     }
     @Override
+    @Transactional(readOnly = true)
     public List<Report> findReportInfo(String userId) {
 
         try{
@@ -201,11 +202,21 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional // dirty checking을 이요하여 [수정]
-    public void updateMember(Long id, String username) {
+    public Long updateMember(Long memberId, Member member) {
 
-        Member findMember = memberRepository.findById(id);
+        Member findMember = memberRepository.findById(memberId);
 
-        findMember.setUsername(username);
+        findMember.setUsername(member.getUsername());
+        findMember.setAddress(member.getAddress());
+        findMember.setEmail(member.getEmail());
+        findMember.setBirthDate(member.getBirthDate());
+        findMember.setPhoneNumber(member.getPhoneNumber());
+
+
+        Long id = findMember.getId();
+
+        return id;
+
 
     }
 

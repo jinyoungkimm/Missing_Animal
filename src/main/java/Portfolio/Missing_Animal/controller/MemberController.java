@@ -103,7 +103,7 @@ public class MemberController {
     @PostMapping("/mypage/{id}/editMember")
     String mypageMemberUpdatePost(Member member){
 
-        memberService.updateMember(member.getId(), member.getUsername());
+        memberService.updateMember(member.getId(), member);
 
 
         return "redirect:/member";
@@ -112,7 +112,7 @@ public class MemberController {
     }
 
     // mypage의 [실종 등록 정보] 수정 폼
-    @GetMapping("/mypage/{id}/editReport")
+    @GetMapping("/mypage/{id}/editRegister")
     String mypageRegisterUpdateGet(@PathVariable("id") Long id,Model model){
 
 
@@ -123,7 +123,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/mypage/{id}/editReport")
+    @PostMapping("/mypage/{id}/editRegister")
     String mypageRegisterUpdatePost(Register register){
 
 
@@ -145,7 +145,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/mypage/{id}/editRegister")
+    @PostMapping("/mypage/{id}/editReport")
     String mypageReportUpdatePost(Report report){
 
         reportService.updateReport(report.getId(),report);
