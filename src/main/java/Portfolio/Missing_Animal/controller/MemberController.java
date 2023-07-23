@@ -112,7 +112,7 @@ public class MemberController {
     }
 
     // mypage의 [실종 등록 정보] 수정 폼
-    @GetMapping("/mypage/{id}/editRegister")
+    @GetMapping("/mypage/{id}/editReport")
     String mypageRegisterUpdateGet(@PathVariable("id") Long id,Model model){
 
 
@@ -123,7 +123,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/mypage/{id}/editRegister")
+    @PostMapping("/mypage/{id}/editReport")
     String mypageRegisterUpdatePost(Register register){
 
 
