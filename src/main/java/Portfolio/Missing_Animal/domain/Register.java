@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,7 +17,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Data
+//@Data
+@ToString(of={"id","fileName","animalName","animalSex","animalVariety","animalWeight","etc","registerDate","registerStatus","reportedStatus"})
 public class Register { //실종 등록
 
     @Id@GeneratedValue

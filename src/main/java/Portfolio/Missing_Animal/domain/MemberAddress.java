@@ -5,10 +5,12 @@ import jakarta.persistence.Embeddable;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Embeddable
 @Getter
 @Setter
+@ToString(of={"zipcode","streetAdr","detailAdr"})
 public class MemberAddress {
 
     private String zipcode;

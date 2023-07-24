@@ -104,7 +104,7 @@ public class MemberController {
     String mypageMemberUpdatePost(Member member){
 
         memberService.updateMember(member.getId(), member);
-
+        
 
         return "redirect:/member";
 

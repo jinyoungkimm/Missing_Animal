@@ -6,13 +6,16 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+//@Data
+@Getter@Setter
+@ToString(of={"id","findedAddress","findedTime"})
 public class Report { // 발견 신고(Member와 Animal의 중간 Table 역할)
 
     @Id

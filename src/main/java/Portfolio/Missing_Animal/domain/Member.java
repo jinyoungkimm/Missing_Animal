@@ -4,16 +4,16 @@ import Portfolio.Missing_Animal.AddressForm;
 import Portfolio.Missing_Animal.EmailForm;
 import Portfolio.Missing_Animal.BirthDateForm;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+//@Data
+@Getter@Setter
+@ToString(of={"id","username","userId","address","email","birthDate","phoneNumber"})
 public class Member {
 
     @Id@GeneratedValue
