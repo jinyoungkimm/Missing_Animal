@@ -81,15 +81,7 @@ class MemberRepositoryTest {
 
     }
 
-    /*
-     public long countMemberById();
 
-    public Member findMemberById(Long id);
-
-    public Member findMemberByUserId(String userId);
-
-    public List<Member> findMembersByUserName(String userName);
-     */
 
     @Test
     void countMemberById(){

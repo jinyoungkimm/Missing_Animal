@@ -16,10 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 class RegisterRepositorySDJTest {
-
     @Autowired
     RegisterRepositorySDJ registerRepository;
-
 
     @Test
     void basicCRUD(){
