@@ -56,6 +56,33 @@ class RegisterRepositoryImplTest {
     }
 
     @Test
+    void delete(){
+
+        //givien
+        Register finded1 = registerRepository.findById(1L);
+
+        //when
+        registerRepository.delete(finded1);
+
+        Register finded2 = registerRepository.findById(1L);
+
+        //then
+        fail("예외가 터졌어야 했다.");
+
+    }
+
+    @Test
+    void count(){
+
+        long count = registerRepository.count();
+
+        assertThat(count).isEqualTo(8L);
+
+
+    }
+
+
+    @Test
     @Rollback(false)
     void findByAnimalId() {
 

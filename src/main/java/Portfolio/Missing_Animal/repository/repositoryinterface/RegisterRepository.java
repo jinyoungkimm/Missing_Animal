@@ -9,6 +9,10 @@ public interface RegisterRepository {
 
     public Long save(Register register);
 
+    public void delete(Register register);
+
+    public long count();
+
     public Register findById(Long id);
 
 

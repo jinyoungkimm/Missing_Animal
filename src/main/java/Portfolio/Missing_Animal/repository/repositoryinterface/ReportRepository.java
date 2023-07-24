@@ -8,6 +8,10 @@ public interface ReportRepository {
 
     public Long save(Report report);
 
+    public void delete(Report report);
+
+    public long count();
+
     public Report findById(Long regiserId);
 
     public List<Report> findAll();

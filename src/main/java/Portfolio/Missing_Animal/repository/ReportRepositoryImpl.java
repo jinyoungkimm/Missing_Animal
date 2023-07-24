@@ -28,6 +28,23 @@ public class ReportRepositoryImpl implements ReportRepository {
         return id;
 
     }
+
+    @Override
+    public void delete(Report report){
+
+        em.remove(report);
+
+    }
+
+    @Override
+    public long count(){
+
+        return em.createQuery("SELECT count(r) FROM Repor r",Long.class)
+                .getSingleResult();
+
+    }
+
+
     @Override
     public Report findById(Long reportId) throws NonUniqueResultException, NoResultException {
 

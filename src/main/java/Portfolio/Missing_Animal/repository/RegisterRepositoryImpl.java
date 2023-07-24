@@ -31,6 +31,21 @@ public class RegisterRepositoryImpl implements RegisterRepository {
     }
 
     @Override
+    public void delete(Register register){
+
+        em.remove(register);
+
+    }
+
+    @Override
+    public long count(){
+
+        return em.createQuery("SELECT count(r) FROM Register r",Long.class)
+                .getSingleResult();
+
+    }
+
+    @Override
     public Register findById(Long id) {
 
         return em.createQuery("SELECT r FROM Register r" +

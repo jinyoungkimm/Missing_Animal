@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -25,6 +26,23 @@ public class MemberRepositoryImpl implements MemberRepository {
         Long id = member.getId();
         return id;
     }
+
+    @Override
+    public void delete(Member member){
+
+        em.remove(member);
+
+    }
+
+    @Override
+    public long count() {
+
+        return em.createQuery("SELECT count(m) FROM Member m",Long.class)
+
+                .getSingleResult();
+
+    }
+
     @Override
     public Member findById(Long id){
 

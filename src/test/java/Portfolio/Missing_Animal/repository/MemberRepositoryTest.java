@@ -13,6 +13,9 @@ import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 @SpringBootTest
 @Transactional
@@ -40,9 +43,33 @@ class MemberRepositoryTest {
 
 
         //then
-        Assertions.assertThat(id).isEqualTo(memberRepository.findById(id).getId());
+        assertThat(id).isEqualTo(memberRepository.findById(id).getId());
 
 
+    }
+
+    @Test
+    void delete(){
+
+        //givien
+        Member findMember1 = memberRepository.findById(1L);
+
+        //when
+        memberRepository.delete(findMember1);
+
+        //then
+        Member findMember2 = memberRepository.findById(1L);
+
+        fail("예외가 터졌어야 했다.");
+    }
+
+    @Test
+    void count(){
+
+        long count = memberRepository.count();
+
+
+        assertThat(count).isEqualTo(4l);
     }
 
     @Test
@@ -61,7 +88,7 @@ class MemberRepositoryTest {
         Member findMember = memberRepository.findById(id);
 
         //then
-        Assertions.assertThat(findMember.getUsername()).isEqualTo("kim1");
+        assertThat(findMember.getUsername()).isEqualTo("kim1");
 
     }
 
@@ -88,8 +115,8 @@ class MemberRepositoryTest {
             }
 
         }
-        Assertions.assertThat(findMembers.get(0).getId()).isEqualTo(1);
-        Assertions.assertThat(findMembers.get(1).getId()).isEqualTo(2);
+        assertThat(findMembers.get(0).getId()).isEqualTo(1);
+        assertThat(findMembers.get(1).getId()).isEqualTo(2);
 
 
     }
@@ -113,7 +140,7 @@ class MemberRepositoryTest {
 
 
         //then
-        Assertions.assertThat(findMembers.get(0).getUsername()).isEqualTo("kim1");
+        assertThat(findMembers.get(0).getUsername()).isEqualTo("kim1");
 
 
     }

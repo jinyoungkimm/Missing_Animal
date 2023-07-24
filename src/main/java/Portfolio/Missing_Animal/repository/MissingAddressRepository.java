@@ -14,6 +14,31 @@ public class MissingAddressRepository {
 
     private final EntityManager em;
 
+
+    public Long save(MissingAddress missingAddress){
+
+        em.persist(missingAddress);
+
+        Long saveId = missingAddress.getId();
+
+        return saveId;
+    }
+
+    public void delete(MissingAddress missingAddress){
+
+        em.remove(missingAddress);
+
+    }
+
+    public long count(){
+
+        return em.createQuery("SELECT count(m) FROM MissingAddress m",Long.class)
+                .getSingleResult();
+
+
+    }
+
+
     public MissingAddress findById(Long id){
 
         return em.createQuery("SELECT mr FROM MissingAddress mr" +

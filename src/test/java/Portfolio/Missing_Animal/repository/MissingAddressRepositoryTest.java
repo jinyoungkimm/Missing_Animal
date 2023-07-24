@@ -26,17 +26,32 @@ class MissingAddressRepositoryTest {
     @Autowired
     private MissingAddressRepository missingAddressRepository;
 
-   @Test
-   void findById(){
 
 
-       MissingAddress byId = missingAddressRepository.findById(1L);
+    @Test
+    void delete(){
+
+        //givien
+        MissingAddress finded1 = missingAddressRepository.findById(1L);
+
+        //when
+        missingAddressRepository.delete(finded1);
+        MissingAddress finded2 = missingAddressRepository.findById(1L);
+
+        //then
+
+        fail("예외가 터졌어야 했다.");
+    }
+
+    @Test
+    void count(){
+
+        long count = missingAddressRepository.count();
+
+        assertThat(count).isEqualTo(4L);
 
 
-
-   }
-
-
+    }
 
     @Test
     //@Rollback(false)

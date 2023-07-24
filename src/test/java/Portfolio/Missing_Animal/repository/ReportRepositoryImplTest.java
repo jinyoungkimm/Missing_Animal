@@ -28,6 +28,22 @@ class ReportRepositoryImplTest {
 
     }
 
+    @Test
+    void delete(){
+
+        //givien
+
+        //when
+
+        //then
+    }
+
+    @Test
+    void count(){
+
+
+
+    }
 
 
 }
