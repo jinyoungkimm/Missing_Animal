@@ -81,5 +81,77 @@ class MemberRepositoryTest {
 
     }
 
+    /*
+     public long countMemberById();
+
+    public Member findMemberById(Long id);
+
+    public Member findMemberByUserId(String userId);
+
+    public List<Member> findMembersByUserName(String userName);
+     */
+
+    @Test
+    void countMemberById(){
+
+        long memberCount = memberRepository.countMemberBy();
+
+        assertThat(memberCount).isEqualTo(4L);
+
+    }
+
+    @Test
+    void findMemberById(){
+
+        //givien
+        Member member = new Member();
+        member.setUsername("진영이");
+        Member save = memberRepository.save(member);
+
+        //when
+        Member memberById = memberRepository.findMemberById(save.getId());
+
+        //then
+        assertThat(memberById).isEqualTo(member); // 동일성
+
+
+    }
+
+    @Test
+    void findMemberByUserId(){
+
+        //givien
+        Member member = new Member();
+        member.setUserId("wlsdud6520");
+        Member save = memberRepository.save(member);
+
+        //when
+        Member findMember = memberRepository.findMemberByUserId("wlsdud6520");
+
+
+        //then
+        assertThat(findMember).isEqualTo(save);
+
+
+
+    }
+
+    @Test
+    void findMembersByUserName(){
+
+        //givien
+        Member member = new Member();
+        member.setUsername("진영이");
+        Member save = memberRepository.save(member);
+
+        //when
+        List<Member> 진영이 = memberRepository.findMembersByUsername("진영이");
+
+        //then
+        assertThat(진영이.size()).isEqualTo(1L);
+
+
+    }
+
 
 }

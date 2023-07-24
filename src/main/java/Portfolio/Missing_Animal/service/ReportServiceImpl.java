@@ -6,8 +6,9 @@ import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.domain.Report;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
-import Portfolio.Missing_Animal.repository.MissingAddressRepository;
+
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
+import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;

@@ -58,7 +58,120 @@ class MissingAddressRepositorySDJTest {
 
     }
 
+    @Test
+    void countMissingAddressById(){
 
+        long count = missingAddressRepository.countMissingAddressBy();
+
+        assertThat(count).isEqualTo(4L);
+
+    }
+
+    @Test
+    void findMissingAddressById(){
+
+        //givien
+        MissingAddress address = new MissingAddress();
+        missingAddressRepository.save(address);
+
+        //when
+        MissingAddress missingAddressById = missingAddressRepository.findMissingAddressById(address.getId());
+
+
+        //then
+        assertThat(address).isEqualTo(missingAddressById); // 동일성
+
+    }
+
+    @Test
+    void findMissingAddressByZipcode(){
+
+        //givien
+        MissingAddress address = new MissingAddress();
+        address.setZipcode("123-123");
+        missingAddressRepository.save(address);
+
+        //when
+        List<MissingAddress> missingAddressByZipcode = missingAddressRepository.findMissingAddressByZipcode("123-123");
+
+
+        //then
+        assertThat(missingAddressByZipcode.size()).isEqualTo(1L);
+        assertThat(missingAddressByZipcode.get(0).getZipcode()).isEqualTo(address.getZipcode());
+
+    }
+
+    @Test
+    void findMissingAddressByGu(){
+
+        //givien
+        MissingAddress address = new MissingAddress();
+        address.setGu("동래구");
+        missingAddressRepository.save(address);
+
+        //when
+        List<MissingAddress> 동래구 = missingAddressRepository.findMissingAddressByGu("동래구");
+
+        //then
+        assertThat(동래구.size()).isEqualTo(1L);
+        assertThat(동래구.get(0)).isEqualTo(address); // 동일성
+
+
+    }
+
+    @Test
+    void findMissingAddressByCityName(){
+
+        //givien
+        MissingAddress address = new MissingAddress();
+        address.setCityName("부산");
+        missingAddressRepository.save(address);
+
+        //when
+        List<MissingAddress> 부산 = missingAddressRepository.findMissingAddressByCityName("부산");
+
+        //then
+        assertThat(부산.size()).isEqualTo(1L);
+        assertThat(부산.get(0).getCityName()).isEqualTo(address.getCityName());
+
+    }
+
+    @Test
+    void findMissingAddressByPrefecture(){
+
+        //givien
+        MissingAddress address = new MissingAddress();
+        address.setPrefecture("경상도");
+        missingAddressRepository.save(address);
+
+        //when
+        List<MissingAddress> 경상도 = missingAddressRepository.findMissingAddressByPrefecture("경상도");
+
+
+        //then
+        assertThat(경상도.size()).isEqualTo(1L);
+        assertThat(경상도.get(0).getPrefecture()).isEqualTo(address.getPrefecture());
+
+
+    }
+
+    @Test
+    void findMissingAddressByStreetName(){
+
+        //givien
+        MissingAddress address = new MissingAddress();
+        address.setStreetName("스프링대로");
+        missingAddressRepository.save(address);
+
+        //when
+        List<MissingAddress> 스프링대로 = missingAddressRepository.findMissingAddressByStreetName("스프링대로");
+
+
+        //then
+        assertThat(스프링대로.size()).isEqualTo(1L);
+        assertThat(스프링대로.get(0).getStreetName()).isEqualTo(address.getStreetName());
+
+    }
 
 
 

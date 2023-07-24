@@ -58,4 +58,49 @@ class RegisterRepositorySDJTest {
         assertThat(deletedCount).isEqualTo(8L);
 
     }
+
+    @Test
+    void countRegisterBy(){
+
+        long count = registerRepository.countRegisterBy();
+
+        assertThat(count).isEqualTo(8L);
+
+
+    }
+
+
+    @Test
+    void findRegisterById(){
+
+        //givien
+         Register register = new Register();
+         registerRepository.save(register);
+
+        //when
+        Register findRegister = registerRepository.findRegisterById(register.getId());
+
+        //then
+        assertThat(findRegister).isEqualTo(register); // 동일성
+
+    }
+
+    @Test
+    void findRegistersByAnimalName(){
+
+        //givien
+        Register register1 = new Register();
+        Register register2 = new Register();
+        register1.setAnimalName("사랑이-1");
+        register2.setAnimalName("사랑이-1");
+        registerRepository.save(register1);
+        registerRepository.save(register2);
+
+        //when
+        List<Register> 사랑이 = registerRepository.findRegistersByAnimalName("사랑이-1");
+
+        //then
+        assertThat(사랑이.size()).isEqualTo(2);
+
+    }
 }

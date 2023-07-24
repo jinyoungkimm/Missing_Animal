@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.repository;
 
 import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;

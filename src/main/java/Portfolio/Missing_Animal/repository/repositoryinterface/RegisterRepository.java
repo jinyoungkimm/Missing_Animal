@@ -15,7 +15,6 @@ public interface RegisterRepository {
 
     public Register findById(Long id);
 
-
     public List<Register> findAll();
 
     public List<Register> findByAnimalName(String animalName);

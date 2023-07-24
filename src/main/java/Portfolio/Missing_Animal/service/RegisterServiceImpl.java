@@ -3,8 +3,9 @@ package Portfolio.Missing_Animal.service;
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.repository.MissingAddressRepository;
+
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
+import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import lombok.RequiredArgsConstructor;

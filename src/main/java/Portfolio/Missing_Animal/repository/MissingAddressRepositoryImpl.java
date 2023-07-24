@@ -2,6 +2,8 @@ package Portfolio.Missing_Animal.repository;
 
 
 import Portfolio.Missing_Animal.domain.MissingAddress;
+import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
+
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,7 +12,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MissingAddressRepository {
+public class MissingAddressRepositoryImpl implements MissingAddressRepository {
 
     private final EntityManager em;
 
