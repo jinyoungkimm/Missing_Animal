@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberRepositorySDJ extends JpaRepository<Member,Long> {
 
@@ -33,17 +34,17 @@ public interface MemberRepositorySDJ extends JpaRepository<Member,Long> {
      */
     public long countMemberBy();
 
-    Page<Member> findMembersByUsername(String username,Pageable pageable);
+    Page<Member> findByUsername(String username,Pageable pageable);
 
     Page<Member> findAll(Pageable pageable);
     @Query("SELECT m FROM Member m WHERE m.id=:id")
-    public Member findMemberById(@Param("id") Long id);
+    public Optional<Member> findById(@Param("id") Long id);
 
     @Query("SELECT m FROM Member m WHERE m.userId=:userId")
-    public Member findMemberByUserId(@Param("userId") String userId);
+    public Member findByUserId(@Param("userId") String userId);
 
     @Query("SELECT m FROM Member m WHERE m.username=:username")
-    public List<Member> findMembersByUsername(@Param("username") String username);
+    public List<Member> findByUsername(@Param("username") String username);
 
 
 

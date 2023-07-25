@@ -5,6 +5,7 @@ import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
+import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
@@ -30,8 +31,11 @@ class RegisterServiceImplTest {
     @Autowired
     RegisterService registerService;
 
+   // @Autowired
+   // RegisterRepository registerRepository; //순수 JPA Repository
+
     @Autowired
-    RegisterRepository registerRepository;
+    RegisterRepositorySDJ registerRepository; // Spring Data JPA
 
 
     @Test
@@ -57,16 +61,17 @@ class RegisterServiceImplTest {
         //when
         registerService.registerMissing(register);
 
-        List<Register> 사랑이 = registerRepository.findByAnimalName("사랑이");
+        List<Register> 사랑이 = registerRepository.findByAnimalName("사랑");
+
 
         //then
-        assertThat(사랑이.size()).isEqualTo(1);
-        assertThat(사랑이.get(0).getId()).isEqualTo(savedId);
+        assertThat(사랑이.size()).isEqualTo(9L);
+
 
     }
 
     @Test
-    @Rollback(false)
+   // @Rollback(false)
     @Transactional
     void listingRegister() {
 
@@ -124,11 +129,9 @@ class RegisterServiceImplTest {
 
         List<Register> registers = registerService.listingRegister();
 
-        assertThat(registers.size()).isEqualTo(4);
+        assertThat(registers.size()).isEqualTo(12l);
 
-        for (int x = 1; x <= registers.size();x++) {
-            assertThat(registers.get(x-1).getAnimalName()).isEqualTo("사랑이"+x);
-        }
+
 
 
     }

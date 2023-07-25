@@ -1,8 +1,8 @@
-package Portfolio.Missing_Animal.exception.QueryrestApi.querycontroller;
+package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 
+import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MemberQueryRepository;
 import Portfolio.Missing_Animal.dto.MemberDto;
-import Portfolio.Missing_Animal.exception.QueryrestApi.queryrepository.MemberQueryRepository;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;

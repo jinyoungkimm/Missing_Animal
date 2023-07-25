@@ -8,6 +8,8 @@ import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
+import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
+import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,16 +21,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RegisterServiceImpl implements RegisterService {
 
-    private final RegisterRepository registerRepository;
+    //private final RegisterRepository registerRepository; // 순수 JPA Repository
 
-    private final MissingAddressRepository missingAddressRepository;
+   //private final MissingAddressRepository missingAddressRepository; // 순수 JPA Repository
+
+    private final RegisterRepositorySDJ registerRepository;
+
+    private final MissingAddressRepositorySDJ missingAddressRepository;
 
     //실종 등록
     @Override
     @Transactional
     public Long registerMissing(Register register) {
 
-        Long saveId = registerRepository.save(register);
+        Long saveId = registerRepository.save(register).getId();
 
         return saveId;
 
@@ -48,7 +54,7 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional(readOnly = true)
     public Register findOne(Long id) {
 
-        Register register = registerRepository.findById(id);
+        Register register = registerRepository.findById(id).get();
 
         return register;
     }
@@ -57,7 +63,7 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional // dirty checking 이용
     public Long updateForm(Long registerId, Register register) {
 
-        Register findRegister = registerRepository.findById(registerId);
+        Register findRegister = registerRepository.findById(registerId).get();
 
         if(register.getFileName() != null)
             findRegister.setFileName(register.getFileName());

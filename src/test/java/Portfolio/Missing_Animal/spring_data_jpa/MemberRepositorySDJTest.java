@@ -101,7 +101,7 @@ class MemberRepositorySDJTest {
         Member save = memberRepository.save(member);
 
         //when
-        Member memberById = memberRepository.findMemberById(save.getId());
+        Member memberById = memberRepository.findById(save.getId()).get();
 
         //then
         assertThat(memberById).isEqualTo(member); // 동일성
@@ -118,7 +118,7 @@ class MemberRepositorySDJTest {
         Member save = memberRepository.save(member);
 
         //when
-        Member findMember = memberRepository.findMemberByUserId("wlsdud6520");
+        Member findMember = memberRepository.findByUserId("wlsdud6520");
 
 
         //then
@@ -137,7 +137,7 @@ class MemberRepositorySDJTest {
         Member save = memberRepository.save(member);
 
         //when
-        List<Member> 진영이 = memberRepository.findMembersByUsername("진영이");
+        List<Member> 진영이 = memberRepository.findByUsername("진영이");
 
         //then
         assertThat(진영이.size()).isEqualTo(1L);
@@ -179,7 +179,7 @@ class MemberRepositorySDJTest {
         //when
         PageRequest pageRequest = PageRequest.of(0, 2, Sort.by(Sort.Direction.DESC, "username"));
 
-        Page<Member> page = memberRepository.findMembersByUsername("a", pageRequest);
+        Page<Member> page = memberRepository.findByUsername("a", pageRequest);
 
         List<Member> content = page.getContent(); // 요청한 page에 해당하는 값들
         long totalElements = page.getTotalElements(); // Member 전체의 개수

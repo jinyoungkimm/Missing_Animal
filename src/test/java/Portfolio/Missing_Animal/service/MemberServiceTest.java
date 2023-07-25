@@ -28,7 +28,7 @@ class MemberServiceTest {
     private EntityManager em;
 
     @Test
-    @Rollback(false)
+    //@Rollback(false)
     void passwordEncoder(){
 
         //givien(회원 가입)
@@ -51,7 +51,7 @@ class MemberServiceTest {
     }
 
     @Test
-    @Rollback(false)
+    //@Rollback(false)
     void duplicate() {
 
         //givien : 기존에 저장되어 있는 데이터
@@ -78,7 +78,7 @@ class MemberServiceTest {
     }
 
     @Test
-    @Rollback(false)
+    //@Rollback(false)
     void memberInfo(){
 
         //givien
@@ -93,7 +93,7 @@ class MemberServiceTest {
     }
 
     @Test
-    @Rollback(false)
+   // @Rollback(false)
     void findRegiserInfo(){
 
         //givien

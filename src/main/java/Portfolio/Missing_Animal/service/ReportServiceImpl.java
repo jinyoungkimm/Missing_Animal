@@ -12,6 +12,10 @@ import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRep
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
+import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
+import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
+import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
+import Portfolio.Missing_Animal.spring_data_jpa.ReportRepositorySDJ;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
@@ -26,14 +30,23 @@ import java.util.List;
 public class ReportServiceImpl implements ReportService { // 신고 관련 기능
 
     // 등록자 정보, 실종 등록 내역을 조회하기 위함!
-    private final RegisterRepository registerRepository;
+    //private final RegisterRepository registerRepository;
 
     // 실종동물을 [주소]로 검색하여서 조회하고 싶을 때!
-    private final MissingAddressRepository missingAddressRepository;
+   // private final MissingAddressRepository missingAddressRepository;
 
-    private final MemberRepository memberRepository;
+    //private final MemberRepository memberRepository;
 
-    private final ReportRepository reportRepository;
+    //private final ReportRepository reportRepository;
+
+    // Spring Data JPA Repository
+    private final RegisterRepositorySDJ registerRepository;
+
+    private final MissingAddressRepositorySDJ missingAddressRepository;
+
+    private final MemberRepositorySDJ memberRepository;
+
+    private final ReportRepositorySDJ reportRepository;
 
 
     @Override
@@ -41,7 +54,7 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
     public Long saveReport(Long registerId, AddressForm findedAddress) {
 
         //Register 조회
-        Register register = registerRepository.findById(registerId);
+        Register register = registerRepository.findById(registerId).get();
         register.setReportedStatus(ReportedStatus.YES);
 
         //Member 조회
@@ -55,7 +68,7 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
         report.setFindedAddress(findedAddress);
 
         //report 저장
-        Long saveId = reportRepository.save(report);
+        Long saveId = reportRepository.save(report).getId();
 
         return saveId;
     }
@@ -66,7 +79,7 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
     public Report findOne(Long reportId){
 
         try {
-            Report report = reportRepository.findById(reportId);
+            Report report = reportRepository.findById(reportId).get();
 
             return report;
         }
@@ -92,7 +105,7 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
     @Transactional // dirty checking 이용
     public Long updateReport(Long reportId, Report report) {
 
-        Report findreport = reportRepository.findById(reportId);
+        Report findreport = reportRepository.findById(reportId).get();
 
         //dirty checking!
         findreport.setFindedTime(report.getFindedTime());

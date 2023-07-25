@@ -232,7 +232,7 @@ class MemberRepositoryTest {
 
         //when
 
-        List<Member> findMembers = memberRepository.findMembersByUsername("kim1");
+        List<Member> findMembers = memberRepository.findByUsername("kim1");
 
 
 

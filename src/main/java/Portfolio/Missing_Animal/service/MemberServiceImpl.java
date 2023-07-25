@@ -7,6 +7,7 @@ import Portfolio.Missing_Animal.domain.Report;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 
+import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
-    private final MemberRepository memberRepository;
+
+   // private final MemberRepository memberRepository; // 순수 JPA Repository
+
+    private final MemberRepositorySDJ memberRepository; // Spring Data JPA Repository
     private final PasswordEncoder bCryptPasswordEncoder; // passWordEncoder는 [인터페이스]이며, BCryptPasswordEncoder는 그 [구현체]이다.
 
 
@@ -37,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 
         Member newMember = member.hashPassword(bCryptPasswordEncoder); // member 객체 안의 평문 비밀번호가 암호화된 비밀번호로 교체된다.
 
-        Long saveId = memberRepository.save(newMember);
+        Long saveId = memberRepository.save(newMember).getId();
 
         return saveId;
 
@@ -95,7 +99,12 @@ public class MemberServiceImpl implements MemberService {
 
                 Member findMember = memberRepository.findByUserId(member.getUserId());
 
-                throw new IllegalStateException("중복되는 id가 1개 존재합니다.");
+                //throw new IllegalStateException("중복되는 id가 1개 존재합니다.");
+                if(findMember != null)
+                    return false;
+                else
+                    return false;
+
             }
             catch(NonUniqueResultException e){ // 결과 값이 2개 이상일 떄!
 
@@ -194,7 +203,7 @@ public class MemberServiceImpl implements MemberService {
     public Member findOne(Long id) {
 
 
-        Member findMember = memberRepository.findById(id);
+        Member findMember = memberRepository.findById(id).get();
 
 
         return findMember;
@@ -204,7 +213,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional // dirty checking을 이요하여 [수정]
     public Long updateMember(Long memberId, Member member) {
 
-        Member findMember = memberRepository.findById(memberId);
+        Member findMember = memberRepository.findById(memberId).get();
 
         findMember.setUsername(member.getUsername());
         findMember.setAddress(member.getAddress());

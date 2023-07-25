@@ -8,6 +8,8 @@ import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRep
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.ReportServiceImpl;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
+import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
+import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,14 +22,18 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    private final RegisterRepository registerRepository;
+    //private final RegisterRepository registerRepository; // 순수 JPA Repository
 
-    private final MissingAddressRepository missingAddressRepository;
+   // private final MissingAddressRepository missingAddressRepository; // 순수 JPA Repository
+
+    private final RegisterRepositorySDJ registerRepository; // Spring Data JPA Repository
+
+    private final MissingAddressRepositorySDJ missingAddressRepository;  // Spring Data JPA Repository
 
     @GetMapping("/{registerId}")
     String clickRegisterForReport(@RequestParam("registerId") Long registerId, Model model){
 
-        Register register = registerRepository.findById(registerId);
+        Register register = registerRepository.findById(registerId).get();
         AddressForm findedAddress = new AddressForm();
 
         model.addAttribute("register",register);

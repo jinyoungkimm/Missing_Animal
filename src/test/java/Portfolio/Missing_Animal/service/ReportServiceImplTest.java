@@ -29,7 +29,7 @@ class ReportServiceImplTest {
 
 
     @Test
-    @Rollback(value = false)
+    //@Rollback(value = false)
     void saveReport() {
 
         //givien
@@ -74,7 +74,7 @@ class ReportServiceImplTest {
 
 
     @Test
-    @Rollback(value = false)
+    //@Rollback(value = false)
     void updateReport(){
 
         //givien

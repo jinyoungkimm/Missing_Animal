@@ -3,7 +3,6 @@ package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 import Portfolio.Missing_Animal.dto.ReportDto;
-import Portfolio.Missing_Animal.exception.QueryrestApi.queryrepository.RegisterQueryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

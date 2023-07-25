@@ -7,6 +7,8 @@ import Portfolio.Missing_Animal.dto.SolvedIncidentDto;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
+import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
+import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +21,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RegisterRestApiServiceImpl implements RegisterRestApiService {
 
-    private final RegisterRepository registerRepository;
+    //private final RegisterRepository registerRepository; // 순수 JPA Repository
 
-    private final MemberRepository memberRepository;
+    //private final MemberRepository memberRepository; // 순수 JPA Repository
+
+    private final RegisterRepositorySDJ registerRepository; // Spring Data JPA
+
+    private final MemberRepositorySDJ memberRepository; // Spring Data JPA
 
     @Override
     @Transactional
@@ -34,7 +40,7 @@ public class RegisterRestApiServiceImpl implements RegisterRestApiService {
             Member findMember = memberRepository.findByUserId(userId); // Context에 id값과 함꼐 존재!!
             register.setMember(findMember); // Member 교체!
 
-            Long saveId = registerRepository.save(register);
+            Long saveId = registerRepository.save(register).getId();
 
 
             return saveId;

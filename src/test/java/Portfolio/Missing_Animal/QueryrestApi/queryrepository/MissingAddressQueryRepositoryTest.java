@@ -3,7 +3,6 @@ package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.RegisterDto;
-import Portfolio.Missing_Animal.exception.QueryrestApi.queryrepository.MissingAddressQueryRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
