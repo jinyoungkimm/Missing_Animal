@@ -5,10 +5,14 @@ import Portfolio.Missing_Animal.EmailForm;
 import Portfolio.Missing_Animal.domain.Report;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter@Setter
+@ToString(of = {"reportId","registerId","memberId","findedTime","findedAddress"})
 public class ReportDto {
 
     Long reportId;

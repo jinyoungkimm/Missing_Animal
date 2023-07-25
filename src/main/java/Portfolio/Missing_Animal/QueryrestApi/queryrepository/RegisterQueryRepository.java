@@ -1,14 +1,21 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
+import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.dto.RegisterDto;
-import Portfolio.Missing_Animal.dto.ReportDto;
+import Portfolio.Missing_Animal.dto.*;
+import Portfolio.Missing_Animal.enumType.RegisterStatus;
+import Portfolio.Missing_Animal.enumType.ReportedStatus;
+import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +25,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RegisterQueryRepository {
     private final EntityManager em;
+
+    private final RegisterRepositorySDJ registerRepositorySDJ;
 
     /**
      * @xToOne 관계의 엔티티를 사용할지 안 할지는 모르지만 어차피 fetch join을 사용하면, 1번의 쿼리로 가져올 수 있으니, 일단은 가져 오도록 하자!
@@ -40,8 +49,7 @@ public class RegisterQueryRepository {
         List<RegisterDto> register = findRegister(); // toOne에 대한 조회!
 
 
-        List<Long> registerIds = toRegisterIds(register);
-
+        List<Long> registerIds = toRegisterDtoIds(register);
 
 
         Map<Long, List<ReportDto>> reportMap = findReportMap(registerIds);// toMany(컬렉션)에 대한 조회
@@ -59,6 +67,62 @@ public class RegisterQueryRepository {
 
 
         return register;
+    }
+
+    public RegisterDtoWithPagination findAllRegisters2WithPaging(int pageNumber,int size){
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<Register> page = registerRepositorySDJ.findAll(pageRequest); // 이 시점에서 이미 toOne에 대한 조회가 left fetch join에 의해 됨.
+
+        Page<RegisterDto> pageDto = page.map(register -> {
+
+            Member member = register.getMember(); // toOne
+            MissingAddress missingAddress = register.getMissingAddress(); // toOne
+
+            return new RegisterDto(register.getId(), member.getId(), missingAddress.getId(),
+                    register.getAnimalName(), register.getAnimalSex(), register.getAnimalAge(), register.getRegisterDate(), register.getRegisterStatus(), register.getReportedStatus());
+
+        });
+
+        List<RegisterDto> content = pageDto.getContent(); // toOne : Member, MissingAddress에 대해 left fetch join 일어남!
+
+        List<Long> registerDtoIds = toRegisterDtoIds(content);
+
+        Map<Long, List<ReportDto>> reportMap = findReportMap(registerDtoIds); // toMany에 대한 조회
+
+
+        //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
+        content.forEach(registerDto -> {
+
+            Long id = registerDto.getRegisterId();
+
+            List<ReportDto> reportDtos = reportMap.get(id);
+
+            registerDto.setReports(reportDtos);
+
+        });
+
+        // pagination 정보!
+
+
+
+        int countCurrent = content.size();
+
+        int pageNumberCurrent = page.getNumber() + 1; // JPA의 PAGE 번호는 0부터 시작!
+
+        long countTotal = page.getTotalElements();
+
+        int pageTotal = page.getTotalPages();
+
+        int itemsCountPerPage = size;
+
+        Pagination pagination = new Pagination(countCurrent,pageNumberCurrent,countTotal,pageTotal,itemsCountPerPage);
+
+        RegisterDtoWithPagination registerDtoWithPagination = new RegisterDtoWithPagination(pagination,content);
+
+        return registerDtoWithPagination;
+
     }
 
     public List<RegisterDto> findRegister(){
@@ -81,7 +145,7 @@ public class RegisterQueryRepository {
 
 
 
-    public List<Long> toRegisterIds(List<RegisterDto> registerDtos){
+    public List<Long> toRegisterDtoIds(List<RegisterDto> registerDtos){
 
 
         return registerDtos.stream()
@@ -91,6 +155,7 @@ public class RegisterQueryRepository {
                 .collect(Collectors.toList());
 
     }
+
 
     public Map<Long,List<ReportDto>> findReportMap(List<Long> registerIds){
 

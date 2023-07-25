@@ -5,6 +5,9 @@ import Portfolio.Missing_Animal.EmailForm;
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.domain.Register;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +22,8 @@ import java.util.stream.Collectors;
  * 궁금한 경우에는 id 값이 주어 져 있으니, Api 이용자에게 Register 조회의 선택권을 넘긴다.
  */
 
-@Data
+@Getter@Setter
+@ToString(of = {"memberId","userId","username","email","phoneNumber"})
 public class MemberDto {
 
     private Long memberId;

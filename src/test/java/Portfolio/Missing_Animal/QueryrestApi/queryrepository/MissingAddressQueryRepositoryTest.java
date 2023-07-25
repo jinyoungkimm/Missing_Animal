@@ -2,11 +2,13 @@ package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.MissingAddress;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
+import Portfolio.Missing_Animal.dto.MissingAddressDtoWithPagination;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -49,9 +51,19 @@ class MissingAddressQueryRepositoryTest {
             }
 
         }
+    }
 
+    @Test
+    void findAllMissingAddress2WithPaging(){
+
+
+        MissingAddressDtoWithPagination allMissingAddress2WithPaging = repository.findAllMissingAddress2WithPaging(0, 2);
+
+        System.out.println(allMissingAddress2WithPaging.getPagination());
+        System.out.println(allMissingAddress2WithPaging.getMissingAddressDtos());
 
     }
+
 
     @Test
     void findById() {

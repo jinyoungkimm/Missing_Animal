@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.dto.RegisterDto;
+import Portfolio.Missing_Animal.dto.RegisterDtoWithPagination;
 import Portfolio.Missing_Animal.dto.ReportDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,14 @@ class RegisterQueryRepositoryTest {
 
     }
 
+    @Test
+    void findAllRegisters2WithPaging() {
 
+        RegisterDtoWithPagination allRegisters2WithPaging = repository.findAllRegisters2WithPaging(0, 2);
+        System.out.println(allRegisters2WithPaging.getPagination());
+        System.out.println(allRegisters2WithPaging.getRegisterDtos());
+
+    }
     @Test
     void findRegisterWithId() {
 

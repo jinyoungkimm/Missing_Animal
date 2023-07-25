@@ -1,14 +1,18 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 
+import Portfolio.Missing_Animal.EmailForm;
 import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.dto.MemberDto;
-import Portfolio.Missing_Animal.dto.RegisterDto;
-import Portfolio.Missing_Animal.dto.ReportDto;
+import Portfolio.Missing_Animal.domain.MissingAddress;
+import Portfolio.Missing_Animal.dto.*;
+import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
+import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -32,6 +36,8 @@ import java.util.stream.Collectors;
 public class MemberQueryRepository {
 
     private final EntityManager em;
+
+    private final MemberRepositorySDJ memberRepositorySDJ; // Spring Data JPA Repository
 
     public List<Member> findAllMembers() { // [페이징 불가능](findAllMembers4() : 최종 최적화 메서드)
 
@@ -83,6 +89,8 @@ public class MemberQueryRepository {
     }
 
 
+
+
     public List<Member> findAllMembers2() { // [페이징 가능]
 
         return em.createQuery("SELECT m FROM Member m"
@@ -127,8 +135,61 @@ public class MemberQueryRepository {
 
                                 " FROM Member m" // Member에 대해서 @xToOne 관계인 엔티티는 없다.
 
-                        ,MemberDto.class)
+                        , MemberDto.class)
                 .getResultList();
+
+    }
+
+    public MemberDtoWithPagination findAllWithPaging(int pageNumber,int size)
+    {
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<Member> page = memberRepositorySDJ.findAll(pageRequest); // member는 toOne 엔티티가 x.
+
+        Page<MemberDto> pageDto = page.map(member ->
+                new MemberDto(member.getId(),member.getUserId(),member.getUsername(),member.getEmail(),member.getPhoneNumber()));
+
+
+        List<MemberDto> content = pageDto.getContent(); // toOne : Member, MissingAddress에 대해 left fetch join 일어남!
+
+        List<Long> memberDtoIds = toMemberDtoIds(content);
+
+        Map<Long, List<RegisterDto>> registerMap = findRegisterMap(memberDtoIds); // toMany에 대한 조회
+        Map<Long, List<ReportDto>> reportMap = findReportMap(memberDtoIds); // toMany에 대한 조회
+
+        //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
+        content.forEach(memberDto -> {
+
+            Long id = memberDto.getMemberId();
+
+            List<RegisterDto> registerDtos = registerMap.get(id);
+            List<ReportDto> reportDtos = reportMap.get(id);
+
+            memberDto.setRegisters(registerDtos);
+            memberDto.setReports(reportDtos);
+
+        });
+
+        // pagination 정보!
+
+
+
+        int countCurrent = content.size();
+
+        int pageNumberCurrent = page.getNumber() + 1; // JPA의 PAGE 번호는 0부터 시작!
+
+        long countTotal = page.getTotalElements();
+
+        int pageTotal = page.getTotalPages();
+
+        int itemsCountPerPage = size;
+
+        Pagination pagination = new Pagination(countCurrent,pageNumberCurrent,countTotal,pageTotal,itemsCountPerPage);
+
+        MemberDtoWithPagination memberDtoWithPagination = new MemberDtoWithPagination(pagination,content);
+
+        return memberDtoWithPagination;
 
     }
 
@@ -157,7 +218,7 @@ public class MemberQueryRepository {
         // root 조회(toOne 관계를 1번에 모두 조회)
         List<MemberDto> members = findMembers(); // toOne에 대한 조회
 
-        List<Long> memberIds = toOrderIds(members);
+        List<Long> memberIds = toMemberDtoIds(members);
 
 
         Map<Long,List<RegisterDto>> registerMap = findRegisterMap(memberIds); // toMany(컬렉션 Register)에 대한 조회 1.
@@ -182,7 +243,7 @@ public class MemberQueryRepository {
     }
 
     // List<MemberDto>에 있는 모든 id값들을 추출하여, 다시 List<Long>으로 반환!
-    private List<Long> toOrderIds(List<MemberDto> result) {
+    private List<Long> toMemberDtoIds(List<MemberDto> result) {
 
         return result.stream()
 

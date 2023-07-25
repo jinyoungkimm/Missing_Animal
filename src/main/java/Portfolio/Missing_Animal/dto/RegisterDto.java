@@ -7,6 +7,9 @@ import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,7 +34,8 @@ import java.util.stream.Collectors;
  * 엔티티(or DTO)는 되도록 [단방향]으로 만들고, API의 사용자에게 [연관 관계 객체의 ID값을 넘김으로써] 연관 관계 조회의 선택권을 넘기자!!
  */
 
-@Data
+@Getter@Setter
+@ToString(of = {"registerId","memberId","missingAddressId","animalName","animalSex","animalAge","registerDate","registerStatus","reportedStatus"})
 public class RegisterDto {
 
     private Long registerId;
@@ -46,10 +50,12 @@ public class RegisterDto {
     private LocalDateTime registerDate;
     private RegisterStatus registerStatus;
 
+    private ReportedStatus reportedStatus;
+
     //컬렉션
     private List<ReportDto> reports;
 
-    private ReportedStatus reportedStatus;
+
 
    // private MemberDto member; // Member member x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
     //private MissingAddressDto missingAddress; // MissingAddress missingAddress x : DTO는 한 개라도 엔티티에 의존해서는 안된다.
@@ -85,11 +91,11 @@ public class RegisterDto {
         this.registerStatus = register.getRegisterStatus();
         this.reportedStatus = register.getReportedStatus();
 
-        this.reports = register.getReports().stream()
+        /*this.reports = register.getReports().stream()
 
                 .map(report -> new ReportDto(report))
 
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
     }
 

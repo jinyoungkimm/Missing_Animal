@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.dto.MemberDto;
+import Portfolio.Missing_Animal.dto.MemberDtoWithPagination;
 import Portfolio.Missing_Animal.dto.ReportDto;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
@@ -61,6 +62,17 @@ class MemberQueryRepositoryTest {
 
     }
 
+    @Test
+    @Transactional
+    void findAllWithPaging(){
+
+        MemberDtoWithPagination allWithPaging = memberQueryRepository.findAllWithPaging(0, 2);
+
+        System.out.println(allWithPaging.getPagination());
+        System.out.println(allWithPaging.getMemberDtos());
+
+
+    }
 
     @Test
     void findMemberWithUserId() {

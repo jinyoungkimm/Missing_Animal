@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.dto.ReportDto;
+import Portfolio.Missing_Animal.dto.ReportDtoWithPagination;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,15 @@ class ReportQueryRepositoryTest {
             System.out.println(reportDto.getReportId());
             assertThat(reportDto.getReportId()).isEqualTo(x);
         }
+
+    }
+
+    @Test
+    void findAllWithPaging2(){
+
+        ReportDtoWithPagination allWithPaging2 = reportQueryRepository.findAllWithPaging2(0, 2);
+        System.out.println(allWithPaging2.getPagination());
+        System.out.println(allWithPaging2.getReportDtos());
 
     }
 

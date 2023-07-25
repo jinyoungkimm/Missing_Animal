@@ -1,12 +1,16 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
+import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.domain.MissingAddress;
-import Portfolio.Missing_Animal.dto.MissingAddressDto;
-import Portfolio.Missing_Animal.dto.RegisterDto;
+import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.dto.*;
+import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -28,6 +32,8 @@ import java.util.stream.Collectors;
 public class MissingAddressQueryRepository {
 
     private final EntityManager em;
+
+    private final MissingAddressRepositorySDJ missingAddressRepositorySDJ; // Spring Data JPA Repository
 
     public List<MissingAddress> findAllMissingAddress(){ // [페이징] 불가능!
 
@@ -101,7 +107,7 @@ public class MissingAddressQueryRepository {
         // root 조회(toOne 관계를 1번에 모두 조회)
         List<MissingAddressDto> missingAddress = findMissingAddress(); // toOne에 대한 조회
 
-        List<Long> missingAddressIds = toOrderIds(missingAddress);
+        List<Long> missingAddressIds = toMissingAddressDtoIds(missingAddress);
 
         Map<Long,List<RegisterDto>> registerMap = findRegisterMap(missingAddressIds); // toMany(컬렉션)에 대한 조회
 
@@ -120,6 +126,55 @@ public class MissingAddressQueryRepository {
 
     }
 
+    public MissingAddressDtoWithPagination findAllMissingAddress2WithPaging(int pageNumber, int size){
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<MissingAddress> page = missingAddressRepositorySDJ.findAll(pageRequest); // 이 시점에서 이미 toOne에 대한 조회가 left fetch join에 의해 됨.
+
+        Page<MissingAddressDto> pageDto = page.map(missingAddress -> new MissingAddressDto(missingAddress.getId(),missingAddress.getZipcode(),
+                missingAddress.getPrefecture(), missingAddress.getCityName(), missingAddress.getGu(), missingAddress.getDong(), missingAddress.getStreetName(), missingAddress.getStreetNumber()));
+
+        List<MissingAddressDto> content = pageDto.getContent(); // toOne : Member, MissingAddress에 대해 left fetch join 일어남!
+
+        List<Long> missingAddressDtoIds = toMissingAddressDtoIds(content);
+
+        Map<Long, List<RegisterDto>> registerMap = findRegisterMap(missingAddressDtoIds); // toMany에 대한 조회
+
+
+        //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
+        content.forEach(missingAddressDto -> {
+
+            Long id = missingAddressDto.getMissingAddressId();
+
+            List<RegisterDto> registerDtos = registerMap.get(id);
+
+            missingAddressDto.setRegisters(registerDtos);
+
+        });
+
+        // pagination 정보!
+
+
+
+        int countCurrent = content.size();
+
+        int pageNumberCurrent = page.getNumber() + 1; // JPA의 PAGE 번호는 0부터 시작!
+
+        long countTotal = page.getTotalElements();
+
+        int pageTotal = page.getTotalPages();
+
+        int itemsCountPerPage = size;
+
+        Pagination pagination = new Pagination(countCurrent,pageNumberCurrent,countTotal,pageTotal,itemsCountPerPage);
+
+        MissingAddressDtoWithPagination missingAddressDtoWithPagination = new MissingAddressDtoWithPagination(pagination,content);
+
+        return missingAddressDtoWithPagination;
+
+    }
+
     public List<MissingAddressDto> findMissingAddress(){
 
         return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +
@@ -133,7 +188,7 @@ public class MissingAddressQueryRepository {
 
     }
 
-    public List<Long> toOrderIds(List<MissingAddressDto> missingAddressDtos){
+    public List<Long> toMissingAddressDtoIds(List<MissingAddressDto> missingAddressDtos){
 
         return missingAddressDtos.stream()
 
