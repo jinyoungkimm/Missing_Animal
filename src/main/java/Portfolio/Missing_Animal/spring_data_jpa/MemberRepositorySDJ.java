@@ -1,10 +1,12 @@
 package Portfolio.Missing_Animal.spring_data_jpa;
 
 import Portfolio.Missing_Animal.domain.Member;
+import jakarta.persistence.QueryHint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -33,17 +35,20 @@ public interface MemberRepositorySDJ extends JpaRepository<Member,Long> {
      *
      */
     public long countMemberBy();
-
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     Page<Member> findByUsername(String username,Pageable pageable);
-
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     Page<Member> findAll(Pageable pageable);
     @Query("SELECT m FROM Member m WHERE m.id=:id")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Optional<Member> findById(@Param("id") Long id);
 
     @Query("SELECT m FROM Member m WHERE m.userId=:userId")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Member findByUserId(@Param("userId") String userId);
 
     @Query("SELECT m FROM Member m WHERE m.username=:username")
+    @QueryHints(value = @QueryHint(name = "org.hibernate.readOnly",value = "true"))
     public List<Member> findByUsername(@Param("username") String username);
 
 

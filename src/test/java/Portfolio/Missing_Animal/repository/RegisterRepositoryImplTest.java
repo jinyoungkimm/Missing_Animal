@@ -35,7 +35,6 @@ class RegisterRepositoryImplTest {
 
 
     @Test
-    //@Rollback(false)
     void save() {
 
         //givien
@@ -87,7 +86,6 @@ class RegisterRepositoryImplTest {
 
 
     @Test
-   //@Rollback(false)
     void findByAnimalId() {
 
         //givien

@@ -2,10 +2,12 @@ package Portfolio.Missing_Animal.spring_data_jpa;
 
 import Portfolio.Missing_Animal.domain.Report;
 import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
+import jakarta.persistence.QueryHint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
@@ -20,10 +22,12 @@ public interface ReportRepositorySDJ extends JpaRepository<Report,Long> {
 
     // toOne에 대해서는 fetch join! toMany에 대해서는 default batch size로 최적화!!!
     @Query("SELECT r FROM Report r LEFT JOIN FETCH r.member m LEFT JOIN FETCH r.register rg WHERE r.id=:id")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Optional<Report> findById(@Param("id") Long id);
 
     // toOne에 대해서는 fetch join! toMany에 대해서는 default batch size로 최적화!!!
     @Query("SELECT r FROM Report r LEFT JOIN FETCH r.member m LEFT JOIN FETCH r.register rg")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<Report> findAll(Pageable pageable);
 
 

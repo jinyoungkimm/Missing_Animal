@@ -32,7 +32,6 @@ class MemberRepositoryTest {
     EntityManager em;
 
     @Test
-    @Rollback(false)
     void save(){
 
         // 순수 JPA Repository
@@ -115,7 +114,6 @@ class MemberRepositoryTest {
     }
 
     @Test
-    @Rollback(false)
     void findById(){
         // 순수 JPA Repository
         /*//given
@@ -151,7 +149,6 @@ class MemberRepositoryTest {
 
 
     @Test
-    @Rollback(false)
     void findAll(){
 
         // 순수 JPA Repository
@@ -201,7 +198,6 @@ class MemberRepositoryTest {
     }
 
     @Test
-    @Rollback(false)
     void findByName(){
         // 순수 JPA Repository
        /* //given

@@ -75,7 +75,6 @@ class MissingAddressRepositoryTest {
     }
 
     @Test
-    //@Rollback(false)
     void findByPrefecture(){
 
         // 순수 JPA Repository
@@ -112,7 +111,6 @@ class MissingAddressRepositoryTest {
     }
 
     @Test
-    //@Rollback(false)
     void findByZipcode(){
 
 
@@ -144,7 +142,6 @@ class MissingAddressRepositoryTest {
 
 
     @Test
-    //@Rollback(false)
     void findByCityName() { // ~[시/군]
 
         // 순수 JPA Repository
@@ -192,7 +189,6 @@ class MissingAddressRepositoryTest {
         }
     }
     @Test
-    //@Rollback(false)
     void findByGu() {
 
         // 순수 JPA Repository
@@ -240,7 +236,6 @@ class MissingAddressRepositoryTest {
     }
 
     @Test
-   // @Rollback(false)
     void findByStreetName() {
 
         // 순수 JPA Repository

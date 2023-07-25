@@ -1,10 +1,12 @@
 package Portfolio.Missing_Animal.spring_data_jpa;
 
 import Portfolio.Missing_Animal.domain.Register;
+import jakarta.persistence.QueryHint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 
 
@@ -27,6 +29,7 @@ public interface RegisterRepositorySDJ extends JpaRepository<Register,Long> {
      */
     public long countRegisterBy();
 
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<Register> findAll(Pageable pageable);
 
 
@@ -34,18 +37,21 @@ public interface RegisterRepositorySDJ extends JpaRepository<Register,Long> {
     @Query("SELECT r FROM Register r LEFT JOIN FETCH r.member m" +
             " LEFT JOIN FETCH r.missingAddress ma" +
             " WHERE r.animalName LIKE concat('%',:animalName,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<Register> findByAnimalName(@Param("animalName") String animalName, Pageable pageable);
 
     // toOne에 대해서는 fetch join, toMany에 대해서는 default batch size로 최적화!
     @Query("SELECT r FROM Register r LEFT JOIN FETCH r.member m" +
             " LEFT JOIN FETCH r.missingAddress ma" +
             " WHERE r.id=:id")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Optional<Register> findById(@Param("id") Long id);
 
     // toOne에 대해서는 fetch join, toMany에 대해서는 default batch size로 최적화!
     @Query("SELECT r FROM Register r LEFT JOIN FETCH r.member m" +
             " LEFT JOIN FETCH r.missingAddress ma" +
             " WHERE r.animalName LIKE concat('%',:animalName,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public List<Register> findByAnimalName(@Param("animalName") String animalName);
 
 

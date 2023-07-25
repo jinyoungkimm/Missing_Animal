@@ -1,10 +1,12 @@
 package Portfolio.Missing_Animal.spring_data_jpa;
 
 import Portfolio.Missing_Animal.domain.MissingAddress;
+import jakarta.persistence.QueryHint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -36,34 +38,45 @@ public interface MissingAddressRepositorySDJ extends JpaRepository<MissingAddres
 
 
     public long countMissingAddressBy();
-
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<MissingAddress> findAll(Pageable pageable);
     @Query("SELECT m FROM MissingAddress m WHERE m.prefecture LIKE concat('%',:prefecture,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<MissingAddress> findByPrefecture(@Param("prefecture") String prefecture,Pageable pageable);
     @Query("SELECT m FROM MissingAddress m WHERE m.zipcode=:zipcode")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<MissingAddress> findByZipcode(@Param("zipcode")String zipcode,Pageable pageable);
     @Query("SELECT m FROM MissingAddress m WHERE m.cityName  LIKE concat('%',:cityName,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<MissingAddress> findByCityName(@Param("cityName")String cityName,Pageable pageable);
     @Query("SELECT m FROM MissingAddress m WHERE m.gu  LIKE concat('%',:gu,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<MissingAddress> findByGu(@Param("gu")String gu,Pageable pageable);
     @Query("SELECT m FROM MissingAddress m WHERE m.streetName LIKE concat('%',:streetName,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<MissingAddress> findByStreetName(@Param("streetName")String streetName,Pageable pageable);
 
     @Query("SELECT m FROM MissingAddress m WHERE m.id=:id")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Optional<MissingAddress> findById(@Param("id") Long id);
 
     @Query("SELECT m FROM MissingAddress m WHERE m.prefecture LIKE concat('%',:prefecture,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public List<MissingAddress> findByPrefecture(@Param("prefecture") String prefecture);
 
     @Query("SELECT m FROM MissingAddress m WHERE m.zipcode=:zipcode")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public List<MissingAddress> findByZipcode(@Param("zipcode")String zipcode);
 
     @Query("SELECT m FROM MissingAddress m WHERE m.cityName  LIKE concat('%',:cityName,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public List<MissingAddress> findByCityName(@Param("cityName")String cityName);
 
     @Query("SELECT m FROM MissingAddress m WHERE m.gu  LIKE concat('%',:gu,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     List<MissingAddress> findByGu(@Param("gu")String gu);
 
     @Query("SELECT m FROM MissingAddress m WHERE m.streetName LIKE concat('%',:streetName,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     List<MissingAddress> findByStreetName(@Param("streetName")String streetName);
 }
