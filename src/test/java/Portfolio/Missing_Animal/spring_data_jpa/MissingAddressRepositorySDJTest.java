@@ -5,6 +5,8 @@ import Portfolio.Missing_Animal.domain.Register;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -75,7 +77,7 @@ class MissingAddressRepositorySDJTest {
         missingAddressRepository.save(address);
 
         //when
-        MissingAddress missingAddressById = missingAddressRepository.findMissingAddressById(address.getId());
+        MissingAddress missingAddressById = missingAddressRepository.findById(address.getId()).get();
 
 
         //then
@@ -92,7 +94,7 @@ class MissingAddressRepositorySDJTest {
         missingAddressRepository.save(address);
 
         //when
-        List<MissingAddress> missingAddressByZipcode = missingAddressRepository.findMissingAddressByZipcode("123-123");
+        List<MissingAddress> missingAddressByZipcode = missingAddressRepository.findByZipcode("123-123");
 
 
         //then
@@ -110,7 +112,7 @@ class MissingAddressRepositorySDJTest {
         missingAddressRepository.save(address);
 
         //when
-        List<MissingAddress> 동래구 = missingAddressRepository.findMissingAddressByGu("동래구");
+        List<MissingAddress> 동래구 = missingAddressRepository.findByGu("동래");
 
         //then
         assertThat(동래구.size()).isEqualTo(1L);
@@ -128,7 +130,7 @@ class MissingAddressRepositorySDJTest {
         missingAddressRepository.save(address);
 
         //when
-        List<MissingAddress> 부산 = missingAddressRepository.findMissingAddressByCityName("부산");
+        List<MissingAddress> 부산 = missingAddressRepository.findByCityName("부산");
 
         //then
         assertThat(부산.size()).isEqualTo(1L);
@@ -145,7 +147,7 @@ class MissingAddressRepositorySDJTest {
         missingAddressRepository.save(address);
 
         //when
-        List<MissingAddress> 경상도 = missingAddressRepository.findMissingAddressByPrefecture("경상도");
+        List<MissingAddress> 경상도 = missingAddressRepository.findByPrefecture("경상도");
 
 
         //then
@@ -164,7 +166,7 @@ class MissingAddressRepositorySDJTest {
         missingAddressRepository.save(address);
 
         //when
-        List<MissingAddress> 스프링대로 = missingAddressRepository.findMissingAddressByStreetName("스프링대로");
+        List<MissingAddress> 스프링대로 = missingAddressRepository.findByStreetName("스프링대로");
 
 
         //then
@@ -174,6 +176,175 @@ class MissingAddressRepositorySDJTest {
     }
 
 
+    @Test
+    void findAll(){
+
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<MissingAddress> page = missingAddressRepository.findAll(pageRequest);
+
+
+        List<MissingAddress> content = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalElements = page.getTotalElements();
+        boolean isNextPage = page.hasNext();
+
+        //then
+        for(MissingAddress m : content){
+
+            System.out.println(m);
+
+        }
+
+        assertThat(totalPages).isEqualTo(2L);
+        assertThat(totalElements).isEqualTo(4L);
+        assertThat(isNextPage).isTrue();
+
+    }
+
+
+    @Test
+    void findMissingAddressByPrefectureWithPaging(){
+
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<MissingAddress> page = missingAddressRepository.findByPrefecture("충청남도",pageRequest);
+
+
+        List<MissingAddress> content = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalElements = page.getTotalElements();
+        boolean isNextPage = page.hasNext();
+
+        //then
+        for(MissingAddress m : content){
+
+            System.out.println(m);
+
+        }
+
+        assertThat(totalPages).isEqualTo(1L);
+        assertThat(totalElements).isEqualTo(1L);
+        assertThat(isNextPage).isFalse();
+
+    }
+
+
+    @Test
+    void findMissingAddressByZipcodeWithPaging(){
+
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<MissingAddress> page = missingAddressRepository.findByZipcode("1-1-1",pageRequest);
+
+
+        List<MissingAddress> content = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalElements = page.getTotalElements();
+        boolean isNextPage = page.hasNext();
+
+        //then
+        for(MissingAddress m : content){
+
+            System.out.println(m);
+
+        }
+
+        assertThat(totalPages).isEqualTo(1L);
+        assertThat(totalElements).isEqualTo(1L);
+        assertThat(isNextPage).isFalse();
+
+    }
+
+    @Test
+    void findMissingAddressByCityNameWithPaging(){
+
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<MissingAddress> page = missingAddressRepository.findByCityName("천안시1",pageRequest);
+
+
+        List<MissingAddress> content = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalElements = page.getTotalElements();
+        boolean isNextPage = page.hasNext();
+
+        //then
+        for(MissingAddress m : content){
+
+            System.out.println(m);
+
+        }
+
+        assertThat(totalPages).isEqualTo(1L);
+        assertThat(totalElements).isEqualTo(1L);
+        assertThat(isNextPage).isFalse();
+
+    }
+
+    @Test
+    void findMissingAddressByGuWithPaging(){
+
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<MissingAddress> page = missingAddressRepository.findByGu("천안구1",pageRequest);
+
+
+        List<MissingAddress> content = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalElements = page.getTotalElements();
+        boolean isNextPage = page.hasNext();
+
+        //then
+        for(MissingAddress m : content){
+
+            System.out.println(m);
+
+        }
+
+        assertThat(totalPages).isEqualTo(1L);
+        assertThat(totalElements).isEqualTo(1L);
+        assertThat(isNextPage).isFalse();
+
+    }
+
+    @Test
+    void findMissingAddressByStreetNameWithPaging(){
+
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<MissingAddress> page = missingAddressRepository.findByStreetName("천안대로1_1",pageRequest);
+
+
+        List<MissingAddress> content = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalElements = page.getTotalElements();
+        boolean isNextPage = page.hasNext();
+
+        //then
+        for(MissingAddress m : content){
+
+            System.out.println(m);
+
+        }
+
+        assertThat(totalPages).isEqualTo(1L);
+        assertThat(totalElements).isEqualTo(1L);
+        assertThat(isNextPage).isFalse();
+
+    }
 
 
 }

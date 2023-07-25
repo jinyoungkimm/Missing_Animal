@@ -1,11 +1,15 @@
 package Portfolio.Missing_Animal.spring_data_jpa;
 
 import Portfolio.Missing_Animal.domain.Register;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+
 import java.util.List;
+import java.util.Optional;
 
 public interface RegisterRepositorySDJ extends JpaRepository<Register,Long> {
 
@@ -23,10 +27,26 @@ public interface RegisterRepositorySDJ extends JpaRepository<Register,Long> {
      */
     public long countRegisterBy();
 
-    @Query("SELECT r FROM Register r WHERE r.id=:id")
-    public Register findRegisterById(@Param("id") Long id);
-    @Query("SELECT r FROM Register r WHERE r.animalName=:animalName")
-    public List<Register> findRegistersByAnimalName(@Param("animalName") String animalName);
+    public Page<Register> findAll(Pageable pageable);
+
+
+    // toOne에 대해서는 fetch join, toMany에 대해서는 default batch size로 최적화!
+    @Query("SELECT r FROM Register r LEFT JOIN FETCH r.member m" +
+            " LEFT JOIN FETCH r.missingAddress ma" +
+            " WHERE r.animalName LIKE concat('%',:animalName,'%')")
+    public Page<Register> findByAnimalName(@Param("animalName") String animalName, Pageable pageable);
+
+    // toOne에 대해서는 fetch join, toMany에 대해서는 default batch size로 최적화!
+    @Query("SELECT r FROM Register r LEFT JOIN FETCH r.member m" +
+            " LEFT JOIN FETCH r.missingAddress ma" +
+            " WHERE r.id=:id")
+    public Optional<Register> findById(@Param("id") Long id);
+
+    // toOne에 대해서는 fetch join, toMany에 대해서는 default batch size로 최적화!
+    @Query("SELECT r FROM Register r LEFT JOIN FETCH r.member m" +
+            " LEFT JOIN FETCH r.missingAddress ma" +
+            " WHERE r.animalName LIKE concat('%',:animalName,'%')")
+    public List<Register> findByAnimalName(@Param("animalName") String animalName);
 
 
 }

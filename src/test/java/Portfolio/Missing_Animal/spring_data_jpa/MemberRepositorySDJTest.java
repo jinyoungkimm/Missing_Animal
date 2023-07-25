@@ -1,24 +1,24 @@
 package Portfolio.Missing_Animal.spring_data_jpa;
 
 import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.Register;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
 @Transactional
-class MemberRepositoryTest {
+class MemberRepositorySDJTest {
 
     @Autowired
     MemberRepositorySDJ memberRepository;
@@ -141,6 +141,90 @@ class MemberRepositoryTest {
 
         //then
         assertThat(진영이.size()).isEqualTo(1L);
+
+
+    }
+
+    @Test
+    void findAllWithPaging() throws Exception{
+
+        //givien
+        Member member1 = new Member();
+        Member member2 = new Member();
+        Member member3 = new Member();
+        Member member4 = new Member();
+        Member member5 = new Member();
+        member1.setUsername("a");
+        member1.setUserId("wlsdud65231");
+
+        member2.setUsername("a");
+        member2.setUserId("wlsdud652423");
+
+        member3.setUsername("a");
+        member3.setUserId("wlsdud652213");
+
+        member4.setUsername("a");
+        member4.setUserId("wlsdud652012");
+
+        member5.setUsername("a");
+        member5.setUserId("wlsdud652933");
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+        memberRepository.save(member4);
+        memberRepository.save(member5);
+
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 2, Sort.by(Sort.Direction.DESC, "username"));
+
+        Page<Member> page = memberRepository.findMembersByUsername("a", pageRequest);
+
+        List<Member> content = page.getContent(); // 요청한 page에 해당하는 값들
+        long totalElements = page.getTotalElements(); // Member 전체의 개수
+        int pageNumber = page.getNumber(); // 해당 페이지의 페이지 번호
+        boolean isFirstPage = page.isFirst(); // 조회된 페이지가 1번 페이지인가?
+        boolean isNextPage = page.hasNext(); // 다음 페이지가 존재를 하는가?
+        int totalPages = page.getTotalPages(); // 전체 페이지의 개수
+
+        //then
+        assertThat(content.size()).isEqualTo(2L);
+        assertThat(totalElements).isEqualTo(5L);
+        assertThat(totalPages).isEqualTo(3L);
+        assertThat(pageNumber).isEqualTo(0);
+        assertThat(isFirstPage).isTrue();
+        assertThat(isNextPage).isTrue();
+
+
+
+
+    }
+
+
+    @Test
+    void findAll(){
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 3);
+
+        Page<Member> page = memberRepository.findAll(pageRequest);
+
+
+        //then
+        List<Member> content = page.getContent();
+        for (Member member : content) {
+            System.out.println(member);
+        }
+
+        int totalPages = page.getTotalPages();
+        assertThat(totalPages).isEqualTo(2L);
+
+        long totalElements = page.getTotalElements();
+        assertThat(totalElements).isEqualTo(4L);
+
+        boolean isNextPage = page.hasNext();
+        assertThat(isNextPage).isTrue();
 
 
     }

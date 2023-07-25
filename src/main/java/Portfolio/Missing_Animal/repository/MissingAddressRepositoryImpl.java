@@ -54,7 +54,7 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
     public List<MissingAddress> findByPrefecture(String prefecture){
 
         return em.createQuery("SELECT ma FROM MissingAddress ma" +
-                " WHERE ma.prefecture=:prefecture",MissingAddress.class)
+                " WHERE ma.prefecture LIKE concat('%',:prefecture,'%') ",MissingAddress.class)
                 .setParameter("prefecture",prefecture)
                 .getResultList();
 
@@ -100,7 +100,7 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
     public List<MissingAddress> findByStreetName(String streetName){
 
     return em.createQuery("SELECT ma FROM MissingAddress ma" +
-            " WHERE ma.streetName=:streetName",MissingAddress.class)
+            " WHERE ma.streetName LIKE concat('%',:streetName,'%')",MissingAddress.class)
             .setParameter("streetName",streetName)
             .getResultList();
 

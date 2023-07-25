@@ -2,7 +2,13 @@ package Portfolio.Missing_Animal.spring_data_jpa;
 
 import Portfolio.Missing_Animal.domain.Report;
 import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 public interface ReportRepositorySDJ extends JpaRepository<Report,Long> {
 
@@ -11,4 +17,14 @@ public interface ReportRepositorySDJ extends JpaRepository<Report,Long> {
      * 따라서, @Query에다가 JPQL을 직접 작성하여 메서드의 이름이 길어지는 것을 예방하자!
      *
      */
+
+    // toOne에 대해서는 fetch join! toMany에 대해서는 default batch size로 최적화!!!
+    @Query("SELECT r FROM Report r LEFT JOIN FETCH r.member m LEFT JOIN FETCH r.register rg WHERE r.id=:id")
+    public Optional<Report> findById(@Param("id") Long id);
+
+    // toOne에 대해서는 fetch join! toMany에 대해서는 default batch size로 최적화!!!
+    @Query("SELECT r FROM Report r LEFT JOIN FETCH r.member m LEFT JOIN FETCH r.register rg")
+    public Page<Report> findAll(Pageable pageable);
+
+
 }

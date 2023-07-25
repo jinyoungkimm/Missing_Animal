@@ -5,6 +5,7 @@ import Portfolio.Missing_Animal.domain.Register;
 import Portfolio.Missing_Animal.domain.animal.Animal;
 import Portfolio.Missing_Animal.domain.animal.Dog;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
+import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
@@ -26,12 +27,15 @@ class RegisterRepositoryImplTest {
 
     @Autowired
     EntityManager em;
+    /*@Autowired
+    RegisterRepository registerRepository;*/ // 순수 JPA Repository
+
     @Autowired
-    RegisterRepository registerRepository;
+    RegisterRepositorySDJ registerRepository; // Spring Data Repository
 
 
     @Test
-    @Rollback(false)
+    //@Rollback(false)
     void save() {
 
         //givien
@@ -59,12 +63,12 @@ class RegisterRepositoryImplTest {
     void delete(){
 
         //givien
-        Register finded1 = registerRepository.findById(1L);
+        Register finded1 = registerRepository.findById(1L).get();
 
         //when
         registerRepository.delete(finded1);
 
-        Register finded2 = registerRepository.findById(1L);
+        Register finded2 = registerRepository.findById(1L).get();
 
         //then
         fail("예외가 터졌어야 했다.");
@@ -83,7 +87,7 @@ class RegisterRepositoryImplTest {
 
 
     @Test
-    @Rollback(false)
+   //@Rollback(false)
     void findByAnimalId() {
 
         //givien
@@ -99,7 +103,7 @@ class RegisterRepositoryImplTest {
         Long savedId = register.getId();
 
         //when
-        Register findRegister = registerRepository.findById(savedId);
+        Register findRegister = registerRepository.findById(savedId).get();
 
         //then
         assertThat(findRegister.getAnimalName()).isEqualTo("사랑이");
@@ -109,7 +113,7 @@ class RegisterRepositoryImplTest {
     void findAll() {
 
         //givien
-        Register register1 = new Register();
+       /* Register register1 = new Register();
         register1.setAnimalName("사랑이1");
         registerRepository.save(register1);
 
@@ -123,7 +127,7 @@ class RegisterRepositoryImplTest {
 
         Register register4 = new Register();
         register4.setAnimalName("사랑이4");
-        registerRepository.save(register4);
+        registerRepository.save(register4);*/
         //when
 
         List<Register> all = registerRepository.findAll();
@@ -138,7 +142,7 @@ class RegisterRepositoryImplTest {
     void findByAnimalName() {
 
         //givien
-        Register register1 = new Register();
+       /* Register register1 = new Register();
         register1.setAnimalName("사랑이1");
         registerRepository.save(register1);
 
@@ -152,13 +156,13 @@ class RegisterRepositoryImplTest {
 
         Register register4 = new Register();
         register4.setAnimalName("사랑이4");
-        registerRepository.save(register4);
+        registerRepository.save(register4);*/
 
         //when
-        List<Register> 사랑이1 = registerRepository.findByAnimalName("사랑이1");
+        List<Register> 사랑이1 = registerRepository.findByAnimalName("사랑이");
 
         //then
-        assertThat(사랑이1.size()).isEqualTo(1);
-        assertThat(사랑이1.get(0).getAnimalName()).isEqualTo("사랑이1");
+        assertThat(사랑이1.size()).isEqualTo(8);
+   
     }
 }

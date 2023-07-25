@@ -94,7 +94,7 @@ public class RegisterRepositoryImpl implements RegisterRepository {
 
                         " JOIN FETCH r.missingAddress mr" +
 
-                        " WHERE r.animalName=:animalName", Register.class)
+                        " WHERE r.animalName LIKE concat('%',:animalName,'%')", Register.class)
 
                 .setParameter("animalName",animalName)
 

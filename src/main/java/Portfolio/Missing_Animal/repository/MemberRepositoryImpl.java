@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.repository;
 
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
+import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
@@ -69,7 +70,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     }
     @Override
-    public List<Member> findByName(String username)
+    public List<Member> findByUserName(String username)
     {
 
         List<Member> username1 = em.createQuery("SELECT m FROM Member m WHERE m.username=:username", Member.class)

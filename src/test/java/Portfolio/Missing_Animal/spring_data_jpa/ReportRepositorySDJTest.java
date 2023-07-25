@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,6 +57,17 @@ class ReportRepositorySDJTest {
         assertThat(deletedCount).isEqualTo(16L);
 
     }
+
+    @Test
+    void joinFetch(){
+
+        Report report = reportRepository.findById(1L).get();
+
+        report.getMember().getUsername();
+        report.getRegister().getAnimalName();
+
+    }
+
 
 
 }

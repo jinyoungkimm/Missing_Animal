@@ -19,7 +19,7 @@ public interface MemberRepository {
 
     public Member findByUserId(String userId);
 
-    public List<Member> findByName(String username);
+    public List<Member> findByUserName(String username);
 
 
 

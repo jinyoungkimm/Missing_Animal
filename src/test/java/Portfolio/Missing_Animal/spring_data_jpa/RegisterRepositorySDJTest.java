@@ -2,12 +2,17 @@ package Portfolio.Missing_Animal.spring_data_jpa;
 
 import Portfolio.Missing_Animal.domain.Member;
 import Portfolio.Missing_Animal.domain.Register;
+import org.apache.coyote.Request;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +81,7 @@ class RegisterRepositorySDJTest {
          registerRepository.save(register);
 
         //when
-        Register findRegister = registerRepository.findRegisterById(register.getId());
+        Register findRegister = registerRepository.findById(register.getId()).get();
 
         //then
         assertThat(findRegister).isEqualTo(register); // 동일성
@@ -95,10 +100,61 @@ class RegisterRepositorySDJTest {
         registerRepository.save(register2);
 
         //when
-        List<Register> 사랑이 = registerRepository.findRegistersByAnimalName("사랑이-1");
+        List<Register> 사랑이 = registerRepository.findByAnimalName("사랑이-1");
 
         //then
         assertThat(사랑이.size()).isEqualTo(2);
 
     }
+
+    @Test
+    void findRegistersByAnimalNameWithPaging(){
+
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<Register> page = registerRepository.findByAnimalName("사랑이1",  pageRequest);
+
+        List<Register> content = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalElements = page.getTotalElements();
+        boolean isNextPage = page.hasNext();
+
+        //then
+        for (Register register : content) {
+            System.out.println(register);
+        }
+        assertThat(totalElements).isEqualTo(1L);
+
+        assertThat(totalPages).isEqualTo(1L);
+
+        assertThat(isNextPage).isFalse();
+
+    }
+
+    @Test
+    void findAllWithPaging(){
+
+
+        //when
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<Register> page = registerRepository.findAll(pageRequest);
+
+        List<Register> content = page.getContent();
+        long totalElements = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+        boolean isNextPage = page.hasNext();
+
+        //then
+        for (Register register : content) {
+            System.out.println(register);
+        }
+        assertThat(totalElements).isEqualTo(8L);
+        assertThat(totalPages).isEqualTo(4L);
+        assertThat(isNextPage).isTrue();
+
+    }
+
 }

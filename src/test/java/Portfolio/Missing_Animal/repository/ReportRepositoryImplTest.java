@@ -2,6 +2,8 @@ package Portfolio.Missing_Animal.repository;
 
 import Portfolio.Missing_Animal.domain.Report;
 import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
+import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
+import Portfolio.Missing_Animal.spring_data_jpa.ReportRepositorySDJ;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,34 +18,21 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class ReportRepositoryImplTest {
 
+    /*@Autowired
+    ReportRepository reportRepository;*/ // 순수 JPA Repository
+
     @Autowired
-    ReportRepository reportRepository;
+    ReportRepositorySDJ reportRepository; // Spring Data JPA Repository
 
     @Test
     void findById() {
 
-        Report report = reportRepository.findById(1L);
+        Report report = reportRepository.findById(1L).get();
 
         Assertions.assertThat(report.getMember().getUsername()).isEqualTo("김진영1");
 
     }
 
-    @Test
-    void delete(){
-
-        //givien
-
-        //when
-
-        //then
-    }
-
-    @Test
-    void count(){
-
-
-
-    }
 
 
 }

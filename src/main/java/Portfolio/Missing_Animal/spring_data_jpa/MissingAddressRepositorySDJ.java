@@ -1,11 +1,14 @@
 package Portfolio.Missing_Animal.spring_data_jpa;
 
 import Portfolio.Missing_Animal.domain.MissingAddress;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MissingAddressRepositorySDJ extends JpaRepository<MissingAddress,Long> {
 
@@ -34,21 +37,33 @@ public interface MissingAddressRepositorySDJ extends JpaRepository<MissingAddres
 
     public long countMissingAddressBy();
 
-    @Query("SELECT m FROM MissingAddress m WHERE m.id=:id")
-    public MissingAddress findMissingAddressById(@Param("id") Long id);
+    public Page<MissingAddress> findAll(Pageable pageable);
+    @Query("SELECT m FROM MissingAddress m WHERE m.prefecture LIKE concat('%',:prefecture,'%')")
+    public Page<MissingAddress> findByPrefecture(@Param("prefecture") String prefecture,Pageable pageable);
+    @Query("SELECT m FROM MissingAddress m WHERE m.zipcode=:zipcode")
+    public Page<MissingAddress> findByZipcode(@Param("zipcode")String zipcode,Pageable pageable);
+    @Query("SELECT m FROM MissingAddress m WHERE m.cityName  LIKE concat('%',:cityName,'%')")
+    public Page<MissingAddress> findByCityName(@Param("cityName")String cityName,Pageable pageable);
+    @Query("SELECT m FROM MissingAddress m WHERE m.gu  LIKE concat('%',:gu,'%')")
+    public Page<MissingAddress> findByGu(@Param("gu")String gu,Pageable pageable);
+    @Query("SELECT m FROM MissingAddress m WHERE m.streetName LIKE concat('%',:streetName,'%')")
+    public Page<MissingAddress> findByStreetName(@Param("streetName")String streetName,Pageable pageable);
 
-    @Query("SELECT m FROM MissingAddress m WHERE m.prefecture=:prefecture")
-    public List<MissingAddress> findMissingAddressByPrefecture(@Param("prefecture") String prefecture);
+    @Query("SELECT m FROM MissingAddress m WHERE m.id=:id")
+    public Optional<MissingAddress> findById(@Param("id") Long id);
+
+    @Query("SELECT m FROM MissingAddress m WHERE m.prefecture LIKE concat('%',:prefecture,'%')")
+    public List<MissingAddress> findByPrefecture(@Param("prefecture") String prefecture);
 
     @Query("SELECT m FROM MissingAddress m WHERE m.zipcode=:zipcode")
-    public List<MissingAddress> findMissingAddressByZipcode(@Param("zipcode")String zipcode);
+    public List<MissingAddress> findByZipcode(@Param("zipcode")String zipcode);
 
-    @Query("SELECT m FROM MissingAddress m WHERE m.cityName=:cityName")
-    public List<MissingAddress> findMissingAddressByCityName(@Param("cityName")String cityName);
+    @Query("SELECT m FROM MissingAddress m WHERE m.cityName  LIKE concat('%',:cityName,'%')")
+    public List<MissingAddress> findByCityName(@Param("cityName")String cityName);
 
-    @Query("SELECT m FROM MissingAddress m WHERE m.gu =:gu")
-    List<MissingAddress> findMissingAddressByGu(@Param("gu")String gu);
+    @Query("SELECT m FROM MissingAddress m WHERE m.gu  LIKE concat('%',:gu,'%')")
+    List<MissingAddress> findByGu(@Param("gu")String gu);
 
-    @Query("SELECT m FROM MissingAddress m WHERE m.streetName=:streetName")
-    List<MissingAddress> findMissingAddressByStreetName(@Param("streetName")String streetName);
+    @Query("SELECT m FROM MissingAddress m WHERE m.streetName LIKE concat('%',:streetName,'%')")
+    List<MissingAddress> findByStreetName(@Param("streetName")String streetName);
 }
