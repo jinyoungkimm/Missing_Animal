@@ -52,6 +52,7 @@ dependencies {
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
+
 }
 
 tasks.named('test') {
@@ -59,7 +60,7 @@ tasks.named('test') {
 }
 
 
-//querydsl 추가 시작
+/*//querydsl 추가 시작
 def querydslDir = "$buildDir/generated/querydsl"
 clean {
 	delete file(querydslDir)
@@ -67,4 +68,4 @@ clean {
 tasks.withType(JavaCompile) {
 	options.generatedSourceOutputDirectory = file(querydslDir)
 }
-//querydsl 추가 끝
+//querydsl 추가 끝*/
