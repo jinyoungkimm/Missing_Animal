@@ -60,12 +60,4 @@ tasks.named('test') {
 }
 
 
-/*//querydsl 추가 시작
-def querydslDir = "$buildDir/generated/querydsl"
-clean {
-	delete file(querydslDir)
-}
-tasks.withType(JavaCompile) {
-	options.generatedSourceOutputDirectory = file(querydslDir)
-}
-//querydsl 추가 끝*/
+

@@ -1,12 +1,10 @@
 package Portfolio.Missing_Animal.restAPI.APIService;
 
 
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.SolvedIncidentDto;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
-import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
-import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import jakarta.persistence.NoResultException;

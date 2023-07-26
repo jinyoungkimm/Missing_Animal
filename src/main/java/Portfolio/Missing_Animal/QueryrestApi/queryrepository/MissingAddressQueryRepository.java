@@ -1,8 +1,6 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.MissingAddress;
-import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.dto.*;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import jakarta.persistence.EntityManager;

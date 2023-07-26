@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.domain.animal;
+package Portfolio.Missing_Animal.domainEntity.animal;
 
 
 import jakarta.persistence.*;

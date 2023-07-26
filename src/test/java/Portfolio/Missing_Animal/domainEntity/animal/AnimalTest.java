@@ -1,16 +1,12 @@
-package Portfolio.Missing_Animal.domain.animal;
+package Portfolio.Missing_Animal.domainEntity.animal;
 
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.domain.Report;
+import Portfolio.Missing_Animal.domainEntity.Register;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest

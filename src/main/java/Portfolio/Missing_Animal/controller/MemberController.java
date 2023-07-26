@@ -1,15 +1,14 @@
 package Portfolio.Missing_Animal.controller;
 
 
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.domain.Report;
+import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.domain;
+package Portfolio.Missing_Animal.domainEntity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
 public class QMemberAddress extends BeanPath<MemberAddress> {
 
-    private static final long serialVersionUID = -152768637L;
+    private static final long serialVersionUID = -692875002L;
 
     public static final QMemberAddress memberAddress = new QMemberAddress("memberAddress");
 

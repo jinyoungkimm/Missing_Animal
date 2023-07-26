@@ -1,7 +1,7 @@
 package Portfolio.Missing_Animal.APIdto;
 
 import Portfolio.Missing_Animal.AddressForm;
-import Portfolio.Missing_Animal.domain.animal.Animal;
+import Portfolio.Missing_Animal.domainEntity.animal.Animal;
 import lombok.Data;
 
 import java.time.LocalDateTime;

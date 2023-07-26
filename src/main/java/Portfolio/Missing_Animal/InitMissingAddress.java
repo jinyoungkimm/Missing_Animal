@@ -1,18 +1,14 @@
 package Portfolio.Missing_Animal;
 
 
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.MissingAddress;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.domain.Report;
-import Portfolio.Missing_Animal.dto.ReportDto;
+import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
+import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.domain.animal;
+package Portfolio.Missing_Animal.domainEntity.animal;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QDog extends EntityPathBase<Dog> {
 
-    private static final long serialVersionUID = -981199071L;
+    private static final long serialVersionUID = -2001363842L;
 
     public static final QDog dog = new QDog("dog");
 
@@ -25,7 +25,7 @@ public class QDog extends EntityPathBase<Dog> {
     public final NumberPath<Long> id = _super.id;
 
     //inherited
-    public final ListPath<Portfolio.Missing_Animal.domain.Register, Portfolio.Missing_Animal.domain.QRegister> registers = _super.registers;
+    public final ListPath<Portfolio.Missing_Animal.domainEntity.Register, Portfolio.Missing_Animal.domainEntity.QRegister> registers = _super.registers;
 
     public QDog(String variable) {
         super(Dog.class, forVariable(variable));

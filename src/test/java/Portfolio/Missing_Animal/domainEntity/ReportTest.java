@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.domain;
+package Portfolio.Missing_Animal.domainEntity;
 
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
@@ -8,13 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.parser.Entity;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
 
 
 @SpringBootTest

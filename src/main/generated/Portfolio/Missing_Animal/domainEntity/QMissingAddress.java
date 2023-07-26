@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.domain;
+package Portfolio.Missing_Animal.domainEntity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMissingAddress extends EntityPathBase<MissingAddress> {
 
-    private static final long serialVersionUID = 1617288517L;
+    private static final long serialVersionUID = 2053860386L;
 
     public static final QMissingAddress missingAddress = new QMissingAddress("missingAddress");
 

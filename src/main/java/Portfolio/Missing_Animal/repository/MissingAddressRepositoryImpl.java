@@ -1,7 +1,7 @@
 package Portfolio.Missing_Animal.repository;
 
 
-import Portfolio.Missing_Animal.domain.MissingAddress;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
 
 import jakarta.persistence.EntityManager;

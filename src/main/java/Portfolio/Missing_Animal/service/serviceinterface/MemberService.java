@@ -1,9 +1,8 @@
 package Portfolio.Missing_Animal.service.serviceinterface;
 
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.domain.Report;
-import jakarta.transaction.Transactional;
+import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.domainEntity.Report;
 
 import java.util.List;
 

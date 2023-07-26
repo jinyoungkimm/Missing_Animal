@@ -1,6 +1,6 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
-import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.dto.MemberDto;
 import Portfolio.Missing_Animal.dto.MemberDtoWithPagination;
 import Portfolio.Missing_Animal.dto.ReportDto;

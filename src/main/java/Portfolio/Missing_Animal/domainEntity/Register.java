@@ -1,11 +1,10 @@
-package Portfolio.Missing_Animal.domain;
+package Portfolio.Missing_Animal.domainEntity;
 
 
-import Portfolio.Missing_Animal.domain.animal.Animal;
+import Portfolio.Missing_Animal.domainEntity.animal.Animal;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

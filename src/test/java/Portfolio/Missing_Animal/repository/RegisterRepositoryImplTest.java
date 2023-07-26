@@ -1,18 +1,15 @@
 package Portfolio.Missing_Animal.repository;
 
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.domain.animal.Animal;
-import Portfolio.Missing_Animal.domain.animal.Dog;
-import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
+import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.domainEntity.animal.Animal;
+import Portfolio.Missing_Animal.domainEntity.animal.Dog;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
 import java.util.List;

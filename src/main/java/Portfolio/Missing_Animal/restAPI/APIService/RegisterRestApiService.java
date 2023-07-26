@@ -1,6 +1,6 @@
 package Portfolio.Missing_Animal.restAPI.APIService;
 
-import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.SolvedIncidentDto;
 
 public interface RegisterRestApiService {

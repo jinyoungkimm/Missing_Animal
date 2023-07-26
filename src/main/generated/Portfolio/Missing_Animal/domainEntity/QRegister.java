@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.domain;
+package Portfolio.Missing_Animal.domainEntity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,13 +16,13 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QRegister extends EntityPathBase<Register> {
 
-    private static final long serialVersionUID = -2039196294L;
+    private static final long serialVersionUID = 1007783447L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QRegister register = new QRegister("register");
 
-    public final Portfolio.Missing_Animal.domain.animal.QAnimal animal;
+    public final Portfolio.Missing_Animal.domainEntity.animal.QAnimal animal;
 
     public final StringPath animalAge = createString("animalAge");
 
@@ -70,7 +70,7 @@ public class QRegister extends EntityPathBase<Register> {
 
     public QRegister(Class<? extends Register> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.animal = inits.isInitialized("animal") ? new Portfolio.Missing_Animal.domain.animal.QAnimal(forProperty("animal")) : null;
+        this.animal = inits.isInitialized("animal") ? new Portfolio.Missing_Animal.domainEntity.animal.QAnimal(forProperty("animal")) : null;
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
         this.missingAddress = inits.isInitialized("missingAddress") ? new QMissingAddress(forProperty("missingAddress")) : null;
     }

@@ -2,7 +2,7 @@ package Portfolio.Missing_Animal.restAPI.APIcontroller;
 
 
 import Portfolio.Missing_Animal.APIdto.*;
-import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

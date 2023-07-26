@@ -1,12 +1,9 @@
-package Portfolio.Missing_Animal.domain.animal;
+package Portfolio.Missing_Animal.domainEntity.animal;
 
 
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.domain.Report;
+import Portfolio.Missing_Animal.domainEntity.Register;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;

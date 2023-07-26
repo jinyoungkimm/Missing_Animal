@@ -2,9 +2,7 @@ package Portfolio.Missing_Animal.dto;
 
 
 import Portfolio.Missing_Animal.EmailForm;
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.Register;
-import lombok.Data;
+import Portfolio.Missing_Animal.domainEntity.Member;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

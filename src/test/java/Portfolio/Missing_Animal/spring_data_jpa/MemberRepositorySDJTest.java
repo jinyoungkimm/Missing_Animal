@@ -1,6 +1,6 @@
 package Portfolio.Missing_Animal.spring_data_jpa;
 
-import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domainEntity.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

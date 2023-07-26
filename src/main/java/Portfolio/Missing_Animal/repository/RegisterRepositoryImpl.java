@@ -1,19 +1,13 @@
 package Portfolio.Missing_Animal.repository;
 
 
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.domain.Report;
-import Portfolio.Missing_Animal.dto.RegisterDto;
+import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor

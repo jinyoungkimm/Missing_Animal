@@ -3,7 +3,7 @@ package Portfolio.Missing_Animal.restAPI.APIcontroller;
 
 import Portfolio.Missing_Animal.APIdto.UpdateReportRequest;
 import Portfolio.Missing_Animal.APIdto.UpdateReportResponse;
-import Portfolio.Missing_Animal.domain.Report;
+import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

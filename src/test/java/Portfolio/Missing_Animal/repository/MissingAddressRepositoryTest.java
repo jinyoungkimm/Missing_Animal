@@ -1,17 +1,11 @@
 package Portfolio.Missing_Animal.repository;
 
-import Portfolio.Missing_Animal.domain.MissingAddress;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package Portfolio.Missing_Animal.repository;
 
 
-import Portfolio.Missing_Animal.domain.Report;
+import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor

@@ -1,16 +1,11 @@
 package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.AddressForm;
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.MissingAddress;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.domain.Report;
+import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
 
-import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
-import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
-import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
-import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;

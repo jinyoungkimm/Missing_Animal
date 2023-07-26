@@ -1,9 +1,8 @@
 package Portfolio.Missing_Animal.repository.repositoryinterface;
 
-import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domainEntity.Member;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MemberRepository {
 

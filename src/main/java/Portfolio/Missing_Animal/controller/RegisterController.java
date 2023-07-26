@@ -1,8 +1,8 @@
 package Portfolio.Missing_Animal.controller;
 
 
-import Portfolio.Missing_Animal.domain.MissingAddress;
-import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
+import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
 import lombok.RequiredArgsConstructor;

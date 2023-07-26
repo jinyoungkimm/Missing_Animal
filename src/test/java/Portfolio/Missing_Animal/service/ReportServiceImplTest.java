@@ -1,23 +1,19 @@
 package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.AddressForm;
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.domain.Report;
-import Portfolio.Missing_Animal.domain.animal.Dog;
-import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
+import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.domainEntity.Report;
+import Portfolio.Missing_Animal.domainEntity.animal.Dog;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest

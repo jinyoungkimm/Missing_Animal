@@ -2,11 +2,8 @@ package Portfolio.Missing_Animal.controller;
 
 
 import Portfolio.Missing_Animal.AddressForm;
-import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.domainEntity.Register;
 
-import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
-import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
-import Portfolio.Missing_Animal.service.ReportServiceImpl;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;

@@ -1,9 +1,8 @@
 package Portfolio.Missing_Animal.repository;
 
 
-import Portfolio.Missing_Animal.domain.Member;
+import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
-import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor

@@ -1,15 +1,12 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 
-import Portfolio.Missing_Animal.EmailForm;
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.MissingAddress;
+import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.dto.*;
 import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
-import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

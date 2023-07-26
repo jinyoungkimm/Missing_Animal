@@ -1,7 +1,7 @@
 package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MissingAddressQueryRepository;
-import Portfolio.Missing_Animal.domain.MissingAddress;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;

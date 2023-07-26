@@ -1,6 +1,6 @@
 package Portfolio.Missing_Animal.spring_data_jpa;
 
-import Portfolio.Missing_Animal.domain.MissingAddress;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import jakarta.persistence.QueryHint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,7 +1,6 @@
 package Portfolio.Missing_Animal.repository.repositoryinterface;
 
-import Portfolio.Missing_Animal.domain.Member;
-import Portfolio.Missing_Animal.domain.Register;
+import Portfolio.Missing_Animal.domainEntity.Register;
 
 import java.util.List;
 

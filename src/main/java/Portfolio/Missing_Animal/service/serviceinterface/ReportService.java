@@ -1,9 +1,7 @@
 package Portfolio.Missing_Animal.service.serviceinterface;
 
 import Portfolio.Missing_Animal.AddressForm;
-import Portfolio.Missing_Animal.domain.Register;
-import Portfolio.Missing_Animal.domain.Report;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
+import Portfolio.Missing_Animal.domainEntity.Report;
 
 import java.util.List;
 

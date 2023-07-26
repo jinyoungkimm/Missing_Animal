@@ -1,6 +1,6 @@
 package Portfolio.Missing_Animal.repository.repositoryinterface;
 
-import Portfolio.Missing_Animal.domain.MissingAddress;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 
 import java.util.List;
 

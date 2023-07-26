@@ -1,8 +1,6 @@
 package Portfolio.Missing_Animal.dto;
 
-import Portfolio.Missing_Animal.domain.MissingAddress;
-import Portfolio.Missing_Animal.domain.Register;
-import jakarta.persistence.OneToMany;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import lombok.Data;
 
 import java.util.ArrayList;
