@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.repository;
 
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,8 @@ import java.util.List;
 public class RegisterRepositoryImpl implements RegisterRepository {
 
     private final EntityManager em;
+
+
 
     @Override
     public Long save(Register register) {

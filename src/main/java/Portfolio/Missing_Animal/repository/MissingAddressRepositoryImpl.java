@@ -5,6 +5,7 @@ import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
 
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,9 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
 
     private final EntityManager em;
 
-    private final MissingAddressRepositorySDJ missingAddressRepositorySDJ;
+    private final MissingAddressRepositorySDJ missingAddressRepositorySDJ; // Spring Data JPA
+
+
 
     @Override
     public Long save(MissingAddress missingAddress){
@@ -189,19 +192,4 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
         return page;
 
     }
-
-    //       // 도시명만 입력된 경우!
-    //
-    //        // [도시명] + [구/군]이 입력된 경우
-    //
-    //        // [도시명] + [구/군] + [동/읍/리]가 입력된 경우
-    //
-    //        // [도시명] + [구/군] + [동/읍/리] + [도로명]이 입력된 경우!
-    // -> 위 경우를 추후에 Querydsl을 사용하여 동적 쿼리문으로 만든다.
-
-
-
-
-
-
 }

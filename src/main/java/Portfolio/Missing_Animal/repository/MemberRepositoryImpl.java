@@ -4,6 +4,7 @@ package Portfolio.Missing_Animal.repository;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
@@ -21,8 +22,8 @@ import java.util.List;
 public class MemberRepositoryImpl implements MemberRepository {
 
     private final EntityManager em;
-
     private final MemberRepositorySDJ memberRepositorySDJ; // [Spring Data JPA]
+
 
     //CRUD
     @Override

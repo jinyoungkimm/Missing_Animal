@@ -1,6 +1,8 @@
 package Portfolio.Missing_Animal.spring_data_jpa;
 
 import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.spring_data_jpa.spring_data_jpa_custom.RegisterRepositorySDJCustom;
+import Portfolio.Missing_Animal.spring_data_jpa.spring_data_jpa_customImpl.RegisterRepositorySDJImpl;
 import jakarta.persistence.QueryHint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +15,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface RegisterRepositorySDJ extends JpaRepository<Register,Long> {
+public interface RegisterRepositorySDJ extends JpaRepository<Register,Long>, RegisterRepositorySDJCustom {
 
     // 쿼리 메서드 기능!
    /* public long countRegisterBy();

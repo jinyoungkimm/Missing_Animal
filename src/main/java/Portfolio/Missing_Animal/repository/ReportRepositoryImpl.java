@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.repository;
 
 import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ReportRepositoryImpl implements ReportRepository {
 
     private final EntityManager em;
+
 
     @Override
     public Long save(Report report){

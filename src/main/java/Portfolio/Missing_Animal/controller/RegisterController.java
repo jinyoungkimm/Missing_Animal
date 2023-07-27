@@ -61,8 +61,7 @@ public class RegisterController {
     }
 
     @PostMapping("/{registerId}/edit")
-    public String updateRegister(//@PathVariable("registerId") Long registerId,
-                                 Register register,
+    public String updateRegister(Register register,
                                  @RequestParam("file") MultipartFile file) throws IOException {
 
         System.out.println(register.getId());

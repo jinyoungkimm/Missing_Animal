@@ -18,7 +18,7 @@ public class MissingAddress {
     @Id@GeneratedValue
     @Column(name="missing_address_id")
     private Long id;
-    private String zipcode;
+
 
     private String prefecture; // ex. 충청남도, 전라남도( 존재할 수도 있고 안 할 수도 있음 )
 
@@ -31,6 +31,8 @@ public class MissingAddress {
     private String streetName;// ex.[해빛로]
 
     private String streetNumber; // ex.해빛로-[11]
+
+    private String zipcode;
 
     @OneToMany(mappedBy = "missingAddress")
     private List<Register> registers = new ArrayList<>();
