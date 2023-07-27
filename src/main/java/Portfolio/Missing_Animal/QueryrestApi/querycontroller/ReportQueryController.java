@@ -2,13 +2,11 @@ package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.ReportQueryRepository;
 import Portfolio.Missing_Animal.dto.ReportDto;
+import Portfolio.Missing_Animal.dto.ReportDtoWithPagination;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,13 +18,16 @@ public class ReportQueryController {
     private final ReportQueryRepository reportQueryRepository;
 
     @GetMapping("")
-    public List<ReportDto> allReport(){
+    public ReportDtoWithPagination getAllReport(@RequestParam(value = "offset",defaultValue = "0") int offset,
+                                     @RequestParam(value = "limit", defaultValue = "2") int limit){
 
-        List<ReportDto> all = reportQueryRepository.findAll(); // 페이징 기능 x.
+        int pageNumber = (offset / limit) ; // limit != 0 이라는 보장이 있어야 한다. JPA는 PAGE가 0번부터 시작!
+        int size = limit;
 
-        //List<ReportDto> allWithPaging = reportQueryRepository.findAllWithPaging(offset,limit);// 페이징 기능 o
+        ReportDtoWithPagination result = reportQueryRepository.findAllWithPaging2(pageNumber, size);
 
-        return all;
+
+        return result;
 
     }
 

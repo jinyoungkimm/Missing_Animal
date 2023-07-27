@@ -3,6 +3,8 @@ package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MissingAddressQueryRepository;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
+import Portfolio.Missing_Animal.dto.MissingAddressDtoWithPagination;
+import Portfolio.Missing_Animal.dto.MissingAddressSearchCond;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
@@ -20,30 +22,18 @@ public class MissingAddressQueryController {
 
     private final MissingAddressQueryRepository missingAddressQueryRepository;
 
-   /* @GetMapping("") //[페이징] 불가!
-    List<MissingAddressDto> getAllMissingAddress1(){
-
-        List<MissingAddress> allMissingAddress = missingAddressQueryRepository.findAllMissingAddress();
-
-        List<MissingAddressDto> collect = allMissingAddress.stream()
-                .map(mr -> new MissingAddressDto(mr))
-                .collect(toList());
-
-        return collect;
-
-    }*/
 
     @GetMapping("") // [페이징] 가능!
-    List<MissingAddressDto> getAllMissingAddress2(@RequestParam(value = "offset",defaultValue = "0") int offset,
-                                                  @RequestParam(value="limit",defaultValue = "5") int limit){
+    MissingAddressDtoWithPagination getAllMissingAddress(@RequestParam(value = "offset",defaultValue = "0") int offset,
+                                                          @RequestParam(value="limit",defaultValue = "2") int limit){
 
-        List<MissingAddress> allMissingAddress = missingAddressQueryRepository.findAllMissingAddressWithPaging(offset, limit);
 
-        List<MissingAddressDto> collect = allMissingAddress.stream()
-                .map(mr -> new MissingAddressDto(mr))
-                .collect(toList());
+        int pageNumber = (offset / limit) ; // limit != 0 이라는 보장이 있어야 한다. JPA는 PAGE가 0번부터 시작!
+        int size = limit;
 
-        return collect;
+        MissingAddressDtoWithPagination result = missingAddressQueryRepository.findAllMissingAddress2WithPaging(pageNumber, size);
+
+        return result;
 
     }
 
@@ -67,10 +57,6 @@ public class MissingAddressQueryController {
         }
     }
 
-
-
-
-
     // 여기서부터 아래는 Querydsl로 구현을 나중에 할 것이다.
     /**
      * 2. api/missingaddress/{prefecture }
@@ -78,39 +64,18 @@ public class MissingAddressQueryController {
      * 4. api/missingaddress{prefecture }/{cityName}/{gu}
      * 5. api/missingaddress{prefecture }/{cityName}/{gu}/{streetName}
      * 6. api/missingaddress{prefecture }/{cityName}/{gu}/{streetName}/{streetNumber}
-     * @param prefecture
+     * 6. api/missingaddress{prefecture }/{cityName}/{gu}/{streetName}/{streetNumber}/{zipcode}
+     * @param
      * @return
      */
 
-    @GetMapping("/{prefecture}")
-    List<MissingAddressDto> getRegisterInPrefecture(@PathVariable("prefecture") String prefecture){
+    @PostMapping("")
+    List<MissingAddressDto> getRegisterInPrefecture(@RequestBody MissingAddressSearchCond missingAddressSearchCond){
 
-        List<MissingAddress> missingAddressesWithPrefecture = missingAddressQueryRepository.findRegisterWithPrefecture(prefecture);
+        List<MissingAddressDto> missingAddress = missingAddressQueryRepository.findRegisterByMissingAddress(missingAddressSearchCond);
 
-        List<MissingAddressDto> collect = missingAddressesWithPrefecture.stream().
-                map(mr -> new MissingAddressDto(mr)).
-                collect(toList());
-
-        return collect;
+        return missingAddress;
 
     }
-
-
-  /* @GetMapping("/{cityName}/{streetName}")
-    List<RegisterDto> getRegisterInCity(@PathVariable("cityName") String cityName,@PathVariable("streetName") String streetName){
-
-
-    }*/
-
-
-
-
-
-
-
-
-
-
-
 
 }

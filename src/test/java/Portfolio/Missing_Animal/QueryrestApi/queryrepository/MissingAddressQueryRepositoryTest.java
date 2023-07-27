@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.MissingAddressDtoWithPagination;
+import Portfolio.Missing_Animal.dto.MissingAddressSearchCond;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -102,26 +103,27 @@ class MissingAddressQueryRepositoryTest {
     // 이 아래 테스트는 Qurydsl로 튜닝을 한 뒤에 하겠다.
 
     @Test
-    void findRegisterWithPrefecture() {
+    void findRegisterByMissingAddress(){
 
         //givien
+        MissingAddressSearchCond cond = new MissingAddressSearchCond();
+        cond.setPrefecture("충청");
+        cond.setCityName("천안");
+        //cond.setGu(); // 생략
+        //cond.setDong(); // 생략
+        //cond.setStreetName(); // 생략
+        //cond.setStreetNumber(); // 생략
+        cond.setZipcode("1-");
 
         //when
+        List<MissingAddressDto> missingAddressDtos = repository.findRegisterByMissingAddress(cond);
+
 
         //then
+        for (MissingAddressDto missingAddressDto : missingAddressDtos) {
 
+            System.out.println("missingAddressDto = " + missingAddressDto);
+        }
 
-
-    }
-
-    @Test
-    void findRegisterWithCityOrStreet() {
-
-
-        //givien
-
-        //when
-
-        //then
     }
 }

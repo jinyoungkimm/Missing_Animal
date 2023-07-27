@@ -71,7 +71,7 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
     @Override
     public Page<MissingAddress> findByPrefectureWithPaging(String prefecture, int pageNumber, int size) {
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<MissingAddress> page = missingAddressRepositorySDJ.findByPrefecture(prefecture, pageRequest);
 
@@ -91,7 +91,7 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
     @Override
     public Page<MissingAddress> findByZipcodeWithPaging(String zipcode, int pageNumber, int size) {
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<MissingAddress> page = missingAddressRepositorySDJ.findByZipcode(zipcode, pageRequest);
 
@@ -113,7 +113,7 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
     @Override
     public Page<MissingAddress> findByCityNameWithPaging(String cityName, int pageNumber, int size) {
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<MissingAddress> page = missingAddressRepositorySDJ.findByCityName(cityName, pageRequest);
 
@@ -134,7 +134,7 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
     @Override
     public Page<MissingAddress> findByGuWithPaging(String gu, int pageNumber, int size) {
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<MissingAddress> page = missingAddressRepositorySDJ.findByGu(gu, pageRequest);
 
@@ -161,7 +161,7 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
     @Override
     public Page<MissingAddress> findByDongWithPaging(String Dong, int pageNumber, int size) {
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<MissingAddress> page = missingAddressRepositorySDJ.findByDong(Dong, pageRequest);
 
@@ -185,7 +185,7 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
     @Override
     public Page<MissingAddress> findByStreetNameWithPaging(String streetName, int pageNumber, int size) {
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<MissingAddress> page = missingAddressRepositorySDJ.findByStreetName(streetName, pageRequest);
 

@@ -139,7 +139,7 @@ public class MemberQueryRepository {
     public MemberDtoWithPagination findAllWithPaging(int pageNumber,int size)
     {
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<Member> page = memberRepositorySDJ.findAll(pageRequest); // member는 toOne 엔티티가 x.
 

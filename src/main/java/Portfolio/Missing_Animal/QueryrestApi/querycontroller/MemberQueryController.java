@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MemberQueryRepository;
 import Portfolio.Missing_Animal.dto.MemberDto;
+import Portfolio.Missing_Animal.dto.MemberDtoWithPagination;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,16 @@ public class MemberQueryController {
     private final MemberQueryRepository memberQueryRepository;
 
     @GetMapping("")
-    List<MemberDto> getMembersInfo(){
+    MemberDtoWithPagination getMembersInfo(@RequestParam(value = "offset", defaultValue = "0") Integer offset,
+                                   @RequestParam(value = "limit",defaultValue = "2") Integer limit){
 
+            int pageNumber = (offset / limit) ; // limit != 0 이라는 보장이 있어야 한다. JPA는 PAGE가 0번부터 시작!
 
-        List<MemberDto> allMembers = memberQueryRepository.findAllMembers4();
+            int size = limit;
 
-        return allMembers;
+            MemberDtoWithPagination allWithPaging = memberQueryRepository.findAllWithPaging(pageNumber, size);
+
+            return allWithPaging;
 
     }
 

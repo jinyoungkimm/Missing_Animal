@@ -306,10 +306,4 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
 
     }
 
-    private BooleanExpression zipcodeEq(String zipcode){
-
-        return isEmpty(zipcode) ? null : missingAddress.zipcode.contains(zipcode);
-
-    }
-
 }

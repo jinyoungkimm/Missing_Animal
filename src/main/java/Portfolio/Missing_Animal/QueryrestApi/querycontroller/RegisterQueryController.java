@@ -4,6 +4,7 @@ import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.RegisterQueryRepository;
+import Portfolio.Missing_Animal.dto.RegisterDtoWithPagination;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
@@ -29,49 +30,16 @@ public class RegisterQueryController {
 
     private final StorageService storageService;
 
-
-    /*@GetMapping("")
-    List<RegisterDto> getAllRegister(){
-
-        List<Register> allRegisters = registerQueryRepository.findAllRegisters();
-
-        List<RegisterDto> collect = allRegisters.stream().
-                map(r -> new RegisterDto(r))
-                .collect(toList());
-
-        return collect;
-
-    }*/
-
-    /*@GetMapping("")
-    List<RegisterDto> getRegistersWithPaging(@RequestParam(value="offset" ,defaultValue = "0") int offset,
-                                             @RequestParam(value="limit",defaultValue = "5") int limit){
-
-
-        List<Register> registersWithPaging = registerQueryRepository.findRegistersWithPaging(offset, limit);
-
-        List<RegisterDto> collect = registersWithPaging.stream()
-                .map(register -> new RegisterDto(register))
-                .collect(toList());
-
-        return collect;
-
-    }*/
-
     @GetMapping("")
-    List<RegisterDto> getRegistersWithPaging(@RequestParam("pageNumber") int pageNumber) {
+    RegisterDtoWithPagination getRegistersWithPaging(@RequestParam(value = "offset",defaultValue = "0") int offset,
+                                             @RequestParam(value = "limit", defaultValue = "2") int limit) {
 
-        int limit = 5;
-        int offset = (pageNumber * limit) - limit;
+        int pageNumber = (offset / limit) ; // limit != 0 이라는 보장이 있어야 한다. JPA는 PAGE가 0번부터 시작!
+        int size = limit;
 
+        RegisterDtoWithPagination result = registerQueryRepository.findAllRegisters2WithPaging(pageNumber, size);
 
-        List<Register> registersWithPaging = registerQueryRepository.findAllRegistersWithPaging(offset, limit);
-
-        List<RegisterDto> collect = registersWithPaging.stream()
-                .map(register -> new RegisterDto(register))
-                .collect(toList());
-
-        return collect;
+        return result;
 
     }
 

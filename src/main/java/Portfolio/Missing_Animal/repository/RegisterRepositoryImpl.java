@@ -74,7 +74,7 @@ public class RegisterRepositoryImpl implements RegisterRepository {
     @Override
     public Page<Register> findAllWithPaging(int pageNumber, int size) {
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<Register> page = registerRepositorySDJ.findAll(pageRequest);
 
@@ -127,7 +127,7 @@ public class RegisterRepositoryImpl implements RegisterRepository {
     @Override
     public Page<Register> ffindByAnimalNameWithPaging(String animalName, int pageNumber, int size) {
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<Register> page = registerRepositorySDJ.findByAnimalName(animalName, pageRequest);
 

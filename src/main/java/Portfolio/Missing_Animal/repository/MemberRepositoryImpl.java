@@ -71,7 +71,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public Page<Member> findAllWithPaging(int pageNumber,int size){ // Spring Data JPA 이용
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<Member> page = memberRepositorySDJ.findAll(pageRequest);
 
@@ -104,7 +104,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     public Page<Member> findByUserNameWithPaging(String username,int pageNumber,int size){ // Spring Data JPA 이용
 
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<Member> page = memberRepositorySDJ.findByUsername(username, pageRequest);
 

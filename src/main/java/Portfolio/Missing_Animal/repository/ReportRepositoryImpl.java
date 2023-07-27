@@ -87,7 +87,7 @@ public class ReportRepositoryImpl implements ReportRepository {
     @Override
     public Page<Report> findAllWithPaging(int pageNumber,int size) {
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<Report> page = reportRepositorySDJ.findAll(pageRequest);
 

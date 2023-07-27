@@ -1,8 +1,14 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
+import Portfolio.Missing_Animal.domainEntity.QMissingAddress;
+import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.*;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
@@ -10,6 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
+
+import static  Portfolio.Missing_Animal.domainEntity.QMissingAddress.missingAddress;
+import static  Portfolio.Missing_Animal.domainEntity.QRegister.register;
+import static org.springframework.util.StringUtils.isEmpty;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +51,7 @@ public class MissingAddressQueryRepository {
                                 " JOIN FETCH mr.registers r"// 컬렉션을 페치 조인하게 되면, row수가 MissingAddress가 아닌, Register(컬렉션)을 기준으로 늘어 나므로, [페이징]도 Register을 기준으로 연산된다.
                                                             // DB는 모든 컬렉션을 메모리로 들고와서 페이징을 실행을 하므로, 최악의 경우 장애로 연결이 된다.
 
-                        /**
-                         * Solution
-                         * 1. toOne 관계만 일단 fetch join을 한다.
-                         * 2. 컬렉션 조회는 @Batchsize or default-batch-fetch-size를 설정하여, [IN] 쿼리를 이용하여서 해당 컬렉션 데이터를 SIZE만큼 들고 온다.
-                         */
+
                         ,MissingAddress.class)
                 .getResultList();
 
@@ -126,7 +133,7 @@ public class MissingAddressQueryRepository {
 
     public MissingAddressDtoWithPagination findAllMissingAddress2WithPaging(int pageNumber, int size){
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<MissingAddress> page = missingAddressRepositorySDJ.findAll(pageRequest); // 이 시점에서 이미 toOne에 대한 조회가 left fetch join에 의해 됨.
 
@@ -232,29 +239,128 @@ public class MissingAddressQueryRepository {
      * 4. api/missingaddress{prefecture }/{cityName}/{gu}
      * 5. api/missingaddress{prefecture }/{cityName}/{gu}/{streetName}
      * 6. api/missingaddress{prefecture }/{cityName}/{gu}/{streetName}/{streetNumber}
-     * @param prefecture
+     * @param
      * @return
      */
 
-    public List<MissingAddress> findRegisterWithPrefecture(String prefecture){
 
-        return em.createQuery("SELECT mr FROM MissingAddress mr" +
-                        " JOIN FETCH mr.registers r" +
-                        " WHERE mr.prefecture=:prefecture ", MissingAddress.class)
-                .setParameter("prefecture",prefecture)
-                .getResultList();
+    //Querydsl 이용!
+    public List<MissingAddressDto> findRegisterByMissingAddress(MissingAddressSearchCond missingAddressSearchCond){
+
+
+
+        JPAQueryFactory query = new JPAQueryFactory(em); // Querydsl 사용!
+
+        List<MissingAddressDto> missingAddressDtos  // toOne에 대한 조회!!!
+                = query
+
+                .select(
+                        Projections.fields(MissingAddressDto.class,
+
+                        missingAddress.id.as("missingAddressId"),
+                        missingAddress.zipcode,
+                        missingAddress.prefecture,
+                        missingAddress.cityName,
+                        missingAddress.gu,
+                        missingAddress.Dong,
+                        missingAddress.streetName,
+                        missingAddress.streetNumber
+                ))
+
+                .from(missingAddress) // MissingAddress는 toOne 관계가 없다.
+
+                .where(
+                        prefectureEq(missingAddressSearchCond.getPrefecture()),
+                        cityNameEq(missingAddressSearchCond.getCityName()),
+                        guEq(missingAddressSearchCond.getGu()),
+                        DongEq(missingAddressSearchCond.getDong()),
+                        streetNameEq(missingAddressSearchCond.getStreetName()),
+                        streetNumberEq(missingAddressSearchCond.getStreetNumber()),
+                        zipcodeEq(missingAddressSearchCond.getZipcode()))
+
+                .fetch();
+
+        List<Long> ids = toMissingAddressDtoIds(missingAddressDtos); // new MissingDto의 id값들!
+
+        List<RegisterDto> registerDtos = query // toMany에 대한 조회
+
+                .select(Projections.fields(RegisterDto.class,
+
+                        register.id.as("registerId"),
+                        register.member.id.as("memberId"),
+                        register.missingAddress.id.as("missingAddressId"),
+                        register.animalName,
+                        register.animalSex,
+                        register.animalAge,
+                        register.registerDate,
+                        register.registerStatus,
+                        register.reportedStatus
+
+                ))
+
+                .from(register)
+
+                .where(register.missingAddress.id.in(ids))
+
+                .fetch();
+
+        Map<Long, List<RegisterDto>> registerMap = registerDtos.stream()
+
+                .collect(Collectors.groupingBy(RegisterDto::getMissingAddressId));
+
+        missingAddressDtos.forEach(missingAddressDto -> {
+
+            Long id = missingAddressDto.getMissingAddressId();
+
+            List<RegisterDto> registerdtos = registerMap.get(id);
+
+            missingAddressDto.setRegisters(registerdtos);
+
+        });
+
+        return missingAddressDtos;
+    }
+
+    private BooleanExpression prefectureEq(String prefecture){
+
+        return isEmpty(prefecture) ? null : missingAddress.prefecture.contains(prefecture);
 
     }
 
-    public List<MissingAddress> findRegisterWithCityOrStreet(String cityName){
+    private BooleanExpression cityNameEq(String cityName){
 
-        return em.createQuery("SELECT mr FROM MissingAddress mr" +
-                        " JOIN FETCH r.member m" +
-                        " WHERE mr.cityName=:cityName ",MissingAddress.class)
-                .setParameter("cityName",cityName)
-                .getResultList();
+        return isEmpty(cityName) ? null : missingAddress.cityName.contains(cityName);
 
     }
 
+    private BooleanExpression guEq(String gu){
+
+        return isEmpty(gu) ? null : missingAddress.gu.contains(gu);
+
+    }
+
+    private BooleanExpression DongEq(String Dong){
+
+        return isEmpty(Dong) ? null : missingAddress.Dong.contains(Dong);
+
+    }
+
+    private BooleanExpression streetNameEq(String streetName){
+
+        return isEmpty(streetName) ? null : missingAddress.streetName.contains(streetName);
+
+    }
+
+    private BooleanExpression streetNumberEq(String streetNumber){
+
+        return isEmpty(streetNumber) ? null : missingAddress.streetNumber.contains(streetNumber);
+
+    }
+
+    private BooleanExpression zipcodeEq(String zipcode){
+
+        return isEmpty(zipcode) ? null : missingAddress.zipcode.contains(zipcode);
+
+    }
 
 }

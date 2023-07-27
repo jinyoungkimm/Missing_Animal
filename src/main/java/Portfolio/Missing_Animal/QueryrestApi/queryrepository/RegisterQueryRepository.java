@@ -68,7 +68,7 @@ public class RegisterQueryRepository {
 
     public RegisterDtoWithPagination findAllRegisters2WithPaging(int pageNumber,int size){
 
-        PageRequest pageRequest = PageRequest.of(0, 2);
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
 
         Page<Register> page = registerRepositorySDJ.findAll(pageRequest); // 이 시점에서 이미 toOne에 대한 조회가 left fetch join에 의해 됨.
 
