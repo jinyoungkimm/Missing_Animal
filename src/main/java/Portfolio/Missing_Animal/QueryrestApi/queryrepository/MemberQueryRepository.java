@@ -41,16 +41,15 @@ public class MemberQueryRepository {
     return em.createQuery("SELECT m FROM Member m"+
 
             " JOIN FETCH m.registers r" // 컬렉션을 fetch join하게 되면 페이징 불가능
-            // " JOIN FETCH m.report rp" // 불가능 : 컬렉션 1개에 대해서만 fetch join과 default size에 의한 지연 로딩이 일어난다.
+            // " JOIN FETCH m.report rp" // 불가능 : 컬렉션 1개에 대해서만 fetch join이 일어난다.
                     ,Member.class)       // (FETCH JOIN 컬렉션이 있으면, Default batch size를 설정을 해놔도 report에 대한 지연로딩이 일어나지x)
             .getResultList();            // 만약 컬렉션이 2개 이상 있으면, default batch size에 대한 지연로딩이 일어 나지 않는다.
     }
 
     public Member findMemberWithOneUserId(String userId) throws NonUniqueResultException, NoResultException {
 
-         return em.createQuery("SELECT m FROM Member m" + // Register,Report 컬렉션에 대해, default batch size에 의한 지연로딩이 일어날 것 같지만
-                                                                // 컬렉션이 2개 이상일 때에는 default batch size에 의해 지연 로딩이 일어나지 x.
-                                                                // 또한 fetch join은 컬렉션에 대해서는 딱 1개에만 쓸 수가 있다.
+         return em.createQuery("SELECT m FROM Member m" +
+                                                                 //fetch join은 컬렉션에 대해서는 딱 1개에만 쓸 수가 있다.
                         " WHERE m.userId=:userId",Member.class)
                 .setParameter("userId",userId)
                 .getSingleResult();
@@ -169,9 +168,6 @@ public class MemberQueryRepository {
         });
 
         // pagination 정보!
-
-
-
         int countCurrent = content.size();
 
         int pageNumberCurrent = page.getNumber() + 1; // JPA의 PAGE 번호는 0부터 시작!

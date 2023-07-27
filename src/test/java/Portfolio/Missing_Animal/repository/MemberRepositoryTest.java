@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -195,9 +197,35 @@ class MemberRepositoryTest {
 
     }
 
+    @Test
+    void findAllWithPaging(){
+
+        //given
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        //when
+
+        Page<Member> page = memberRepository.findAll(pageRequest);
+
+        List<Member> content = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalElements = page.getTotalElements();
+        int pageNumber = page.getNumber() + 1; // Page 번호 : 0부터 시작
+
+        //then
+        for (Member member : content) {
+            System.out.println("member = " + member);
+        }
+        assertThat(totalPages).isEqualTo(2l);
+        assertThat(totalElements).isEqualTo(4L);
+        assertThat(pageNumber).isEqualTo(1L);
+
+
+    }
 
     @Test
-    void findByName(){
+    void findByuserName(){
         // 순수 JPA Repository
        /* //given
         Member member = new Member();
@@ -235,5 +263,31 @@ class MemberRepositoryTest {
         assertThat(findMembers.get(0).getUsername()).isEqualTo("kim1");
 
     }
+
+    @Test
+    void findByuserNameWithPaging() {
+
+
+        //givien
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        //when
+        Page<Member> page = memberRepository.findByUsername("김진영",pageRequest);
+
+        List<Member> content = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalElements = page.getTotalElements();
+        int pageNumber = page.getNumber() + 1; // Page 번호 : 0부터 시작
+
+        //then
+        for (Member member : content) {
+            System.out.println("member = " + member);
+        }
+        assertThat(totalPages).isEqualTo(2l);
+        assertThat(totalElements).isEqualTo(4L);
+        assertThat(pageNumber).isEqualTo(1L);
+
+    }
+
 
 }

@@ -35,8 +35,10 @@ public interface MemberRepositorySDJ extends JpaRepository<Member,Long> {
      *
      */
     public long countMemberBy();
+
+    @Query("SELECT m FROM Member m WHERE m.username LIKE concat('%',:username,'%')")
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
-    Page<Member> findByUsername(String username,Pageable pageable);
+    Page<Member> findByUsername(@Param("username") String username,Pageable pageable);
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     Page<Member> findAll(Pageable pageable);
     @Query("SELECT m FROM Member m WHERE m.id=:id")
@@ -47,7 +49,7 @@ public interface MemberRepositorySDJ extends JpaRepository<Member,Long> {
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Member findByUserId(@Param("userId") String userId);
 
-    @Query("SELECT m FROM Member m WHERE m.username=:username")
+    @Query("SELECT m FROM Member m WHERE m.username LIKE concat('%',:username,'%')")
     @QueryHints(value = @QueryHint(name = "org.hibernate.readOnly",value = "true"))
     public List<Member> findByUsername(@Param("username") String username);
 

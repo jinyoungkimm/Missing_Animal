@@ -3,10 +3,15 @@ package Portfolio.Missing_Animal.repository;
 
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
+import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,6 +21,8 @@ import java.util.List;
 public class MemberRepositoryImpl implements MemberRepository {
 
     private final EntityManager em;
+
+    private final MemberRepositorySDJ memberRepositorySDJ; // [Spring Data JPA]
 
     //CRUD
     @Override
@@ -59,6 +66,19 @@ public class MemberRepositoryImpl implements MemberRepository {
         ).getResultList();
 
     }
+
+    @Override
+    public Page<Member> findAllWithPaging(int pageNumber,int size){ // Spring Data JPA 이용
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<Member> page = memberRepositorySDJ.findAll(pageRequest);
+
+        return page;
+
+    }
+
+
     @Override
     public Member findByUserId(String userId) throws NoResultException, NonUniqueResultException {
 
@@ -71,14 +91,25 @@ public class MemberRepositoryImpl implements MemberRepository {
     public List<Member> findByUserName(String username)
     {
 
-        List<Member> username1 = em.createQuery("SELECT m FROM Member m WHERE m.username=:username", Member.class)
+        List<Member> findusername = em.createQuery("SELECT m FROM Member m WHERE m.username LIKE concat('%',:username,'%')", Member.class)
                 .setParameter("username", username)
                 .getResultList();
 
-        return username1;
+        return findusername;
 
     }
 
+    @Override
+    public Page<Member> findByUserNameWithPaging(String username,int pageNumber,int size){ // Spring Data JPA 이용
+
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<Member> page = memberRepositorySDJ.findByUsername(username, pageRequest);
+
+        return page;
+
+    }
 
 
 }
