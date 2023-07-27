@@ -51,8 +51,8 @@ public class ReportRepositoryImpl implements ReportRepository {
 
         return em.createQuery("SELECT r FROM Report r" +
 
-                " JOIN FETCH r.member m" + // toOne은 default batch size가 적용이 안되므로, fetch join으로 가져온다.
-                " JOIN FETCH r.register rg" +
+                " LEFT JOIN FETCH r.member m" + // toOne은 default batch size가 적용이 안되므로, fetch join으로 가져온다.
+                " LEFT JOIN FETCH r.register rg" +
 
                 " WHERE r.id=:id",Report.class)
                 .setParameter("id",reportId)
@@ -71,8 +71,8 @@ public class ReportRepositoryImpl implements ReportRepository {
 
         return em.createQuery("SELECT r FROM Report r" +
 
-                        " JOIN FETCH r.member m" + // toOne 은 모두 fetch join 사용!
-                        " JOIN FETCH r.register rg",Report.class)
+                        " LEFT JOIN FETCH r.member m" + // toOne 은 모두 fetch join 사용!
+                        " LEFT JOIN FETCH r.register rg",Report.class)
 
                 .getResultList();
 
