@@ -2,10 +2,15 @@ package Portfolio.Missing_Animal.repository;
 
 
 import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.dto.RegisterSearchCond;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
+import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +21,7 @@ public class RegisterRepositoryImpl implements RegisterRepository {
 
     private final EntityManager em;
 
-
+    private final RegisterRepositorySDJ registerRepositorySDJ; // Spring Data + Querydsl
 
     @Override
     public Long save(Register register) {
@@ -80,6 +85,15 @@ public class RegisterRepositoryImpl implements RegisterRepository {
 
     }
 
+    public Page<Tuple> searchRegistersWithPagingComplexV2(RegisterSearchCond registerSearchCond, Pageable pageable){
+
+
+        Page<Tuple> page = registerRepositorySDJ.searchRegistersWithPagingSimple(registerSearchCond, pageable);
+
+
+        return page;
+
+    }
 
 
     @Override
