@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -52,8 +53,8 @@ public class RegisterRepositoryImpl implements RegisterRepository {
 
         return em.createQuery("SELECT r FROM Register r" +
 
-                        " JOIN FETCH r.member m" + // toOne은 모두 fetch join!
-                        " JOIN FETCH r.missingAddress mr" +
+                        " LEFT JOIN FETCH r.member m" + // toOne은 모두 fetch join!
+                        " LEFT JOIN FETCH r.missingAddress mr" +
 
                         " WHERE r.id=:id", Register.class)
 
@@ -70,14 +71,25 @@ public class RegisterRepositoryImpl implements RegisterRepository {
         return findRegisters();
     }
 
+    @Override
+    public Page<Register> findAllWithPaging(int pageNumber, int size) {
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<Register> page = registerRepositorySDJ.findAll(pageRequest);
+
+        return page;
+
+    }
+
 
     public List<Register> findRegisters() { // toOne 관계는 fetch join!
 
         return em.createQuery("SELECT r FROM Register r" +
 
-                        " JOIN FETCH r.member m" +
+                        " LEFT JOIN FETCH r.member m" +
 
-                        " JOIN FETCH r.missingAddress mr"
+                        " LEFT JOIN FETCH r.missingAddress mr"
 
                        ,Register.class)
 
@@ -101,15 +113,26 @@ public class RegisterRepositoryImpl implements RegisterRepository {
 
         return em.createQuery("SELECT r FROM Register r" +
 
-                        " JOIN FETCH r.member m" + // toOne은 모두 fetch join으로!!
+                        " LEFT JOIN FETCH r.member m" + // toOne은 모두 fetch join으로!!
 
-                        " JOIN FETCH r.missingAddress mr" +
+                        " LEFT JOIN FETCH r.missingAddress mr" +
 
                         " WHERE r.animalName LIKE concat('%',:animalName,'%')", Register.class)
 
                 .setParameter("animalName",animalName)
 
                 .getResultList();
+    }
+
+    @Override
+    public Page<Register> ffindByAnimalNameWithPaging(String animalName, int pageNumber, int size) {
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<Register> page = registerRepositorySDJ.findByAnimalName(animalName, pageRequest);
+
+        return page;
+
     }
 
 
