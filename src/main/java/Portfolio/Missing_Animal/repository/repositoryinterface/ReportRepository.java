@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.repository.repositoryinterface;
 
 import Portfolio.Missing_Animal.domainEntity.Report;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -16,5 +17,5 @@ public interface ReportRepository {
 
     public List<Report> findAll();
 
-
+    public Page<Report> findAllWithPaging(int pageNumber,int size);
 }

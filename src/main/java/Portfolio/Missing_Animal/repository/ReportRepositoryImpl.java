@@ -3,11 +3,14 @@ package Portfolio.Missing_Animal.repository;
 
 import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
+import Portfolio.Missing_Animal.spring_data_jpa.ReportRepositorySDJ;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,6 +20,8 @@ import java.util.List;
 public class ReportRepositoryImpl implements ReportRepository {
 
     private final EntityManager em;
+
+    private final ReportRepositorySDJ reportRepositorySDJ; // Spring Data JPA
 
 
     @Override
@@ -79,5 +84,15 @@ public class ReportRepositoryImpl implements ReportRepository {
 
     }
 
+    @Override
+    public Page<Report> findAllWithPaging(int pageNumber,int size) {
+
+        PageRequest pageRequest = PageRequest.of(0, 2);
+
+        Page<Report> page = reportRepositorySDJ.findAll(pageRequest);
+
+        return page;
+
+    }
 
 }
