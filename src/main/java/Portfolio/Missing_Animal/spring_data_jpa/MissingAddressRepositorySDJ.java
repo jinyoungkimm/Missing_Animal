@@ -43,7 +43,7 @@ public interface MissingAddressRepositorySDJ extends JpaRepository<MissingAddres
     @Query("SELECT m FROM MissingAddress m WHERE m.prefecture LIKE concat('%',:prefecture,'%')")
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<MissingAddress> findByPrefecture(@Param("prefecture") String prefecture,Pageable pageable);
-    @Query("SELECT m FROM MissingAddress m WHERE m.zipcode=:zipcode")
+    @Query("SELECT m FROM MissingAddress m WHERE m.zipcode LIKE concat('%',:zipcode,'%')")
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<MissingAddress> findByZipcode(@Param("zipcode")String zipcode,Pageable pageable);
     @Query("SELECT m FROM MissingAddress m WHERE m.cityName  LIKE concat('%',:cityName,'%')")
@@ -52,9 +52,16 @@ public interface MissingAddressRepositorySDJ extends JpaRepository<MissingAddres
     @Query("SELECT m FROM MissingAddress m WHERE m.gu  LIKE concat('%',:gu,'%')")
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<MissingAddress> findByGu(@Param("gu")String gu,Pageable pageable);
+
+    @Query("SELECT m FROM MissingAddress m WHERE m.Dong  LIKE concat('%',:Dong,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
+    Page<MissingAddress> findByDong(@Param("Dong")String Dong,Pageable pageable);
     @Query("SELECT m FROM MissingAddress m WHERE m.streetName LIKE concat('%',:streetName,'%')")
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public Page<MissingAddress> findByStreetName(@Param("streetName")String streetName,Pageable pageable);
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Query("SELECT m FROM MissingAddress m WHERE m.id=:id")
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
@@ -64,7 +71,7 @@ public interface MissingAddressRepositorySDJ extends JpaRepository<MissingAddres
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public List<MissingAddress> findByPrefecture(@Param("prefecture") String prefecture);
 
-    @Query("SELECT m FROM MissingAddress m WHERE m.zipcode=:zipcode")
+    @Query("SELECT m FROM MissingAddress m WHERE m.zipcode LIKE concat('%',:zipcode,'%')")
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public List<MissingAddress> findByZipcode(@Param("zipcode")String zipcode);
 
@@ -75,6 +82,10 @@ public interface MissingAddressRepositorySDJ extends JpaRepository<MissingAddres
     @Query("SELECT m FROM MissingAddress m WHERE m.gu  LIKE concat('%',:gu,'%')")
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     List<MissingAddress> findByGu(@Param("gu")String gu);
+
+    @Query("SELECT m FROM MissingAddress m WHERE m.Dong  LIKE concat('%',:Dong,'%')")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
+    List<MissingAddress> findByDong(@Param("Dong")String Dong);
 
     @Query("SELECT m FROM MissingAddress m WHERE m.streetName LIKE concat('%',:streetName,'%')")
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
