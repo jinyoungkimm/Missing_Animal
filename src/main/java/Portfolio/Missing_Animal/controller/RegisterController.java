@@ -8,11 +8,17 @@ import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,7 +34,7 @@ public class RegisterController {
         Register register = new Register();
         model.addAttribute("register",register);
 
-        return "register";
+        return "registers/register";
 
     }
 
@@ -36,17 +42,19 @@ public class RegisterController {
     public String registerMissingPost(Register register,
                                       @RequestParam("file") MultipartFile file){
 
-        storageService.store(file);
+        if(!file.isEmpty()) {
+
+            storageService.store(file);
+            String originalFilename = file.getOriginalFilename();
+            register.setFileName(originalFilename);
+
+        }
 
         // register 엔티티 저장(em.persist)시에, 연관 관계이 있는 Member,MissingAddress 등의 id 값을 모르면 등록(registerMissing)이 되지 않는다.
         // 고로, cascade(연쇄 반응).Persist를 설정하여, [register 엔티티를 영속화할 때, 연관된 엔티티도 자동으로 영속화 시켜줘야 한다.]
-
-        String originalFilename = file.getOriginalFilename();
-        register.setFileName(originalFilename);
-
         registerService.registerMissing(register);
 
-        return "redirect:/register";
+        return "redirect:/registers/register";
 
     }
 
@@ -57,7 +65,7 @@ public class RegisterController {
 
         model.addAttribute("register",findRegister);
 
-        return "registerUpdate";
+        return "registers/registerUpdate";
     }
 
     @PostMapping("/{registerId}/edit")
@@ -83,17 +91,39 @@ public class RegisterController {
 
         registerService.updateForm(register.getId(), register);
 
-        return "redirect:/reigster";
+        return "redirect:/registers/reigster";
     }
 
     @GetMapping("/missingAddress")
-    public List<Register> showRegistersWithMissingAddress(MissingAddress missingAddress){
-
+    public String showRegistersWithMissingAddress(MissingAddress missingAddress){
 
         List<Register> registers = registerService.ListingMissingAnimalByMissingAddress(missingAddress);
 
-        return registers;
+        return "아직 구현 안함";
 
     }
+
+    @GetMapping("{registerId}/getOneRegister")
+    public String findOneRegisterById(@PathVariable("registerId") Long registerId, Model model
+    )
+    {
+
+        Register findRegister = registerService.findOne(registerId);
+
+        if(!isEmpty(findRegister.getFileName()))
+        {
+            Path path = storageService.load(findRegister.getFileName());
+            String serveFile = MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                    "serveFile", path.getFileName().toString()).build().toUri().toString();
+            model.addAttribute("file",serveFile);
+
+        }
+
+        model.addAttribute("register",findRegister);
+
+        return "registers/showOneRegister";
+
+    }
+
 
 }

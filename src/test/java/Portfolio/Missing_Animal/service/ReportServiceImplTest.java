@@ -9,6 +9,7 @@ import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -25,7 +26,7 @@ class ReportServiceImplTest {
 
 
     @Test
-    //@Rollback(value = false)
+    @Rollback(value = false)
     void saveReport() {
 
         //givien
@@ -36,8 +37,12 @@ class ReportServiceImplTest {
         addressForm.setStreetAdr("b");
         addressForm.setZipcode("c");
 
+        Report report = new Report();
+        report.setFindedAddress(addressForm);
+        report.setFindedTime(LocalDateTime.now());
+
         //when
-        Long saveId = reportService.saveReport(registerId, addressForm);
+        Long saveId = reportService.saveReport(registerId, report);
 
         Report findReport = reportService.findOne(saveId);
 

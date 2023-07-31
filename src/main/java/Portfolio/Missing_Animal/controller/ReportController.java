@@ -1,9 +1,11 @@
 package Portfolio.Missing_Animal.controller;
 
-
 import Portfolio.Missing_Animal.AddressForm;
+import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 
+import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
@@ -28,13 +30,15 @@ public class ReportController {
     private final MissingAddressRepositorySDJ missingAddressRepository;  // Spring Data JPA Repository
 
     @GetMapping("/{registerId}")
-    String clickRegisterForReport(@RequestParam("registerId") Long registerId, Model model){
+    String clickRegisterForReport(@PathVariable("registerId") Long registerId, Model model){
 
         Register register = registerRepository.findById(registerId).get();
-        AddressForm findedAddress = new AddressForm();
+        Member member = register.getMember();
 
-        model.addAttribute("register",register);
-        model.addAttribute("findedAddress",findedAddress);
+        model.addAttribute("register",register); // 어떤 Register에 대한 신고인지에 대한 정보가 필요
+        model.addAttribute("member",member); // 어떤 Member가 신고를 하는지에 대한 정보가 필요!
+        Report report = new Report();
+        model.addAttribute("report",report);
 
         return "reports/report";
 
@@ -42,36 +46,24 @@ public class ReportController {
 
     @PostMapping("/{registerId}")
     String report(@PathVariable("registerId") Long registerId,
-                  @ModelAttribute AddressForm findedAddress){
+                  @ModelAttribute Report report){
 
-        Long saveId = reportService.saveReport(registerId, findedAddress);
+        Long saveId = reportService.saveReport(registerId, report);
 
 
-        return "redirecg:/";
+        return "redirect:/";
+    }
+
+    @GetMapping("/{reportId}/getOneReport")
+    String findOneReportById(@PathVariable("reportId") Long reportId,Model model){
+
+        Report findReport = reportService.findOne(reportId);
+        model.addAttribute("report",findReport);
+        return "reports/showOneReport";
+
     }
 
 
-    /*@GetMapping("~~~")
-    List<RegisterDto> showAllRegisterWithMissingAddress(MissingAddress missingAddress){
-
-        // 이 부분은 추후에 querydsl로 튜닝할 거임.
-        //List<MissingAddress> m = missingAddressRepository.findByCityName(missingAddress);
-
-        List<Register> registers = new ArrayList<>();
-        // m.forEach( m -> List<Register> r = m.getRegister()
-        //
-        //   for(Regier register: r){
-        //
-        //     registers.add(register);
-        //
-        //   }
-        //
-        // )
-
-
-
-        //return registers;
-    }*/
 
 
 }

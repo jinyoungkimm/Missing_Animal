@@ -29,7 +29,7 @@ public class Member {
 
     @Embedded
     private AddressForm address;
-
+    // ${member.address.streetAdr} ${member.address.detailAdr}
     @Embedded
     private EmailForm email;
 

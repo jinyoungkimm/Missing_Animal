@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/image")
 @Slf4j
 public class FileUploadController {
 

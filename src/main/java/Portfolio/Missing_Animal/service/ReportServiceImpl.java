@@ -46,7 +46,7 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
 
     @Override
     @Transactional
-    public Long saveReport(Long registerId, AddressForm findedAddress) {
+    public Long saveReport(Long registerId, Report report) {
 
         //Register 조회
         Register register = registerRepository.findById(registerId).get();
@@ -56,14 +56,16 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
         Member member = register.getMember();
 
 
-        Report report = new Report();
-        report.setRegister(register);
-        report.setMember(member);
-        report.setFindedTime(LocalDateTime.now());
-        report.setFindedAddress(findedAddress);
+        Report newReport = new Report();
+
+        newReport.setRegister(register);
+        newReport.setMember(member);
+
+        newReport.setFindedTime(LocalDateTime.now());
+        newReport.setFindedAddress(report.getFindedAddress());
 
         //report 저장
-        Long saveId = reportRepository.save(report).getId();
+        Long saveId = reportRepository.save(newReport).getId();
 
         return saveId;
     }

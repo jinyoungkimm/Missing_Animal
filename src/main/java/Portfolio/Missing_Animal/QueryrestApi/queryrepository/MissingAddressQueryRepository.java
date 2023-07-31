@@ -204,6 +204,7 @@ public class MissingAddressQueryRepository {
 
     }
 
+
     public  Map<Long,List<RegisterDto>> findRegisterMap(List<Long> missingAddressIds){
 
         List<RegisterDto> registerDtos = em.createQuery(
@@ -248,65 +249,11 @@ public class MissingAddressQueryRepository {
     public List<MissingAddressDto> findRegisterByMissingAddress(MissingAddressSearchCond missingAddressSearchCond){
 
 
-
-        JPAQueryFactory query = new JPAQueryFactory(em); // Querydsl 사용!
-
-        List<MissingAddressDto> missingAddressDtos  // toOne에 대한 조회!!!
-                = query
-
-                .select(
-                        Projections.fields(MissingAddressDto.class,
-
-                        missingAddress.id.as("missingAddressId"),
-                        missingAddress.zipcode,
-                        missingAddress.prefecture,
-                        missingAddress.cityName,
-                        missingAddress.gu,
-                        missingAddress.Dong,
-                        missingAddress.streetName,
-                        missingAddress.streetNumber
-                ))
-
-                .from(missingAddress) // MissingAddress는 toOne 관계가 없다.
-
-                .where(
-                        prefectureEq(missingAddressSearchCond.getPrefecture()),
-                        cityNameEq(missingAddressSearchCond.getCityName()),
-                        guEq(missingAddressSearchCond.getGu()),
-                        DongEq(missingAddressSearchCond.getDong()),
-                        streetNameEq(missingAddressSearchCond.getStreetName()),
-                        streetNumberEq(missingAddressSearchCond.getStreetNumber()),
-                        zipcodeEq(missingAddressSearchCond.getZipcode()))
-
-                .fetch();
+        List<MissingAddressDto> missingAddressDtos = findMissingAddressWithQuerydsl(missingAddressSearchCond);
 
         List<Long> ids = toMissingAddressDtoIds(missingAddressDtos); // new MissingDto의 id값들!
 
-        List<RegisterDto> registerDtos = query // toMany에 대한 조회
-
-                .select(Projections.fields(RegisterDto.class,
-
-                        register.id.as("registerId"),
-                        register.member.id.as("memberId"),
-                        register.missingAddress.id.as("missingAddressId"),
-                        register.animalName,
-                        register.animalSex,
-                        register.animalAge,
-                        register.registerDate,
-                        register.registerStatus,
-                        register.reportedStatus
-
-                ))
-
-                .from(register)
-
-                .where(register.missingAddress.id.in(ids))
-
-                .fetch();
-
-        Map<Long, List<RegisterDto>> registerMap = registerDtos.stream()
-
-                .collect(Collectors.groupingBy(RegisterDto::getMissingAddressId));
+        Map<Long, List<RegisterDto>> registerMap = findRegisterMap(ids);
 
         missingAddressDtos.forEach(missingAddressDto -> {
 
@@ -314,12 +261,83 @@ public class MissingAddressQueryRepository {
 
             List<RegisterDto> registerdtos = registerMap.get(id);
 
+
             missingAddressDto.setRegisters(registerdtos);
 
         });
 
         return missingAddressDtos;
     }
+
+   public List<MissingAddressDto> findMissingAddressWithQuerydsl(MissingAddressSearchCond missingAddressSearchCond){
+
+       JPAQueryFactory query = new JPAQueryFactory(em); // Querydsl 사용!
+
+       List<MissingAddressDto> missingAddressDtos  // toOne에 대한 조회!!!
+               = query
+
+               .select(
+                       Projections.fields(MissingAddressDto.class,
+
+                               missingAddress.id.as("missingAddressId"),
+                               missingAddress.zipcode,
+                               missingAddress.prefecture,
+                               missingAddress.cityName,
+                               missingAddress.gu,
+                               missingAddress.Dong,
+                               missingAddress.streetName,
+                               missingAddress.streetNumber
+                       ))
+
+               .from(missingAddress) // MissingAddress는 toOne 관계가 없다.
+
+               .where(
+                       prefectureEq(missingAddressSearchCond.getPrefecture()),
+                       cityNameEq(missingAddressSearchCond.getCityName()),
+                       guEq(missingAddressSearchCond.getGu()),
+                       DongEq(missingAddressSearchCond.getDong()),
+                       streetNameEq(missingAddressSearchCond.getStreetName()),
+                       streetNumberEq(missingAddressSearchCond.getStreetNumber()),
+                       zipcodeEq(missingAddressSearchCond.getZipcode()))
+
+               .fetch();
+
+       return missingAddressDtos;
+
+   }
+
+   public Map<Long, List<RegisterDto>> findRegistersWithQuerydsl(List<Long> missindAdressDtoIds){
+
+       JPAQueryFactory query = new JPAQueryFactory(em); // Querydsl 사용!
+
+       List<RegisterDto> registerDtos = query // toMany에 대한 조회
+
+               .select(Projections.fields(RegisterDto.class,
+
+                       register.id.as("registerId"),
+                       register.member.id.as("memberId"),
+                       register.missingAddress.id.as("missingAddressId"),
+                       register.animalName,
+                       register.animalSex,
+                       register.animalAge,
+                       register.registerDate,
+                       register.registerStatus,
+                       register.reportedStatus
+
+               ))
+
+               .from(register)
+
+               .where(register.missingAddress.id.in(missindAdressDtoIds))
+
+               .fetch();
+
+                return  registerDtos.stream()
+
+               .collect(Collectors.groupingBy(RegisterDto::getMissingAddressId));
+
+   }
+
 
     private BooleanExpression prefectureEq(String prefecture){
 

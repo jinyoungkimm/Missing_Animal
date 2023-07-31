@@ -1,10 +1,7 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
-import Portfolio.Missing_Animal.dto.MissingAddressDto;
-import Portfolio.Missing_Animal.dto.MissingAddressDtoWithPagination;
-import Portfolio.Missing_Animal.dto.MissingAddressSearchCond;
-import Portfolio.Missing_Animal.dto.RegisterDto;
+import Portfolio.Missing_Animal.dto.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,6 +120,13 @@ class MissingAddressQueryRepositoryTest {
         for (MissingAddressDto missingAddressDto : missingAddressDtos) {
 
             System.out.println("missingAddressDto = " + missingAddressDto);
+
+            List<RegisterDto> registers = missingAddressDto.getRegisters();
+            for (RegisterDto register : registers) {
+                System.out.println("register = " + register);
+
+            }
+
         }
 
     }

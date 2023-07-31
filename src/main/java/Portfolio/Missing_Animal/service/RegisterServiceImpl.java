@@ -3,6 +3,8 @@ package Portfolio.Missing_Animal.service;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 
+import Portfolio.Missing_Animal.enumType.RegisterStatus;
+import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
@@ -29,6 +31,9 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     @Transactional
     public Long registerMissing(Register register) {
+
+        register.setRegisterStatus(RegisterStatus.NOT_SOLVED);
+        register.setReportedStatus(ReportedStatus.NO);
 
         Long saveId = registerRepository.save(register).getId();
 

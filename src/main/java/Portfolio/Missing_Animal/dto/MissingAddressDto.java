@@ -2,6 +2,9 @@ package Portfolio.Missing_Animal.dto;
 
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,8 @@ import java.util.stream.Collectors;
  * 궁금한 경우에는 id 값이 주어 져 있으니, Api 이용자에게 Register 조회의 선택권을 넘긴다.
  */
 
-@Data
+@Getter@Setter
+@ToString(of = {"missingAddressId","zipcode","prefecture","cityName","gu","Dong","streetName","streetNumber"})
 public class MissingAddressDto {
 
     private Long missingAddressId;
@@ -31,7 +35,6 @@ public class MissingAddressDto {
     private String gu; // ex. 해운대구/기장군
 
     private String Dong; //ex. [일광읍] (존재할 수도 있고 안 할 수도 있음)
-
     private String streetName;// ex.[해빛로]
 
     private String streetNumber; // ex.해빛로-[11]

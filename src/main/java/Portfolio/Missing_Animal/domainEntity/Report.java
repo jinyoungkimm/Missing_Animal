@@ -20,6 +20,14 @@ public class Report { // 발견 신고(Member와 Animal의 중간 Table 역할)
     @Column(name="suspicious_report_id")
     private Long id;
 
+
+    @Embedded
+    private AddressForm findedAddress;
+
+    private LocalDateTime findedTime;
+
+    private String fileName;
+
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "register_id")
     private Register register;
@@ -33,10 +41,7 @@ public class Report { // 발견 신고(Member와 Animal의 중간 Table 역할)
     Animal animal; // 발견 동물의 종류!(ex. 개, 고양이...)
 
 
-    @Embedded
-    private AddressForm findedAddress;
 
-    private LocalDateTime findedTime;
 
     public Report(){
 

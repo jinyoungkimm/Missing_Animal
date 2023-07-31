@@ -26,23 +26,23 @@ public class MemberController {
     private final ReportService reportService;
 
     //회원 가입 기능
-    @GetMapping("")
+    @GetMapping("/join")
     public String Controller_join_Get(Model model){
 
         Member member = new Member();
         model.addAttribute("member",member);
 
-        return "memberJoin";
+        return "members/memberJoin";
 
     }
 
-    @PostMapping("")
+    @PostMapping("/join")
     public String Controller_join_Post(Member member){
 
 
         memberService.join(member);
 
-        return "redirect:/member";
+        return "redirect:/home";
     }
 
     //로그인 기능
@@ -78,11 +78,21 @@ public class MemberController {
         // 임의로 "wlsdud6523"라고 userId를 가정함
         Member findMember = memberService.memberInfo("wlsdud6523");
         List<Register> findRegisters = memberService.findRegiserInfo("wlsdud6523");
-        memberService.findReportInfo("wlsdud6523");
 
+        for (Register findRegister : findRegisters) {
+            System.out.println("findRegister = " + findRegister);
+        }
+
+
+        List<Report> findReports = memberService.findReportInfo("wlsdud6523");
+
+        for (Report findReport : findReports) {
+            System.out.println("findReport = " + findReport);
+        }
 
         model.addAttribute("member",findMember);
-        model.addAttribute("register",findRegisters);
+        model.addAttribute("registers",findRegisters);
+        model.addAttribute("reports",findReports);
 
         return "members/mypage";
     }

@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +50,7 @@ public class RegisterDto {
     private ReportedStatus reportedStatus;
 
     //컬렉션
-    private List<ReportDto> reports;
+    private List<ReportDto> reports = new ArrayList<>();
 
 
 

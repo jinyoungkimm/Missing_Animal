@@ -74,6 +74,8 @@ public class MissingAddressQueryController {
 
         List<MissingAddressDto> missingAddress = missingAddressQueryRepository.findRegisterByMissingAddress(missingAddressSearchCond);
 
+        System.out.println("size"+missingAddress.size());
+
         return missingAddress;
 
     }

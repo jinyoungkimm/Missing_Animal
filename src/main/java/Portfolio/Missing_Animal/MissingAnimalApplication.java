@@ -1,7 +1,9 @@
 package Portfolio.Missing_Animal;
 
+import Portfolio.Missing_Animal.propertiesWithJava.StoragePropertiesForReport;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
 import Portfolio.Missing_Animal.propertiesWithJava.StorageProperties;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForReport;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @SpringBootApplication
-@EnableConfigurationProperties(StorageProperties.class)
+@EnableConfigurationProperties({StorageProperties.class,StoragePropertiesForReport.class})
 public class MissingAnimalApplication {
 
 
@@ -31,7 +33,15 @@ public class MissingAnimalApplication {
 	@Bean
 	CommandLineRunner init1(StorageService storageService) {
 		return (args) -> {
-			storageService.deleteAll();
+			//storageService.deleteAll();
+			storageService.init();
+		};
+	}
+
+	@Bean
+	CommandLineRunner init(StorageServiceForReport storageService) {
+		return (args) -> {
+			//storageService.deleteAll();
 			storageService.init();
 		};
 	}

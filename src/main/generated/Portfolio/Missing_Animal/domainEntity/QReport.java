@@ -24,6 +24,8 @@ public class QReport extends EntityPathBase<Report> {
 
     public final Portfolio.Missing_Animal.domainEntity.animal.QAnimal animal;
 
+    public final StringPath fileName = createString("fileName");
+
     public final Portfolio.Missing_Animal.QAddressForm findedAddress;
 
     public final DateTimePath<java.time.LocalDateTime> findedTime = createDateTime("findedTime", java.time.LocalDateTime.class);

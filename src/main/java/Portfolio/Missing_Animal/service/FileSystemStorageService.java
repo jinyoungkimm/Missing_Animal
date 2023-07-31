@@ -37,8 +37,6 @@ public class FileSystemStorageService implements StorageService {
 	public void store(MultipartFile file) {
 
 
-
-
 		try {
 
 			if (file.isEmpty()) {

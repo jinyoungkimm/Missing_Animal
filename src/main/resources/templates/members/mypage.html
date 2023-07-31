@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="fragments/header :: header" />
+
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
@@ -12,17 +14,55 @@
                 <th>#</th>
                 <th>회원 id</th>
                 <th>회원명</th>
+                <th>이메일</th>
+                <th>전화 번호</th>
             </tr>
             </thead>
 
             <tbody>
+
             <tr>
+
                 <td th:text="${member.id}"></td>
                 <td th:text="${member.userId}"></td>
                 <td th:text="${member.username}"></td>
+                <td th:text="${member.email.first}"></td>
+                <td th:text="${member.phoneNumber}"></td>
                 <td>
                     <a href="#" th:href="@{/member/mypage/{id}/editMember (id=${member.id})}"
-                       class="btn btn-primary" role="button">수정</a>
+                       class="btn btn-primary" role="button">자세히 보기</a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>동물 이름</th>
+                <th>동물 성별</th>
+                <th>동물 나이</th>
+                <th>실종 문제 해결 여부</th>
+                <th>신고 여부</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="register : ${registers}">
+                <td th:text="${register.id}"></td>
+                <td th:text="${register.animalName}"></td>
+                <td th:text="${register.animalSex}"></td>
+                <td th:text="${register.animalAge}"></td>
+                <td th:text="${register.registerStatus}"></td>
+                <td th:text="${register.reportedStatus}"></td>
+                <td>
+                    <a href="#" th:href="@{/register/{registerId}/getOneRegister (registerId=${register.id})}"
+                       class="btn btn-primary" role="button">자세히 보기</a>
                 </td>
             </tr>
             </tbody>
@@ -35,24 +75,26 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>동물 이름</th>
-                <th>해결 여부</th>
+                <th>신고 시간</th>
+                <th>신고 주소</th>
             </tr>
+
             </thead>
 
             <tbody>
-            <tr>
-                <td th:text="${register.id}"></td>
-                <td th:text="${register.animalName}"></td>
-                <td th:text="${register.registerStatus}"></td>
+            <tr th:each="report : ${reports}">
+                <td th:text="${report.id}"></td>
+                <td th:text="${report.findedTime}"></td>
+                <td th:text="${report.findedAddress}"></td>
                 <td>
-                    <a href="#" th:href="@{/member/mypage/{id}/editRegister (id=${register.id})}"
-                       class="btn btn-primary" role="button">수정</a>
+                    <a href="#" th:href="@{/report/{reportId}/getOneReport (reportId=${report.id})}"
+                       class="btn btn-primary" role="button">자세히 보기</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+
 
 
 
