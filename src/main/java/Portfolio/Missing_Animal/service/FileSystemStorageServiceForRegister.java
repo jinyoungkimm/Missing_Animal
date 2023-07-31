@@ -1,9 +1,9 @@
 package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.exception.StorageFileNotFoundException;
-import Portfolio.Missing_Animal.propertiesWithJava.StorageProperties;
+import Portfolio.Missing_Animal.propertiesWithJava.StoragePropertiesForRegister;
 import Portfolio.Missing_Animal.exception.StorageException;
-import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -19,17 +19,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 import java.util.stream.Stream;
 
 @Service
 @Slf4j
-public class FileSystemStorageService implements StorageService {
+public class FileSystemStorageServiceForRegister implements StorageServiceForRegister {
 
 	private final Path rootLocation; // rootLoacation == upload-dir(상대경로)
 
 	@Autowired
-	public FileSystemStorageService(StorageProperties properties) {
+	public FileSystemStorageServiceForRegister(StoragePropertiesForRegister properties) {
 		this.rootLocation = Paths.get(properties.getLocation());
 	}
 

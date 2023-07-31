@@ -105,6 +105,7 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
         Report findreport = reportRepository.findById(reportId).get();
 
         //dirty checking!
+        findreport.setFileName(report.getFileName());
         findreport.setFindedTime(report.getFindedTime());
         findreport.setFindedAddress(report.getFindedAddress());
         findreport.setAnimal(report.getAnimal());

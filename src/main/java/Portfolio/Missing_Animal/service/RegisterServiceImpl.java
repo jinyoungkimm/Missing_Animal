@@ -9,6 +9,8 @@ import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +51,15 @@ public class RegisterServiceImpl implements RegisterService {
         List<Register> all = registerRepository.findAll();
 
         return all;
+    }
+
+    @Override
+    public Page<Register> listingRegisterV2(Pageable pageable) {
+
+        Page<Register> page = registerRepository.findAll(pageable);
+
+        return page;
+
     }
 
     @Override

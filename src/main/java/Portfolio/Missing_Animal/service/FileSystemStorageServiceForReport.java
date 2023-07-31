@@ -3,7 +3,6 @@ package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.exception.StorageException;
 import Portfolio.Missing_Animal.exception.StorageFileNotFoundException;
-import Portfolio.Missing_Animal.propertiesWithJava.StorageProperties;
 import Portfolio.Missing_Animal.propertiesWithJava.StoragePropertiesForReport;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForReport;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package Portfolio.Missing_Animal.controller;
 
-import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
 import Portfolio.Missing_Animal.exception.StorageFileNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +17,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/image")
+@RequestMapping("/image_register")
 @Slf4j
-public class FileUploadController {
+public class FileUploadControllerForRegister {
 
-	private final StorageService storageService;
+	private final StorageServiceForRegister storageService;
 
 	@Autowired
-	public FileUploadController(StorageService storageService) {
+	public FileUploadControllerForRegister(StorageServiceForRegister storageService) {
 		this.storageService = storageService;
 	}
 
@@ -36,7 +35,7 @@ public class FileUploadController {
 	public String listUploadedFiles(Model model) throws IOException {
 
 		model.addAttribute("files", storageService.loadAll().map(
-				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadControllerForRegister.class,
 						"serveFile", path.getFileName().toString()).build().toUri().toString())
 				.collect(Collectors.toList()));
 

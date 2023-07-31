@@ -4,11 +4,14 @@ package Portfolio.Missing_Animal.controller;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
-import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -16,7 +19,6 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -26,7 +28,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 public class RegisterController {
     private final RegisterService registerService;
 
-    private final StorageService storageService;
+    private final StorageServiceForRegister storageService;
 
     @GetMapping("")
     public String registerMissingGet(Model model){
@@ -58,6 +60,35 @@ public class RegisterController {
 
     }
 
+   // @GetMapping("/list")
+    public String registerListV1(Model model){
+
+        List<Register> registers = registerService.listingRegister();
+
+        model.addAttribute("registers",registers);
+
+        return "registers/registerList";
+
+    }
+
+    @GetMapping("/list")
+    public String registerListV2(Model model, @PageableDefault(page = 0,size = 2,sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+
+        Page<Register> page = registerService.listingRegisterV2(pageable);
+
+        int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
+        int startPage = Math.max(nowPage - 4,1);
+        int endPage = Math.min(nowPage + 5,page.getTotalPages());
+
+        model.addAttribute("page",page);
+        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+
+        return "registers/registerList";
+
+    }
+
     @GetMapping("/{registerId}/edit")
     String updateRegisterGet(@PathVariable("registerId") Long registerId, Model model){
 
@@ -70,13 +101,13 @@ public class RegisterController {
 
     @PostMapping("/{registerId}/edit")
     public String updateRegister(Register register,
+                                 @PathVariable("registerId") Long registerId,
                                  @RequestParam("file") MultipartFile file) throws IOException {
 
-        System.out.println(register.getId());
 
-        Register findRegister = registerService.findOne(register.getId());
+        Register findRegister = registerService.findOne(registerId);
 
-        if(file != null)
+        if(!file.isEmpty() )
         {
             String fileName = findRegister.getFileName();
 
@@ -89,9 +120,9 @@ public class RegisterController {
         String originalFilename = file.getOriginalFilename();
         register.setFileName(originalFilename);
 
-        registerService.updateForm(register.getId(), register);
+        registerService.updateForm(registerId, register);
 
-        return "redirect:/registers/reigster";
+        return "redirect:/";
     }
 
     @GetMapping("/missingAddress")
@@ -113,7 +144,7 @@ public class RegisterController {
         if(!isEmpty(findRegister.getFileName()))
         {
             Path path = storageService.load(findRegister.getFileName());
-            String serveFile = MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+            String serveFile = MvcUriComponentsBuilder.fromMethodName(FileUploadControllerForRegister.class,
                     "serveFile", path.getFileName().toString()).build().toUri().toString();
             model.addAttribute("file",serveFile);
 

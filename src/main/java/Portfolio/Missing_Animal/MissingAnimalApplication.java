@@ -1,26 +1,18 @@
 package Portfolio.Missing_Animal;
 
 import Portfolio.Missing_Animal.propertiesWithJava.StoragePropertiesForReport;
-import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
-import Portfolio.Missing_Animal.propertiesWithJava.StorageProperties;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
+import Portfolio.Missing_Animal.propertiesWithJava.StoragePropertiesForRegister;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForReport;
-import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 
 @SpringBootApplication
-@EnableConfigurationProperties({StorageProperties.class,StoragePropertiesForReport.class})
+@EnableConfigurationProperties({StoragePropertiesForRegister.class,StoragePropertiesForReport.class})
 public class MissingAnimalApplication {
 
 
@@ -31,7 +23,7 @@ public class MissingAnimalApplication {
 	}
 
 	@Bean
-	CommandLineRunner init1(StorageService storageService) {
+	CommandLineRunner init1(StorageServiceForRegister storageService) {
 		return (args) -> {
 			//storageService.deleteAll();
 			storageService.init();

@@ -155,6 +155,7 @@ public class InitMissingAddress {
         Report report1 = new Report();
         report1.setRegister(register1);
         report1.setMember(member);
+        report1.setFileName("ASDF.PNG");
         report1.setFindedAddress(addressForm1);
         em.persist(report1);
 
@@ -162,6 +163,7 @@ public class InitMissingAddress {
         Report report2 = new Report();
         report2.setRegister(register1);
         report2.setMember(member);
+        report2.setFileName("ASDF.PNG");
         report2.setFindedAddress(addressForm2);
         em.persist(report2);
 
@@ -169,6 +171,7 @@ public class InitMissingAddress {
         Report report3 = new Report();
         report3.setRegister(register2);
         report3.setMember(member);
+        report3.setFileName("ASDF.PNG");
         report3.setFindedAddress(addressForm3);
         em.persist(report3);
 
@@ -176,6 +179,7 @@ public class InitMissingAddress {
         Report report4 = new Report();
         report4.setRegister(register2);
         report4.setMember(member);
+        report4.setFileName("ASDF.PNG");
         report4.setFindedAddress(addressForm4);
         em.persist(report4);
 

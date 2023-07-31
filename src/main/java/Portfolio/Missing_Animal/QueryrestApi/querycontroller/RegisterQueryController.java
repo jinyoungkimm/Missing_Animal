@@ -5,7 +5,7 @@ import Portfolio.Missing_Animal.dto.RegisterDto;
 
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.RegisterQueryRepository;
 import Portfolio.Missing_Animal.dto.RegisterDtoWithPagination;
-import Portfolio.Missing_Animal.service.serviceinterface.StorageService;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController// @ResponseBody를 자동으로 붙여줌
 @RequestMapping("/api/registers")
@@ -28,7 +25,7 @@ public class RegisterQueryController {
 
     private final RegisterQueryRepository registerQueryRepository;
 
-    private final StorageService storageService;
+    private final StorageServiceForRegister storageService;
 
     @GetMapping("")
     RegisterDtoWithPagination getRegistersWithPaging(@RequestParam(value = "offset",defaultValue = "0") int offset,
