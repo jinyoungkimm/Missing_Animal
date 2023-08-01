@@ -70,11 +70,11 @@ public class RegisterQueryController {
 
         Register register = registerQueryRepository.findRegisterWithOneId(registerId);
 
-        System.out.println(register.getAnimalName());
 
         String filename = register.getFileName();
 
         Resource file = storageService.loadAsResource(filename);
+
 
         return ResponseEntity.status(HttpStatus.OK)
                                .contentType(MediaType.valueOf("image/png"))

@@ -1,21 +1,36 @@
 package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.ReportQueryRepository;
+import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.dto.ReportDto;
 import Portfolio.Missing_Animal.dto.ReportDtoWithPagination;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForReport;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/report")
+@RequestMapping("/api/reports")
 @RequiredArgsConstructor
 public class ReportQueryController {
 
     private final ReportQueryRepository reportQueryRepository;
+
+
+    private final StorageServiceForReport storageService;
+
+
 
     @GetMapping("")
     public ReportDtoWithPagination getAllReport(@RequestParam(value = "offset",defaultValue = "0") int offset,
@@ -50,5 +65,38 @@ public class ReportQueryController {
 
         }
     }
+
+
+    @GetMapping("/{reportId}/image")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<Resource> serveFile(@PathVariable("reportId") Long reportId) throws UnsupportedEncodingException {
+
+      try {
+
+          Report report = reportQueryRepository.findByIdV2(reportId);
+
+          String filename = report.getFileName();
+
+          Resource file = storageService.loadAsResource(filename);
+
+
+          return ResponseEntity.status(HttpStatus.OK)
+                  .contentType(MediaType.valueOf("image/png"))
+                  .body(file);
+
+      }
+      catch (NonUniqueResultException e){
+          throw new IllegalStateException("결과가 2개 이상 조회됨");
+      }
+      catch (NoResultException e){
+
+          throw new IllegalStateException("해당 id로 조회되는 것이 없음");
+      }
+
+
+
+    }
+
 
 }

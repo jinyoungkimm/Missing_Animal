@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header" />
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+    <h2>GET방식</h2>
+
+    <label>reportId</label>
+    <input id ="reportId" type="text" value="" placeholder="reportId 입력">
+    <button onclick="getImage()" >조회하기</button><br><br>
+
+
+    <p id ="response">
+
+        <img id="im" src ="">
+
+    </p>
+
+
+
+    <script>
+
+function getImage(){
+
+
+let reportId = document.getElementById("reportId").value;
+
+fetch('http://localhost:8080/api/reports/'+ reportId +`/image`)
+
+.then((response) => response.blob())
+
+.then( (blob) => {
+
+    const imageURL = URL.createObjectURL(blob);
+
+    let im = document.getElementById("im")
+    im.src = imageURL;
+
+})
+.catch(error => console.log(error));
+
+}
+
+</script>
+
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+
+</html>

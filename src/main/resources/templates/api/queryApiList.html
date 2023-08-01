@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header" />
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+    <h3>[회원] 조회 API</h3>
+
+    <label>[GET] : /api/members</label>
+    <a href="http://localhost:8080/member/memberQuery">API 테스트하러 가기</a><br>
+
+    <label>[GET] : /api/members/{userId}</label>
+    <a href="http://localhost:8080/member/memberQueryWithId">API 테스트하러 가기</a><br>
+
+
+    <br><br>
+
+
+    <h3>[실종 등록] 조회 API</h3>
+
+    <label>[GET] : /api/registers</label>
+    <a href="http://localhost:8080//register/registerQuery">API 테스트하러 가기</a><br>
+
+    <label>[GET] : /api/registers/{registerId}</label>
+    <a href="http://localhost:8080/register/registerQueryWithId">API 테스트하러 가기</a><br>
+
+    <label>[GET] : /api/registers/{registerId}/image</label>
+    <a href="http://localhost:8080/register/registerImageQuery">API 테스트하러 가기</a><br>
+
+    <br><br>
+
+
+    <h3>[발견 신고] 조회 API</h3>
+
+    <label>[GET] : /api/reports</label>
+    <a href="http://localhost:8080//report/reportQuery">API 테스트하러 가기</a><br>
+
+    <label>[GET] : /api/reports/{reportId}</label>
+    <a href="http://localhost:8080/report/reportQueryWithId">API 테스트하러 가기</a><br>
+
+    <label>[GET] : /api/reports/{reportId}/image</label>
+    <a href="http://localhost:8080/report/reportImageQuery">API 테스트하러 가기</a><br>
+
+    <br><br>
+
+
+
+
+
+
+
+
+
+
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+
+</html>

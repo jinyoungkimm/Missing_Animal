@@ -52,7 +52,7 @@ public class RegisterDto {
     private ReportedStatus reportedStatus;
 
     //컬렉션
-    private List<ReportDto> reports = new ArrayList<>();
+    private List<ReportDto> reports;
 
 
 

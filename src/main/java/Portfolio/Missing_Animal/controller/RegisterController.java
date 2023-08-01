@@ -32,6 +32,33 @@ public class RegisterController {
 
     private final StorageServiceForRegister storageService;
 
+    @GetMapping("/registerQuery")
+    public String registerQuery(){
+
+
+        return "api/registerApi/registers";
+
+    }
+
+    @GetMapping("/registerQueryWithId")
+    public String registerQueryWithId(){
+
+
+        return "api/registerApi/registerWithId";
+
+    }
+
+    @GetMapping("/registerImageQuery")
+    public String registerImageQuery(){
+
+
+        return "api/registerApi/registerImageQuery";
+
+    }
+
+
+
+
     @GetMapping("")
     public String registerMissingGet(Model model){
 
@@ -79,6 +106,7 @@ public class RegisterController {
     public String registerListV2(Model model, @PageableDefault(page = 0,size = 2,sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
 
         Page<Register> page = registerService.listingRegisterV2(pageable);
+
 
         int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
         int startPage = Math.max(nowPage - 4,1);

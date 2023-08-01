@@ -187,12 +187,14 @@ class MemberRepositorySDJTest {
         boolean isFirstPage = page.isFirst(); // 조회된 페이지가 1번 페이지인가?
         boolean isNextPage = page.hasNext(); // 다음 페이지가 존재를 하는가?
         int totalPages = page.getTotalPages(); // 전체 페이지의 개수
+        int size = page.getSize();
 
         //then
         assertThat(content.size()).isEqualTo(2L);
         assertThat(totalElements).isEqualTo(5L);
         assertThat(totalPages).isEqualTo(3L);
         assertThat(pageNumber).isEqualTo(0);
+        assertThat(size).isEqualTo(2L);
         assertThat(isFirstPage).isTrue();
         assertThat(isNextPage).isTrue();
 

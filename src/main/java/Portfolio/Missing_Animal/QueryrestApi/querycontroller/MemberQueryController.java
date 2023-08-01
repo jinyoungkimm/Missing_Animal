@@ -7,6 +7,9 @@ import Portfolio.Missing_Animal.dto.MemberDtoWithPagination;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +21,8 @@ public class MemberQueryController {
 
     private final MemberQueryRepository memberQueryRepository;
 
-    @GetMapping("")
+
+    //@GetMapping("")
     MemberDtoWithPagination getMembersInfo(@RequestParam(value = "offset", defaultValue = "0") Integer offset,
                                    @RequestParam(value = "limit",defaultValue = "2") Integer limit){
 
@@ -29,6 +33,17 @@ public class MemberQueryController {
             MemberDtoWithPagination allWithPaging = memberQueryRepository.findAllWithPaging(pageNumber, size);
 
             return allWithPaging;
+
+    }
+
+    @GetMapping("")
+    MemberDtoWithPagination getMembersInfoV2(@PageableDefault(page = 0,size = 2,sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+
+        System.out.println("page="+pageable.getPageNumber());
+
+        MemberDtoWithPagination allWithPaging = memberQueryRepository.findAllWithPagingV2(pageable);
+
+        return allWithPaging;
 
     }
 

@@ -14,5 +14,14 @@ public class HomeController {
 
     }
 
+    @RequestMapping("/QueryApiList")
+    public String queryApiList(){
+
+        return "api/queryApiList";
+
+
+
+    }
+
 
 }

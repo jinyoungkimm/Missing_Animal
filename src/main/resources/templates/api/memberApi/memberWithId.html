@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header" />
+
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+  <h2>GET방식</h2>
+
+  <label>회원 ID</label>
+  <input id ="userId" type="text" value="" placeholder="ID 입력(EX.wlsdud6523)">
+  <button onclick="memberId()" >조회하기</button>
+
+  <br>
+
+  <p id ="jj">
+
+
+
+  </p>
+
+  <p id ="ma">
+
+
+  </p>
+
+
+  <p id ="response">
+
+  </p>
+
+
+
+  <script>
+function memberId(){
+
+let userId = document.getElementById("userId").value;
+
+
+fetch('http://localhost:8080/api/members/'+userId)
+
+.then((response) => response.json())
+
+.then((data) => {
+
+
+
+  document.getElementById("jj").innerHTML =  `<a href="https://codebeautify.org/jsonviewer" target="_blank">아래의 JSON을 이쁘게 출력하러 가기</a><br><br>`;
+  document.getElementById("ma").innerHTML = `사용법<br>
+        1.아래의 결과물을 드래그하여 복사한다(반드시 결과의 전체를 복사하자!)<br>
+        2.위 링크를 클릭하여 사이트 이동<br>
+        3.화면 왼쪽에 (1)에서 복사한 내용을 붙여 넣는다.<br>
+        4.화연 가운데 아래 부분에 [Beautify]라는 버튼을 클릭하면, JSON을 이쁘게 볼 수가 있다.  <br>`
+  document.getElementById("response").innerHTML = JSON.stringify(data,null,4);
+
+})
+.catch(error => console.log(error));
+
+}
+</script>
+
+  <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+
+</html>

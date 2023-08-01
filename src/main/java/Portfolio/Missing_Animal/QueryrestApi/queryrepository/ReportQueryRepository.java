@@ -103,6 +103,15 @@ public class ReportQueryRepository {
 
     }
 
+    public Report findByIdV2(Long id) throws NonUniqueResultException, NoResultException{
+
+        return em.createQuery("SELECT r FROM Report r WHERE r.id=:id",Report.class)
+                .setParameter("id",id)
+                .getSingleResult();
+
+    }
+
+
     public List<ReportDto> findReport(){
 
         return em.createQuery("SELECT new Portfolio.Missing_Animal.dto." +

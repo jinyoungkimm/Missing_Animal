@@ -10,6 +10,7 @@ import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -185,6 +186,60 @@ public class MemberQueryRepository {
         return memberDtoWithPagination;
 
     }
+
+    public MemberDtoWithPagination findAllWithPagingV2(Pageable pageable)
+    {
+
+        int pageNumber = pageable.getPageNumber();
+        int size = pageable.getPageSize();
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
+
+        Page<Member> page = memberRepositorySDJ.findAll(pageRequest); // member는 toOne 엔티티가 x.
+
+        Page<MemberDto> pageDto = page.map(member ->
+                new MemberDto(member.getId(),member.getUserId(),member.getUsername(),member.getEmail(),member.getPhoneNumber()));
+
+
+        List<MemberDto> content = pageDto.getContent(); // toOne : Member, MissingAddress에 대해 left fetch join 일어남!
+
+        List<Long> memberDtoIds = toMemberDtoIds(content);
+
+        Map<Long, List<RegisterDto>> registerMap = findRegisterMap(memberDtoIds); // toMany에 대한 조회
+        Map<Long, List<ReportDto>> reportMap = findReportMap(memberDtoIds); // toMany에 대한 조회
+
+        //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
+        content.forEach(memberDto -> {
+
+            Long id = memberDto.getMemberId();
+
+            List<RegisterDto> registerDtos = registerMap.get(id);
+            List<ReportDto> reportDtos = reportMap.get(id);
+
+            memberDto.setRegisters(registerDtos);
+            memberDto.setReports(reportDtos);
+
+        });
+
+        // pagination 정보!
+        int countCurrent = content.size();
+
+        int pageNumberCurrent = page.getNumber() + 1; // JPA의 PAGE 번호는 0부터 시작!
+
+        long countTotal = page.getTotalElements();
+
+        int pageTotal = page.getTotalPages();
+
+        int itemsCountPerPage = size;
+
+        Pagination pagination = new Pagination(countCurrent,pageNumberCurrent,countTotal,pageTotal,itemsCountPerPage);
+
+        MemberDtoWithPagination memberDtoWithPagination = new MemberDtoWithPagination(pagination,content);
+
+        return memberDtoWithPagination;
+
+    }
+
 
 
     public List<RegisterDto> findRegisters(Long memberId){
