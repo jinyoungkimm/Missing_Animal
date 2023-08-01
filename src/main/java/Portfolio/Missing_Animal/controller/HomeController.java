@@ -24,4 +24,15 @@ public class HomeController {
     }
 
 
+    @RequestMapping("/otherApiList")
+    public String otherApiList(){
+
+        return "api/otherApiList";
+
+
+
+    }
+
+
+
 }

@@ -1,14 +1,22 @@
 package Portfolio.Missing_Animal.domainEntity;
 
 import jakarta.persistence.EntityManager;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
+import org.springframework.boot.test.autoconfigure.data.cassandra.DataCassandraTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 
 
 @SpringBootTest
@@ -88,5 +96,163 @@ class RegisterTest {
 
     }
 
+    // [도/시]
+    // [시/군/구]
+    // [읍/면/동]
+    // 도로명
+    // 도로번호
+    // 나머지 주소
+
+    @Test
+    @Rollback(value = false)
+    void parsing(){
+
+        String str  = "부산광역시 해운대구 해운대로 119";
+
+        String prefecture = findPrefecture(str);
+        System.out.println("prefecture = " + prefecture);
+
+        String cityName = findCity(str);
+        System.out.println("cityName = " + cityName);
+
+        String Gu = findGu(str);
+        System.out.println("Gu = " + Gu);
+
+        String Dong = findDong(str);
+        System.out.println("Dong = " + Dong);
+
+        String streetName = findStreetName(str);
+        System.out.println("streetName = " + streetName);
+
+        String streetNumber = findStreetNumber(str);
+        System.out.println("streetNumber = " + streetNumber);
+
+
+    }
+
+
+    public static String findPrefecture(String str){
+
+
+        StringTokenizer st = new StringTokenizer(str," ");
+
+        while (st.hasMoreTokens()){
+            //북/남/도
+
+            String s = st.nextToken();
+            if(s.charAt(s.length()-1) == '북' || s.charAt(s.length()-1) == '남' || s.charAt(s.length()-1) == '도' )
+                return s;
+
+        }
+
+        return null;
+
+    }
+
+    public static String findCity(String str){
+
+
+        StringTokenizer st = new StringTokenizer(str," ");
+
+        while (st.hasMoreTokens()){
+            // 시/군/면
+
+            String s = st.nextToken();
+            if(s.charAt(s.length()-1) != '북' && s.charAt(s.length()-1) != '남' && s.charAt(s.length()-1) != '도'
+              && s.charAt(s.length()-1) != '군'  && s.charAt(s.length()-1) != '구'
+                    && s.charAt(s.length()-1) != '읍' && s.charAt(s.length()-1) != '면' && s.charAt(s.length()-1) != '동'
+                    && s.charAt(s.length()-1) != '0' && s.charAt(s.length()-1) != '1' && s.charAt(s.length()-1) != '2'
+                    && s.charAt(s.length()-1) != '3' && s.charAt(s.length()-1) != '4' && s.charAt(s.length()-1) != '5'
+                    && s.charAt(s.length()-1) != '6' && s.charAt(s.length()-1) != '7' && s.charAt(s.length()-1) != '8'
+                    && s.charAt(s.length()-1) != '9')
+                return s;
+
+        }
+
+        return null;
+
+    }
+
+
+    public static String findGu(String str){
+
+
+        StringTokenizer st = new StringTokenizer(str," ");
+
+        while (st.hasMoreTokens()){
+
+            //구
+
+            String s = st.nextToken();
+            if(s.charAt(s.length()-1) == '구')
+                return s;
+
+        }
+
+        return null;
+
+    }
+
+    public static String findDong(String str){
+
+
+        StringTokenizer st = new StringTokenizer(str," ");
+
+        while (st.hasMoreTokens()){
+
+            // 읍/면/동
+            String s = st.nextToken();
+            if(s.charAt(s.length()-1) == '읍' || s.charAt(s.length()-1) == '면' || s.charAt(s.length()-1) == '동')
+                return s;
+
+        }
+
+        return null;
+
+    }
+
+    public static String findStreetName(String str){
+
+
+        StringTokenizer st = new StringTokenizer(str," ");
+
+        while (st.hasMoreTokens()){
+
+            // ~로, ~길
+            String s = st.nextToken();
+            if(s.charAt(s.length()-1) == '로' || s.charAt(s.length()-1) == '길')
+                return s;
+
+        }
+
+        return null;
+
+    }
+
+
+    public static String findStreetNumber(String str){
+
+
+        StringTokenizer st = new StringTokenizer(str," ");
+
+        while (st.hasMoreTokens()){
+
+            // 0~9
+            String s = st.nextToken();
+            if(  s.charAt(s.length()-1) == '0' || s.charAt(s.length()-1) == '1' || s.charAt(s.length()-1) == '2'
+                    || s.charAt(s.length()-1) == '3' || s.charAt(s.length()-1) == '4' || s.charAt(s.length()-1) == '5'
+                    || s.charAt(s.length()-1) == '6' || s.charAt(s.length()-1) == '7' || s.charAt(s.length()-1) == '8'
+                    || s.charAt(s.length()-1) == '9')
+                return s;
+
+        }
+
+        return null;
+
+    }
 
 }
+
+
+
+
