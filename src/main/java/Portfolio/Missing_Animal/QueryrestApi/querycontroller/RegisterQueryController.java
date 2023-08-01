@@ -10,6 +10,9 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +30,7 @@ public class RegisterQueryController {
 
     private final StorageServiceForRegister storageService;
 
-    @GetMapping("")
+    //@GetMapping("")
     RegisterDtoWithPagination getRegistersWithPaging(@RequestParam(value = "offset",defaultValue = "0") int offset,
                                              @RequestParam(value = "limit", defaultValue = "2") int limit) {
 
@@ -35,6 +38,17 @@ public class RegisterQueryController {
         int size = limit;
 
         RegisterDtoWithPagination result = registerQueryRepository.findAllRegisters2WithPaging(pageNumber, size);
+
+        return result;
+
+    }
+
+    @GetMapping("")
+    RegisterDtoWithPagination getRegistersWithPagingV2(@PageableDefault(page = 0,size = 2,sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+
+
+
+        RegisterDtoWithPagination result = registerQueryRepository.findAllRegisters3WithPaging(pageable);
 
         return result;
 

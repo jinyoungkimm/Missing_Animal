@@ -11,6 +11,9 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +35,7 @@ public class ReportQueryController {
 
 
 
-    @GetMapping("")
+    //@GetMapping("")
     public ReportDtoWithPagination getAllReport(@RequestParam(value = "offset",defaultValue = "0") int offset,
                                      @RequestParam(value = "limit", defaultValue = "2") int limit){
 
@@ -40,6 +43,17 @@ public class ReportQueryController {
         int size = limit;
 
         ReportDtoWithPagination result = reportQueryRepository.findAllWithPaging2(pageNumber, size);
+
+
+        return result;
+
+    }
+
+    @GetMapping("")
+    public ReportDtoWithPagination getAllReportV2(@PageableDefault(page = 0,size = 2,sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+
+
+        ReportDtoWithPagination result = reportQueryRepository.findAllWithPaging3(pageable);
 
 
         return result;

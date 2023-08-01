@@ -11,6 +11,7 @@ import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -67,6 +68,66 @@ public class RegisterQueryRepository {
     }
 
     public RegisterDtoWithPagination findAllRegisters2WithPaging(int pageNumber,int size){
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, size);
+
+        Page<Register> page = registerRepositorySDJ.findAll(pageRequest); // 이 시점에서 이미 toOne에 대한 조회가 left fetch join에 의해 됨.
+
+        Page<RegisterDto> pageDto = page.map(register -> {
+
+            Member member = register.getMember(); // toOne
+            MissingAddress missingAddress = register.getMissingAddress(); // toOne
+
+            return new RegisterDto(register.getId(), member.getId(), missingAddress.getId(),
+                    register.getAnimalName(), register.getAnimalSex(), register.getAnimalAge(), register.getRegisterDate(), register.getRegisterStatus(), register.getReportedStatus());
+
+        });
+
+        List<RegisterDto> content = pageDto.getContent(); // toOne : Member, MissingAddress에 대해 left fetch join 일어남!
+
+        List<Long> registerDtoIds = toRegisterDtoIds(content);
+
+        Map<Long, List<ReportDto>> reportMap = findReportMap(registerDtoIds); // toMany에 대한 조회
+
+
+        //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
+        content.forEach(registerDto -> {
+
+            Long id = registerDto.getRegisterId();
+
+            List<ReportDto> reportDtos = reportMap.get(id);
+
+            registerDto.setReports(reportDtos);
+
+        });
+
+        // pagination 정보!
+
+
+
+        int countCurrent = content.size();
+
+        int pageNumberCurrent = page.getNumber() + 1; // JPA의 PAGE 번호는 0부터 시작!
+
+        long countTotal = page.getTotalElements();
+
+        int pageTotal = page.getTotalPages();
+
+        int itemsCountPerPage = size;
+
+        Pagination pagination = new Pagination(countCurrent,pageNumberCurrent,countTotal,pageTotal,itemsCountPerPage);
+
+        RegisterDtoWithPagination registerDtoWithPagination = new RegisterDtoWithPagination(pagination,content);
+
+        return registerDtoWithPagination;
+
+    }
+
+
+    public RegisterDtoWithPagination findAllRegisters3WithPaging(Pageable pageable){
+
+        int pageNumber = pageable.getPageNumber();
+        int size = pageable.getPageSize();
 
         PageRequest pageRequest = PageRequest.of(pageNumber, size);
 

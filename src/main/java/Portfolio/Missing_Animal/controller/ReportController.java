@@ -50,7 +50,7 @@ public class ReportController {
     public String registerQueryWithId(){
 
 
-        return "api/reportApi/reportsWithId";
+        return "api/reportApi/reportWithId";
 
     }
 

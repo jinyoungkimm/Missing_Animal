@@ -16,10 +16,9 @@ import java.time.LocalDateTime;
 public class ReportDto {
 
     Long reportId;
-    @JsonIgnore
+
     Long registerId;
 
-    @JsonIgnore
     Long memberId;
 
     LocalDateTime findedTime;
