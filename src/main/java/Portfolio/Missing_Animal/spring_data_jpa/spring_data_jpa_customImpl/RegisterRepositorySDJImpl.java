@@ -213,7 +213,8 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
                         guEq(registerSearchCond.getGu()),
                         DongEq(registerSearchCond.getDong()),
                         streetNameEq(registerSearchCond.getStreetName()),
-                        streetNumberEq(registerSearchCond.getStreetNumber()))
+                        streetNumberEq(registerSearchCond.getStreetNumber()),
+                        zipcodeEq(registerSearchCond.getZipcode()))
 
                 .offset(offset)
 
@@ -239,7 +240,8 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
                         guEq(registerSearchCond.getGu()),
                         DongEq(registerSearchCond.getDong()),
                         streetNameEq(registerSearchCond.getStreetName()),
-                        streetNumberEq(registerSearchCond.getStreetNumber()));
+                        streetNumberEq(registerSearchCond.getStreetNumber()),
+                        zipcodeEq(registerSearchCond.getZipcode()));
 
         return PageableExecutionUtils.getPage(content,pageable,
                 countQuery::fetchCount); // 여기에서 fetchCount() 실행!
@@ -305,6 +307,12 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
     private BooleanExpression streetNumberEq(String streetNumber){
 
         return isEmpty(streetNumber) ? null : missingAddress.streetNumber.contains(streetNumber);
+
+    }
+
+    private BooleanExpression zipcodeEq(String zipcode){
+
+        return isEmpty(zipcode) ? null : missingAddress.zipcode.contains(zipcode);
 
     }
 

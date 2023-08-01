@@ -187,6 +187,42 @@ public class RegisterServiceImpl implements RegisterService {
 
     }
 
+    @Override
+    public Page<Register> searchByRegisterCond2(RegisterSearchCond registerSearchCond, Pageable pageable) {
+
+        String address = registerSearchCond.getStreetName();
+        String prefecture = findPrefecture(address);
+        registerSearchCond.setPrefecture(prefecture);
+        System.out.println("prefecture = " + prefecture);
+
+        String cityName = findCity(address);
+        registerSearchCond.setCityName(cityName);
+        System.out.println("cityName = " + cityName);
+
+        String Gu = findGu(address);
+        registerSearchCond.setGu(Gu);
+        System.out.println("Gu = " + Gu);
+
+        String Dong = findDong(address);
+        registerSearchCond.setDong(Dong);
+        System.out.println("Dong = " + Dong);
+
+        String streetName = findStreetName(address);
+        registerSearchCond.setStreetName(streetName);
+        System.out.println("streetName = " + streetName);
+
+        String streetNumber = findStreetNumber(address);
+        registerSearchCond.setStreetNumber(streetNumber);
+        System.out.println("streetNumber = " + streetNumber);
+
+
+        Page<Register> page = registerRepository.searchRegistersWithPagingComplexV2(registerSearchCond,pageable);
+
+
+        return page;
+
+    }
+
 
 
 

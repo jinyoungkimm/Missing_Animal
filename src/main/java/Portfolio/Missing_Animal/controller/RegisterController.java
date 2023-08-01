@@ -124,7 +124,7 @@ public class RegisterController {
 
     }
 
-    @PostMapping("/search/list")
+    @PostMapping("/search/list") // 실종 리스트
     public String registerListBySearchCondtion(Model model,
                                                @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable,
                                                RegisterSearchCond registerSearchCond)
@@ -132,6 +132,8 @@ public class RegisterController {
         System.out.println("registerSearchCond = " + registerSearchCond);;
 
         Page<Register> page = registerService.searchByRegisterCond(registerSearchCond,pageable);
+
+        System.out.println("size = " + page.getTotalElements());
 
         int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
         int startPage = Math.max(nowPage - 4,1);
@@ -147,9 +149,32 @@ public class RegisterController {
 
         return "registers/registerList";
 
+    }
 
+    @PostMapping("/search/list/myVilage") // 우리 동네 실종 동물 찾기
+    public String registerListBySearchCondtion2(Model model,
+                                               @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable,
+                                               RegisterSearchCond registerSearchCond)
+    {
+        System.out.println("registerSearchCond = " + registerSearchCond);;
 
+        Page<Register> page = registerService.searchByRegisterCond2(registerSearchCond,pageable);
 
+        System.out.println("size = " + page.getTotalElements());
+
+        int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
+        int startPage = Math.max(nowPage - 4,1);
+        int endPage = Math.min(nowPage + 5,page.getTotalPages());
+
+        model.addAttribute("page",page);
+        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+
+        RegisterSearchCond searCond = new RegisterSearchCond();
+        model.addAttribute("searchCond",searCond);
+
+        return "registers/registerListMyVilage";
 
     }
 
@@ -167,7 +192,6 @@ public class RegisterController {
     public String updateRegister(Register register,
                                  @PathVariable("registerId") Long registerId,
                                  @RequestParam("file") MultipartFile file) throws IOException {
-
 
         Register findRegister = registerService.findOne(registerId);
 
@@ -190,13 +214,22 @@ public class RegisterController {
     }
 
     @GetMapping("/missingAddress")
-    public String showRegistersWithMissingAddress(MissingAddress missingAddress){
+    public String showRegistersWithMissingAddress(Model model){
 
-        List<Register> registers = registerService.ListingMissingAnimalByMissingAddress(missingAddress);
+        //List<Register> registers = registerService.ListingMissingAnimalByMissingAddress(missingAddress);
 
-        return "아직 구현 안함";
+        RegisterSearchCond searchCond = new RegisterSearchCond();
+
+
+        model.addAttribute("searchCond",searchCond);
+
+
+        return "registers/registersByMissingAddress";
 
     }
+
+
+
 
     @GetMapping("{registerId}/getOneRegister")
     public String findOneRegisterById(@PathVariable("registerId") Long registerId, Model model
@@ -219,7 +252,5 @@ public class RegisterController {
         return "registers/showOneRegister";
 
     }
-
-
 
 }

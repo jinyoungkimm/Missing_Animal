@@ -30,5 +30,7 @@ public class RegisterSearchCond {
 
     private String zipcode;
 
+    private String detailAdr;
+
 
 }

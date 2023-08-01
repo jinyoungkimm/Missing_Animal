@@ -25,4 +25,6 @@ public interface RegisterService {
     public List<Register> ListingMissingAnimalByMissingAddress(MissingAddress missingAddress);
 
     Page<Register> searchByRegisterCond(RegisterSearchCond registerSearchCond, Pageable pageable);
+
+    Page<Register> searchByRegisterCond2(RegisterSearchCond registerSearchCond, Pageable pageable);
 }
