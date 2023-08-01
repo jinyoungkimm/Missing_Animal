@@ -67,7 +67,6 @@ public class RegisterQueryController {
     @Transactional
     public ResponseEntity<Resource> serveFile(@PathVariable("registerId") Long registerId) throws UnsupportedEncodingException {
 
-        System.out.println(11111111);
 
         Register register = registerQueryRepository.findRegisterWithOneId(registerId);
 

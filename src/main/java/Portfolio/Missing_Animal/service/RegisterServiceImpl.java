@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.service;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 
+import Portfolio.Missing_Animal.dto.RegisterSearchCond;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
@@ -10,6 +11,7 @@ import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,7 @@ public class RegisterServiceImpl implements RegisterService {
         register.setReportedStatus(ReportedStatus.NO);
 
         Long saveId = registerRepository.save(register).getId();
+
 
         return saveId;
 
@@ -139,6 +142,19 @@ public class RegisterServiceImpl implements RegisterService {
 
 
         return null;
+    }
+
+
+    @Override
+    public Page<Register> searchByRegisterCond(RegisterSearchCond registerSearchCond, Pageable pageable) {
+
+
+
+        Page<Register> page = registerRepository.searchRegistersWithPagingComplexV2(registerSearchCond,pageable);
+
+
+        return page;
+
     }
 
 

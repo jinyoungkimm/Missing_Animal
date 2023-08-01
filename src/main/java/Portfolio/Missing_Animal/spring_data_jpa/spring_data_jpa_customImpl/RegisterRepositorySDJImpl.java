@@ -64,13 +64,13 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
      */
 
     @Override
-    public List<Tuple> searchRegisters(RegisterSearchCond registerSearchCond) {
+    public List<Register> searchRegisters(RegisterSearchCond registerSearchCond) {
 
 
-        List<Tuple> fetch = query
+        List<Register> fetch = query
 
-                .select(register, missingAddress)
-
+                .select(register) // toOne 관계인 MissingAddress를 fetch join한 것과 같음!!!
+                                                  // Member도 toOne 관계이지만, 여기에서는 필요가 없다.
                 .from(register)
 
                 .leftJoin(register.missingAddress, missingAddress)
@@ -94,13 +94,13 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
     }
 
     @Override
-    public Page<Tuple> searchRegistersWithPagingSimple(RegisterSearchCond registerSearchCond, Pageable pageable) {
+    public Page<Register> searchRegistersWithPagingSimple(RegisterSearchCond registerSearchCond, Pageable pageable) {
 
         //PageRequest(Pageable의 구현체)의 pageNumber와 size만으로, offset과 limit이 자동 계산이 된다.
         long offset = pageable.getOffset();
         int limit = pageable.getPageSize();
 
-        QueryResults<Tuple> results = query.select(register, missingAddress)
+        QueryResults<Register> results = query.select(register)
 
                 .from(register)
 
@@ -123,7 +123,7 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
 
                 .fetchResults();// 내용 조회와 count 쿼리를 한번에 조회!!
 
-        List<Tuple> content = results.getResults();
+        List<Register> content = results.getResults();
         long totalElementCount = results.getTotal();
 
         return new PageImpl<>(content,pageable,totalElementCount);
@@ -131,7 +131,7 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
     }
 
     @Override
-    public Page<Tuple> searchRegistersWithPagingComplexV1(RegisterSearchCond registerSearchCond,Pageable pageable) {
+    public Page<Register> searchRegistersWithPagingComplexV1(RegisterSearchCond registerSearchCond,Pageable pageable) {
 
         /**
          * 내용 쿼리와 count 쿼리를 분리하면 코드 가독성이 좋다.
@@ -139,8 +139,8 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
         long offset = pageable.getOffset();
         int limit = pageable.getPageSize();
 
-        List<Tuple> content = query
-                .select(register, missingAddress)
+        List<Register> content = query
+                .select(register)
 
                 .from(register)
 
@@ -187,7 +187,7 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
     }
 
     @Override
-    public Page<Tuple> searchRegistersWithPagingComplexV2(RegisterSearchCond registerSearchCond,Pageable pageable){
+    public Page<Register> searchRegistersWithPagingComplexV2(RegisterSearchCond registerSearchCond,Pageable pageable){
 
         /**
          * countQuery를 PageableExcutions.getpage()를 이용하여 분리!
@@ -196,14 +196,15 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
         long offset = pageable.getOffset();
         int limit = pageable.getPageSize();
 
-        List<Tuple> content = query
-                .select(register, missingAddress)
+        List<Register> content = query
+
+                .select(register)
 
                 .from(register)
 
                 .leftJoin(register.missingAddress, missingAddress)
 
-                .where(animalNameEq(registerSearchCond.getAnimalName()),
+                .where( animalNameEq(registerSearchCond.getAnimalName()),
                         animalSexEq(registerSearchCond.getAnimalSex()),
                         animalAgeEq(registerSearchCond.getAnimalAge()),
                         animalVarietyEq(registerSearchCond.getAnimalVariety()),
@@ -221,8 +222,9 @@ public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
                 .fetch();// 내용만 조회!
 
 
-        JPAQuery<Tuple> countQuery = query
-                .select(register, missingAddress)
+        JPAQuery<Register> countQuery = query
+
+                .select(register)
 
                 .from(register)
 

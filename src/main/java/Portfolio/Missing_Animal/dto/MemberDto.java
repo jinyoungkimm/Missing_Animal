@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.dto;
 
 import Portfolio.Missing_Animal.EmailForm;
 import Portfolio.Missing_Animal.domainEntity.Member;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Getter@Setter
 @ToString(of = {"memberId","userId","username","email","phoneNumber"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberDto {
 
     private Long memberId;

@@ -7,12 +7,46 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-    <h3>실종 등록된 리스트</h3>
+   <h3>[조건 검색으로 필터링]</h3>
     <div>
+        <form  role="form"   action="/register/search/list" th:object="${searchCond}" method="post">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>동물 이름</th>
+                <th>동물 성별</th>
+                <th>동물 나이</th>
+                <th>동물종</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+
+               <td><input  type="text" th:field="${searchCond.animalName}" class="form-control" placeholder="동물의 이름를 입력" ></td>
+
+                <td>
+                    <select  th:field="${searchCond.animalSex}">
+                    <option value="" selected>선택</option>
+                    <option value="male" >수컷</option>
+                    <option value="female">암컷</option>
+                </select>
+                </td>
+
+               <td><input  type="text" th:field="${searchCond.animalAge}" class="form-control" placeholder="동물의 나이를 입력" ></td>
+               <td><input  type="text" th:field="${searchCond.animalVariety}" class="form-control" placeholder="동물의 품종를 입력" ></td>
 
 
+                <td>
+                    <button type="submit" class="btn btn-primary">검색</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </form>
 
-
+        <h3>[실종 등록된 리스트]</h3>
         <table class="table table-striped">
             <thead>
             <tr>

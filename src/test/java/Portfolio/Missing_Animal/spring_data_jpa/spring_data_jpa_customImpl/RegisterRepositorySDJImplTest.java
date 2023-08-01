@@ -44,11 +44,11 @@ class RegisterRepositorySDJImplTest {
         //registerSearchCond.setStreetNumber(); // 생략
 
         //when
-        List<Tuple> registers = registerRepositorySDJ.searchRegisters(registerSearchCond);
+        List<Register> registers = registerRepositorySDJ.searchRegisters(registerSearchCond);
 
 
         //then
-        for (Tuple register : registers) {
+        for (Register register : registers) {
             System.out.println("register = " + register);
         }
 
@@ -76,15 +76,15 @@ class RegisterRepositorySDJImplTest {
         PageRequest pageRequest = PageRequest.of(0, 1);
 
         //when
-        Page<Tuple> page = registerRepositorySDJ.searchRegistersWithPagingSimple(registerSearchCond, pageRequest);
+        Page<Register> page = registerRepositorySDJ.searchRegistersWithPagingSimple(registerSearchCond, pageRequest);
 
-        List<Tuple> content = page.getContent();
+        List<Register> content = page.getContent();
         int totalPages = page.getTotalPages();
         long totalElements = page.getTotalElements();
         boolean isNextPage = page.hasNext();
 
         //then
-        for (Tuple tuple : content) {
+        for (Register tuple : content) {
             System.out.println("tuple = " + tuple);
         }
 
@@ -116,15 +116,15 @@ class RegisterRepositorySDJImplTest {
         PageRequest pageRequest = PageRequest.of(0, 1);
 
         //when
-        Page<Tuple> page = registerRepositorySDJ.searchRegistersWithPagingComplexV1(registerSearchCond, pageRequest);
+        Page<Register> page = registerRepositorySDJ.searchRegistersWithPagingComplexV1(registerSearchCond, pageRequest);
 
-        List<Tuple> content = page.getContent();
+        List<Register> content = page.getContent();
         int totalPages = page.getTotalPages();
         long totalElements = page.getTotalElements();
         boolean isNextPage = page.hasNext();
 
         //then
-        for (Tuple tuple : content) {
+        for (Register tuple : content) {
             System.out.println("tuple = " + tuple);
         }
 
@@ -155,15 +155,15 @@ class RegisterRepositorySDJImplTest {
         PageRequest pageRequest = PageRequest.of(0, 1);
 
         //when
-        Page<Tuple> page = registerRepositorySDJ.searchRegistersWithPagingComplexV1(registerSearchCond, pageRequest);
+        Page<Register> page = registerRepositorySDJ.searchRegistersWithPagingComplexV1(registerSearchCond, pageRequest);
 
-        List<Tuple> content = page.getContent();
+        List<Register> content = page.getContent();
         int totalPages = page.getTotalPages();
         long totalElements = page.getTotalElements();
         boolean isNextPage = page.hasNext();
 
         //then
-        for (Tuple tuple : content) {
+        for (Register tuple : content) {
             System.out.println("tuple = " + tuple);
         }
 

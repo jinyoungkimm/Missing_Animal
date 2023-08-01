@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.dto;
 
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Getter@Setter
 @ToString(of = {"missingAddressId","zipcode","prefecture","cityName","gu","Dong","streetName","streetNumber"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MissingAddressDto {
 
     private Long missingAddressId;

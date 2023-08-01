@@ -4,6 +4,7 @@ import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -33,6 +34,7 @@ import java.util.List;
 
 @Getter@Setter
 @ToString(of = {"registerId","memberId","missingAddressId","animalName","animalSex","animalAge","registerDate","registerStatus","reportedStatus"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RegisterDto {
 
     private Long registerId;

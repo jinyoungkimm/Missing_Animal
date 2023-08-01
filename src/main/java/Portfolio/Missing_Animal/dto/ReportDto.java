@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.dto;
 import Portfolio.Missing_Animal.AddressForm;
 import Portfolio.Missing_Animal.domainEntity.Report;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter@Setter
 @ToString(of = {"reportId","registerId","memberId","findedTime","findedAddress"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReportDto {
 
     Long reportId;

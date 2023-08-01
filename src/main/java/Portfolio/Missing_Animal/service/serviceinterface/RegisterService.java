@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.service.serviceinterface;
 
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.dto.RegisterSearchCond;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -23,4 +24,5 @@ public interface RegisterService {
 
     public List<Register> ListingMissingAnimalByMissingAddress(MissingAddress missingAddress);
 
+    Page<Register> searchByRegisterCond(RegisterSearchCond registerSearchCond, Pageable pageable);
 }

@@ -97,10 +97,10 @@ public class RegisterRepositoryImpl implements RegisterRepository {
 
     }
 
-    public Page<Tuple> searchRegistersWithPagingComplexV2(RegisterSearchCond registerSearchCond, Pageable pageable){
+    public Page<Register> searchRegistersWithPagingComplexV2(RegisterSearchCond registerSearchCond, Pageable pageable){
 
 
-        Page<Tuple> page = registerRepositorySDJ.searchRegistersWithPagingSimple(registerSearchCond, pageable);
+        Page<Register> page = registerRepositorySDJ.searchRegistersWithPagingSimple(registerSearchCond, pageable);
 
 
         return page;

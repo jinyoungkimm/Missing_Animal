@@ -27,7 +27,7 @@ public interface RegisterRepository {
     public Page<Register> ffindByAnimalNameWithPaging(String animalName,int pageNumber,int size);
 
     // 검색 조건을 이용하여 실종 리스트 조회(Paging도 이용)
-    public Page<Tuple> searchRegistersWithPagingComplexV2(RegisterSearchCond registerSearchCond, Pageable pageable);
+    public Page<Register> searchRegistersWithPagingComplexV2(RegisterSearchCond registerSearchCond, Pageable pageable);
 
 
 }

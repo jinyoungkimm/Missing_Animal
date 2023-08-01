@@ -3,8 +3,10 @@ package Portfolio.Missing_Animal.controller;
 
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.dto.RegisterSearchCond;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +37,8 @@ public class RegisterController {
 
         Register register = new Register();
         model.addAttribute("register",register);
+
+
 
         return "registers/register";
 
@@ -85,7 +89,39 @@ public class RegisterController {
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
 
+        RegisterSearchCond searCond = new RegisterSearchCond();
+        model.addAttribute("searchCond",searCond);
+
         return "registers/registerList";
+
+    }
+
+    @PostMapping("/search/list")
+    public String registerListBySearchCondtion(Model model,
+                                               @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable,
+                                               RegisterSearchCond registerSearchCond)
+    {
+        System.out.println("registerSearchCond = " + registerSearchCond);;
+
+        Page<Register> page = registerService.searchByRegisterCond(registerSearchCond,pageable);
+
+        int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
+        int startPage = Math.max(nowPage - 4,1);
+        int endPage = Math.min(nowPage + 5,page.getTotalPages());
+
+        model.addAttribute("page",page);
+        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+
+        RegisterSearchCond searCond = new RegisterSearchCond();
+        model.addAttribute("searchCond",searCond);
+
+        return "registers/registerList";
+
+
+
+
 
     }
 
@@ -155,6 +191,7 @@ public class RegisterController {
         return "registers/showOneRegister";
 
     }
+
 
 
 }
