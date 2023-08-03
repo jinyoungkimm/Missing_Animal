@@ -1,0 +1,29 @@
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<form id = "form" role="form" action="/chatPage" method="get">
+
+    <div class="form-group">
+    채팅할 상대의 id 입력 : <input name="receiver" type="text"  class="form-control" placeholder="EX) wlsdud6524">
+    </div>
+
+    <button type="submit" class="btn btn-primary">입력</button>
+
+</form>
+
+</div>
+
+</body>
+</html>
