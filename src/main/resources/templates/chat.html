@@ -23,12 +23,20 @@
 
         <div id="user_chat_data" class="user_chat_data">
           <div class="profile_name">
-            &nbsp;&nbsp;&nbsp;&nbsp;<img src="./img/profile.png" class="mr-3 rounded-circle"> &nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;<img src="./img/profile.png" class="mr-3 rounded-circle">
            
-            <h1 id = "sender" th:text="${chat.sender}"></h1>
+            <!--<h1 id = "sender" th:text="${chat.sender}"></h1>
              <h1 id = "receiver" th:text="${chat.receiver}"></h1>
            <h1 id = "roomNum" th:text="${chat.roomNum}">
-           </h1>
+           </h1> -->
+            나의 id :<input  id = "sender" type="text" th:field="${chat.sender}" class="form-control"  disabled><br>
+
+
+            상대방 id : <input  id = "receiver" type="text" th:field="${chat.receiver}" class="form-control"  disabled><br>
+
+
+           채팅방 이름 : <input  id = "roomNum" type="text" th:field="${chat.roomNum}" class="form-control"  disabled><br>
+
 
           <div class="container-fluid chat_section" id="chat-box">
 
@@ -59,7 +67,7 @@
 
           <div class="type_msg">
             <div class="input_msg_write">
-              <input id="chat-outgoing-msg" type="text" class="write_msg" placeholder="Type a message" />
+              <input id="chat-outgoing-msg" type="text" class="write_msg" placeholder="이곳에 메시지 내용을 입력하시오" />
               <button id="chat-outgoing-button" class="msg_send_btn" type="button"><i class="fa fa-paper-plane"
                   aria-hidden="true"></i></button>
             </div>
@@ -73,7 +81,11 @@
   </div>
 
   </div>
-  <script th:inline="javascript" src="js/chat.js"></script>
+  <script th:inline="javascript" src="js/chat.js">
+
+
+
+  </script>
 
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

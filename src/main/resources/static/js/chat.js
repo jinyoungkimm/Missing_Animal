@@ -3,15 +3,11 @@
 //let username = prompt("아이디를 입력하세요"); // 본인의 id
 //let roomNum = prompt("채팅방 번호를 입력하세요");
 
-/*<![CDATA[*/ /*]]>*/
 
-var _sender = /*[[${chat.sender}]]*/'wlsdud6523';
-var _receiver = /*[[${chat.receiver}]]*/'wlsdud6524';
-var _roomNum = /*[[${chat.roomNum}]]*/'wlsdud6523wlsdud6524';
+var _sender = document.getElementById("sender").value;
+var _receiver = document.getElementById("receiver").value;
+var _roomNum = document.getElementById("roomNum").value;
 
-/*]]>*/
-
-//document.querySelector("#username").innerHTML=username;
 
 console.log(_roomNum);
 console.log(_sender);

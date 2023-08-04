@@ -23,7 +23,20 @@
 
 </form>
 
+    <div>
+        <h1>나의 채팅방 목록</h1>
+        <ul>
+            <li th:each="chat : ${chatList}">
+                <a th:href="${chat.url}" th:text="${chat.id}" />
+            </li>
+        </ul>
+    </div>
+
+
 </div>
+
+
+
 
 </body>
 </html>
