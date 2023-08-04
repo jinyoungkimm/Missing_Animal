@@ -6,6 +6,7 @@ import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterSearchCond;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
+import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
@@ -15,22 +16,25 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import static org.springframework.util.StringUtils.hasText;
+
 @Service
 @RequiredArgsConstructor
 public class RegisterServiceImpl implements RegisterService {
 
-    //private final RegisterRepository registerRepository; // 순수 JPA Repository
+    private final RegisterRepository registerRepository; // 순수 JPA Repository
 
    //private final MissingAddressRepository missingAddressRepository; // 순수 JPA Repository
 
-    private final RegisterRepositorySDJ registerRepository;
+    private final RegisterRepositorySDJ registerRepositorySDJ;
 
-    private final MissingAddressRepositorySDJ missingAddressRepository;
+    private final MissingAddressRepositorySDJ missingAddressRepositorySDJ;
 
     //실종 등록
     @Override
@@ -70,7 +74,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         register.setMissingAddress(missingAddress);
 
-        Long saveId = registerRepository.save(register).getId();
+        Long saveId = registerRepositorySDJ.save(register).getId();
 
         return saveId;
 
@@ -81,7 +85,7 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional(readOnly = true)
     public List<Register> listingRegister() {
 
-        List<Register> all = registerRepository.findAll();
+        List<Register> all = registerRepositorySDJ.findAll();
 
         return all;
     }
@@ -89,7 +93,7 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     public Page<Register> listingRegisterV2(Pageable pageable) {
 
-        Page<Register> page = registerRepository.findAll(pageable);
+        Page<Register> page = registerRepositorySDJ.findAll(pageable);
 
         return page;
 
@@ -99,40 +103,44 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional(readOnly = true)
     public Register findOne(Long id) {
 
-        Register register = registerRepository.findById(id).get();
+        Register register = registerRepositorySDJ.findById(id).get();
 
         return register;
     }
 
     @Override
-    @Transactional // dirty checking 이용
+    @Transactional // dirty checking 이용(Spring Data JPA는 Dirty Checking이 기능하지 x)
     public Long updateForm(Long registerId, Register register) {
 
-        Register findRegister = registerRepository.findById(registerId).get();
+        Register findRegister = registerRepository.findById(registerId);
 
-        if(register.getFileName() != null)
+        if(hasText(register.getFileName()))
             findRegister.setFileName(register.getFileName());
 
-        if(register.getAnimalName() != null)
+
+        if(hasText(register.getAnimalName()))
             findRegister.setAnimalName(register.getAnimalName());
 
-        if(register.getAnimalSex() != null)
+
+        if(hasText(register.getAnimalSex()))
             findRegister.setAnimalSex(register.getAnimalSex());
 
-        if(register.getAnimalVariety() != null)
+        if(hasText(register.getAnimalVariety()))
             findRegister.setAnimalVariety(register.getAnimalVariety());
 
-        if(register.getAnimalWeight()!= null)
+        if(hasText(register.getAnimalWeight()))
             findRegister.setAnimalWeight(register.getAnimalWeight());
 
-        if(register.getEtc() != null)
+        if(hasText(register.getEtc()))
             findRegister.setEtc(register.getEtc());
 
         if(register.getRegisterStatus() != null)
             findRegister.setRegisterStatus(register.getRegisterStatus());
 
-        if(register.getRegisterStatus() != null)
+        if(register.getReportedStatus() != null)
             findRegister.setReportedStatus(register.getReportedStatus());
+
+        System.out.println("findRegister = " + findRegister);
 
         return registerId;
     }
@@ -150,7 +158,7 @@ public class RegisterServiceImpl implements RegisterService {
         // 지금은 [도시명]만으로 신고 기능을 만들자!
         if(missingAddress.getCityName() != null){
 
-            List<MissingAddress> byCityName = missingAddressRepository.findByCityName(missingAddress.getCityName());
+            List<MissingAddress> byCityName = missingAddressRepositorySDJ.findByCityName(missingAddress.getCityName());
 
             if(byCityName.isEmpty() == true)
                 throw new IllegalStateException("해당 도시에는 실종 등록된 동물이 없습니다.");
@@ -180,7 +188,7 @@ public class RegisterServiceImpl implements RegisterService {
 
 
 
-        Page<Register> page = registerRepository.searchRegistersWithPagingComplexV2(registerSearchCond,pageable);
+        Page<Register> page = registerRepositorySDJ.searchRegistersWithPagingComplexV2(registerSearchCond,pageable);
 
 
         return page;
@@ -216,7 +224,7 @@ public class RegisterServiceImpl implements RegisterService {
         System.out.println("streetNumber = " + streetNumber);
 
 
-        Page<Register> page = registerRepository.searchRegistersWithPagingComplexV2(registerSearchCond,pageable);
+        Page<Register> page = registerRepositorySDJ.searchRegistersWithPagingComplexV2(registerSearchCond,pageable);
 
 
         return page;

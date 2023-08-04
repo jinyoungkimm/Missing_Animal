@@ -11,9 +11,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -128,6 +130,18 @@ class RegisterServiceImplTest {
         assertThat(registers.size()).isEqualTo(12l);
 
 
+
+
+    }
+
+    @Test
+    @org.springframework.transaction.annotation.Transactional
+    @Rollback(value = false)
+    void updateForm(){
+
+        Register byId = registerRepository.findById(1L).get();
+
+        byId.setAnimalName("1111");
 
 
     }

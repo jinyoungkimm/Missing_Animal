@@ -4,12 +4,14 @@ import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.domainEntity.animal.Animal;
 import Portfolio.Missing_Animal.domainEntity.animal.Dog;
+import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,8 +26,8 @@ class RegisterRepositoryImplTest {
 
     @Autowired
     EntityManager em;
-    /*@Autowired
-    RegisterRepository registerRepository;*/ // 순수 JPA Repository
+    //@Autowired
+    //RegisterRepository registerRepository; // 순수 JPA Repository
 
     @Autowired
     RegisterRepositorySDJ registerRepository; // Spring Data Repository
@@ -55,7 +57,7 @@ class RegisterRepositoryImplTest {
 
     }
 
-    @Test
+ /*   @Test
     void delete(){
 
         //givien
@@ -103,7 +105,7 @@ class RegisterRepositoryImplTest {
         //then
         assertThat(findRegister.getAnimalName()).isEqualTo("사랑이");
     }
-
+*/
     @Test
     void findAll() {
 

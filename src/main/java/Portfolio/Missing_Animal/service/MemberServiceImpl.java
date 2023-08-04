@@ -4,6 +4,7 @@ package Portfolio.Missing_Animal.service;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.domainEntity.Report;
+import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 
 import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
@@ -21,9 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-   // private final MemberRepository memberRepository; // 순수 JPA Repository
+    private final MemberRepository memberRepository; // 순수 JPA Repository
 
-    private final MemberRepositorySDJ memberRepository; // Spring Data JPA Repository
+    private final MemberRepositorySDJ memberRepositorySDJ; // Spring Data JPA Repository
     private final PasswordEncoder bCryptPasswordEncoder; // passWordEncoder는 [인터페이스]이며, BCryptPasswordEncoder는 그 [구현체]이다.
 
 
@@ -40,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 
         Member newMember = member.hashPassword(bCryptPasswordEncoder); // member 객체 안의 평문 비밀번호가 암호화된 비밀번호로 교체된다.
 
-        Long saveId = memberRepository.save(newMember).getId();
+        Long saveId = memberRepositorySDJ.save(newMember).getId();
 
         return saveId;
 
@@ -56,7 +57,7 @@ public class MemberServiceImpl implements MemberService {
             /**
              * 먼저, 로그인 시 입력한 ID가, 회원가입이 된 ID인지를 검사해야 한다.( NoResultException, NonUniqueResultException 이용 )
              */
-            Member findMember = memberRepository.findByUserId(member.getUserId());
+            Member findMember = memberRepositorySDJ.findByUserId(member.getUserId());
 
 
             /**
@@ -96,7 +97,7 @@ public class MemberServiceImpl implements MemberService {
 
             try {
 
-                Member findMember = memberRepository.findByUserId(member.getUserId());
+                Member findMember = memberRepositorySDJ.findByUserId(member.getUserId());
 
                 //throw new IllegalStateException("중복되는 id가 1개 존재합니다.");
                 if(findMember != null)
@@ -123,7 +124,7 @@ public class MemberServiceImpl implements MemberService {
 
 
         try {
-            Member findMember = memberRepository.findByUserId(userId);
+            Member findMember = memberRepositorySDJ.findByUserId(userId);
 
 
             return findMember;
@@ -151,7 +152,7 @@ public class MemberServiceImpl implements MemberService {
             return registers;*/
 
         try {
-            Member findMember = memberRepository.findByUserId(userId);
+            Member findMember = memberRepositorySDJ.findByUserId(userId);
 
             List<Register> registers = findMember.getRegisters();
 
@@ -180,7 +181,7 @@ public class MemberServiceImpl implements MemberService {
 
         try{
 
-            Member findMember = memberRepository.findByUserId(userId);
+            Member findMember = memberRepositorySDJ.findByUserId(userId);
             List<Report> reports = findMember.getReports();
 
             if(reports.isEmpty())
@@ -202,7 +203,7 @@ public class MemberServiceImpl implements MemberService {
     public Member findOne(Long id) {
 
 
-        Member findMember = memberRepository.findById(id).get();
+        Member findMember = memberRepositorySDJ.findById(id).get();
 
 
         return findMember;
@@ -212,7 +213,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional // dirty checking을 이요하여 [수정]
     public Long updateMember(Long memberId, Member member) {
 
-        Member findMember = memberRepository.findById(memberId).get();
+        Member findMember = memberRepository.findById(memberId); // dirty checking을 사용하기 위해서는 순수 JPA Repository를 사용해야 함!
 
         findMember.setUsername(member.getUsername());
         findMember.setAddress(member.getAddress());

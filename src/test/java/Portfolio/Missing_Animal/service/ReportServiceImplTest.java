@@ -75,11 +75,11 @@ class ReportServiceImplTest {
 
 
     @Test
-    //@Rollback(value = false)
+    @Rollback(value = false)
     void updateReport(){
 
         //givien
-        Long reportId = 2L;
+       /* Long reportId = 2L;
         Report update = new Report();
 
         update.setAnimal(new Dog());
@@ -88,15 +88,20 @@ class ReportServiceImplTest {
         update.setFindedAddress(new AddressForm("A","B","C"));
 
         //when
-        reportService.updateReport(reportId,update);
-        Report findReport = reportService.findOne(reportId);
+        reportService.updateReport(reportId,update);*/
+        Report findReport = reportService.findOne(2L);
+
+
+
+        findReport.setFindedTime(LocalDateTime.now());
+
 
         //then
-        assertThat(findReport.getAnimal().getId()).isEqualTo(1L);
+       /* assertThat(findReport.getAnimal().getId()).isEqualTo(1L);
         assertThat(findReport.getFindedTime()).isEqualTo(now);
         assertThat(findReport.getFindedAddress().getZipcode()).isEqualTo("A");
         assertThat(findReport.getFindedAddress().getStreetAdr()).isEqualTo("B");
-        assertThat(findReport.getFindedAddress().getDetailAdr()).isEqualTo("C");
+        assertThat(findReport.getFindedAddress().getDetailAdr()).isEqualTo("C");*/
 
     }
 

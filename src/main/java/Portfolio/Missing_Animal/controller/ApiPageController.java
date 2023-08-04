@@ -1,18 +1,15 @@
 package Portfolio.Missing_Animal.controller;
 
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/apiPage")
 @RequiredArgsConstructor
-public class ApiController {
+public class ApiPageController {
 
     /**
      * 회원(member) 조회 api(GET)
@@ -98,7 +95,7 @@ public class ApiController {
     String login(){
 
 
-        return "memberApi/loginApi";
+        return "/api/memberApi/loginApi";
 
     }
 
@@ -107,7 +104,7 @@ public class ApiController {
     String memberJoin(){
 
 
-        return "memberApi/memberJoin";
+        return "/api/memberApi/memberJoin";
 
     }
 
@@ -115,7 +112,7 @@ public class ApiController {
     String memberUpdate(){
 
 
-        return "memberApi/memberUpdateApi";
+        return "/api/memberApi/memberUpdateApi";
 
     }
 
@@ -123,7 +120,7 @@ public class ApiController {
     String register(){
 
 
-        return "registerApi/registerApi";
+        return "/api/registerApi/registerApi";
 
     }
 
@@ -131,7 +128,7 @@ public class ApiController {
     String registerUpdate(){
 
 
-        return "registerApi/registerUpdateApi";
+        return "/api/registerApi/registerUpdateApi";
 
     }
 
@@ -139,14 +136,14 @@ public class ApiController {
     String report(){
 
 
-        return "reportApi/reportApi";
+        return "/api/reportApi/reportApi";
 
     }
 
     @GetMapping("/reportUpdate")
     String reportUpdate(){
 
-        return "reportApi/reportUpdateApi";
+        return "/api/reportApi/reportUpdateApi";
 
     }
 

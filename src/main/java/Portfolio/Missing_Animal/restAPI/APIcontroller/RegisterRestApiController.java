@@ -26,7 +26,7 @@ public class RegisterRestApiController {
 
     private final MemberService memberService;
 
-    @PostMapping("") // 실종 등록 API
+    @PostMapping("registerCreation") // 실종 등록 API
     public RegisterResponseDto registerApi(@RequestBody RegisterRequestDto registerRequestDto) {
 
         Register register = createRegister(registerRequestDto);
@@ -55,6 +55,8 @@ public class RegisterRestApiController {
     public UpdateRegisterResponse updateRegister(@PathVariable("registerId") Long registerId,
                                                  @RequestBody UpdateRegisterRequest updateRegisterRequest){
 
+        System.out.println("UpdateRegisterRequest = " + updateRegisterRequest);
+
         Register register = new Register();
 
         register.setAnimalName(updateRegisterRequest.getAnimalName());
@@ -65,6 +67,8 @@ public class RegisterRestApiController {
 
         register.setRegisterStatus(updateRegisterRequest.getRegisterStatus());
         register.setReportedStatus(updateRegisterRequest.getReportedStatus());
+
+        System.out.println("register = " + register);
 
         Long updateId = registerService.updateForm(registerId, register);
 

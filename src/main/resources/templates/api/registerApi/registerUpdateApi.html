@@ -1,10 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 
+<head th:replace="fragments/header :: header" />
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+    <h2>POST 방식</h2>
+{ <br>
+
+    "registerId": <input id ="registerId" required ="true" type="text" value="" placeholder="1 이상을 입력하세요"><br>
+
+    "animalName": <input id ="animalName" type="text" value="" placeholder="EX) 사랑이"><br>
+
+    "animalSex": <select id="animalSex" >
+                    <option value="male" selected>수컷</option>
+                    <option value="female">암컷</option>
+                 </select><br>
+
+    "animalAge": <input id ="animalAge" type="text" value="" placeholder="EX) 16"><br>
+
+    "animalVariety": <input id ="animalVariety" type="text" value="" placeholder="EX) 말티즈,러시안 블루"><br>
+
+    "animalWeight": <input id ="animalWeight" type="text" value="" placeholder="Kg 단위로 입력"><br>
+
+    "registerStatus": <select id="registerStatus" >
+                            <option value = "SOLVED" selected>SOLVED</option>
+                            <option value= "NOT_SOLVED">NOT_SOLVED</option>
+                      </select><br>
+
+    "reportedStatus":
+                       <select id="reportedStatus" >
+                           <option value="YES" selected>YES</option>
+                           <option value="NO">NO</option>
+                       </select><br>
+
+    }<br>
+
+    <button onclick="registerUpdate()">Post</button>
+
+
+    <p id ="response">
+
+    </p>
+
+
+
+    <script>
+function registerUpdate(){
+
+let _registerId = document.getElementById("registerId").value;
+let _animalName = document.getElementById("animalName").value;
+let _animalSex = document.getElementById("animalSex").value;
+let _animalAge = document.getElementById("animalAge").value;
+let _animalVariety = document.getElementById("animalVariety").value;
+let _animalWeight = document.getElementById("animalWeight").value;
+let _registerStatus = document.getElementById("registerStatus").value;
+let _reportedStatus = document.getElementById("reportedStatus").value;
+
+
+if(_registerStatus == 'SOLVED')
+    _registerStatus = 0;
+else
+    _registerStatus = 1;
+
+if(_reportedStatus == 'YES')
+    _reportedStatus = 0;
+else
+    _reportedStatus = 1;
+
+
+console.log(_registerId);
+console.log(_animalName);
+console.log(_animalSex);
+console.log(_animalAge);
+console.log(_animalVariety);
+console.log(_animalWeight);
+console.log(_registerStatus);
+console.log(_reportedStatus);
+
+
+fetch('http://localhost:8080/registerApi/' + _registerId + '/edit',{
+
+method: "POST",
+headers: {
+    "Content-Type": "application/json",
+},
+
+  body: JSON.stringify({
+
+    animalName: _animalName ,
+
+    animalSex: _animalSex,
+
+    animalAge: _animalAge,
+
+    animalVariety: _animalVariety,
+
+    animalWeight: _animalWeight,
+
+    registerStatus: _registerStatus,
+
+    reportedStatus: _reportedStatus,
+
+  }),
+
+}).then((response) => response.json())
+
+.then((data) => {
+
+  document.getElementById("response").innerHTML = JSON.stringify(data,null,4);
+
+})
+
+.catch(error => console.log(error));
+
+}
+</script>
+
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
 </body>
+
 </html>
