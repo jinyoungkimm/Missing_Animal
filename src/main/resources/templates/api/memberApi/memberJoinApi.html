@@ -1,10 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 
+<head th:replace="fragments/header :: header" />
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+    <h2>POST 방식</h2>
+    { <br>
+
+    "userName": <input id ="userName" type="text" value="" placeholder="EX)김진영"><br>
+
+    "userId": <input id ="userId" type="text" value="" placeholder="EX) 가입된 id 입력(ex. wlsdud6523)"><br>
+
+    "password": <input id ="password" type="text" value="" placeholder="비밀번호 입력"><br>
+
+    "phoneNumber": <input id ="phoneNumber" type="text" value="" placeholder="010-9733-6523"><br>
+
+
+    }<br>
+
+    <button onclick="memberJoin()">Post</button>
+
+
+    <p id ="response">
+
+    </p>
+
+
+
+    <script>
+function memberJoin(){
+
+let _userName = document.getElementById("userName").value;
+let _userId = document.getElementById("userId").value;
+let _password = document.getElementById("password").value;
+let _phoneNumber = document.getElementById("phoneNumber").value;
+
+
+fetch('http://localhost:8080/memberApi/join',{
+
+method: "POST",
+headers: {
+    "Content-Type": "application/json",
+},
+
+  body: JSON.stringify({
+
+    userName: _userName ,
+
+    userId: _userId ,
+
+    password: _password ,
+
+    phoneNumber: _phoneNumber ,
+
+  }),
+
+}).then((response) => response.json())
+
+.then((data) => {
+
+  document.getElementById("response").innerHTML = JSON.stringify(data,null,4);
+
+})
+
+.catch(error => console.log(error));
+
+}
+</script>
+
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
 </body>
+
 </html>

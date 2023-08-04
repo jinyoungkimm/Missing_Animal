@@ -7,24 +7,48 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-    <h2>GET방식</h2>
+    <h2>POST 방식</h2>
+    { <br>
 
-    <label>PageNumber</label>
-    <input id ="pagenum" type="text" value="" placeholder="0 이상을 입력하세요">
-    <button onclick="registerList()" >조회하기</button>
-    <br>(한 페이지 당 2개의 Element가 출력되도록 설정함)
-    <br>(PageNumber을 미입력시, 자동으로 PageNumber는 0번으로 입력되어집니다)<br><br>
+    "userId": <input id ="userId" type="text" value="" placeholder="EX) 가입된 id 입력(ex. wlsdud6523)"><br>
 
-    <p id ="jj">
+    "password": <input id ="password" type="text" value="" placeholder="비밀번호 입력"><br>
 
 
+    "animalName": <input id ="animalName" type="text" value="" placeholder="EX) 사랑이"><br>
 
-    </p>
+    "animalSex": <select id="animalSex" >
+    <option value="male" selected>수컷</option>
+    <option value="female">암컷</option>
+</select><br>
 
-    <p id ="ma">
+    "animalAge": <input id ="animalAge" type="text" value="" placeholder="EX) 16"><br>
+
+    "animalVariety": <input id ="animalVariety" type="text" value="" placeholder="EX) 말티즈,러시안 블루"><br>
+
+    "animalWeight": <input id ="animalWeight" type="text" value="" placeholder="Kg 단위로 입력"><br>
+
+    <h2>주소는 반드시 [도로명 주소]이여야 하며,예시(ex 부분)을 보고 정확히 입력하세요</h2><br>
+
+    "zipcode": <input id ="zipcode" type="text" value="" placeholder="ex)41234"><br>
+
+    "prefecture": <input id ="prefecture" type="text" value="" placeholder="ex) 전남(전라남도x),충북(충청북도x),제주도"><br>
+
+    "cityName": <input id ="cityName" type="text" value="" placeholder="시/군/면(ex.부산시,함안군,일광면)"><br>
+
+    "gu": <input id ="gu" type="text" value="" placeholder="구"><br>
+
+    "Dong": <input id ="Dong" type="text" value="" placeholder="읍/면/동(ex.칠암읍,일광면,연산동)"><br>
+
+    "streetName": <input id ="streetName" type="text" value="" placeholder="~길,~대로(ex.이태원길,해운대로)"><br>
+
+    "streetNumber": <input id ="streetNumber" type="text" value="" placeholder="ex)12,114-1"><br>
 
 
-    </p>
+
+    }<br>
+
+    <button onclick="registerCreate()">Post</button>
 
 
     <p id ="response">
@@ -34,26 +58,80 @@
 
 
     <script>
-function registerList(){
+function registerCreate(){
 
-let page = document.getElementById("pagenum").value;
+let _userId = document.getElementById("userId").value;
+let _password = document.getElementById("password").value;
 
-fetch('http://localhost:8080/api/registers?page='+page+`&size=`+'2')
-.then((response) => response.json())
+
+let _animalName = document.getElementById("animalName").value;
+let _animalSex = document.getElementById("animalSex").value;
+let _animalAge = document.getElementById("animalAge").value;
+let _animalVariety = document.getElementById("animalVariety").value;
+let _animalWeight = document.getElementById("animalWeight").value;
+
+
+let _zipcode = document.getElementById("zipcode").value;
+let _prefecture = document.getElementById("prefecture").value;
+let _cityName = document.getElementById("cityName").value;
+let _gu = document.getElementById("gu").value;
+let _Dong = document.getElementById("Dong").value;
+let _streetName = document.getElementById("streetName").value;
+let _streetNumber = document.getElementById("streetNumber").value;
+
+
+fetch('http://localhost:8080/registerApi/registerCreation',{
+
+method: "POST",
+headers: {
+    "Content-Type": "application/json",
+},
+
+  body: JSON.stringify({
+
+    userId: _userId ,
+
+    password: _password ,
+
+
+
+    animalName: _animalName ,
+
+    animalSex: _animalSex,
+
+    animalAge: _animalAge,
+
+    animalVariety: _animalVariety,
+
+    animalWeight: _animalWeight,
+
+
+
+    zipcode: _zipcode,
+
+    prefecture: _prefecture,
+
+    cityName: _cityName,
+
+    gu: _gu,
+
+    Dong: _Dong,
+
+    streetName: _streetName,
+
+    streetNumber: _streetNumber,
+
+
+  }),
+
+}).then((response) => response.json())
 
 .then((data) => {
 
-
-
-  document.getElementById("jj").innerHTML =  `<a href="https://codebeautify.org/jsonviewer" target="_blank">아래의 JSON을 이쁘게 출력하러 가기</a><br><br>`;
-  document.getElementById("ma").innerHTML = `사용법<br>
-        1.아래의 결과물을 드래그하여 복사한다(반드시 결과의 전체를 복사하자!)<br>
-        2.위 링크를 클릭하여 사이트 이동<br>
-        3.화면 왼쪽에 (1)에서 복사한 내용을 붙여 넣는다.<br>
-        4.화연 가운데 아래 부분에 [Beautify]라는 버튼을 클릭하면, JSON을 이쁘게 볼 수가 있다.  <br>`
   document.getElementById("response").innerHTML = JSON.stringify(data,null,4);
 
 })
+
 .catch(error => console.log(error));
 
 }

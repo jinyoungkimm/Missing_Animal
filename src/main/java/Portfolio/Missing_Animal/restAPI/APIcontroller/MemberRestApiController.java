@@ -81,7 +81,6 @@ public class MemberRestApiController {
         Member member = new Member();
 
         member.setUsername(updateMemberRequest.getUsername());
-        member.setAddress(updateMemberRequest.getAddress());
         member.setEmail(updateMemberRequest.getEmail());
         member.setBirthDate(updateMemberRequest.getBirthDate());
         member.setPhoneNumber(updateMemberRequest.getPhoneNumber());

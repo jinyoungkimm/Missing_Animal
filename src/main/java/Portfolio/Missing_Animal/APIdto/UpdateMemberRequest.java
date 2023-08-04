@@ -13,8 +13,6 @@ public class UpdateMemberRequest {
 
     private String username;
 
-    private AddressForm address;
-
     private EmailForm email;
 
     private BirthDateForm birthDate;

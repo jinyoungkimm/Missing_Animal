@@ -44,7 +44,7 @@ public class MemberController {
 
         memberService.join(member);
 
-        return "redirect:/home";
+        return "redirect:/";
     }
 
     //로그인 기능

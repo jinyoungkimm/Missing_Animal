@@ -14,8 +14,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+
+import static org.springframework.util.StringUtils.hasText;
 
 
 @Service
@@ -215,11 +218,17 @@ public class MemberServiceImpl implements MemberService {
 
         Member findMember = memberRepository.findById(memberId); // dirty checking을 사용하기 위해서는 순수 JPA Repository를 사용해야 함!
 
-        findMember.setUsername(member.getUsername());
-        findMember.setAddress(member.getAddress());
-        findMember.setEmail(member.getEmail());
-        findMember.setBirthDate(member.getBirthDate());
-        findMember.setPhoneNumber(member.getPhoneNumber());
+        if(hasText(member.getUsername()))
+            findMember.setUsername(member.getUsername());
+
+        if(member.getEmail() != null)
+            findMember.setEmail(member.getEmail());
+
+        if(member.getBirthDate() != null)
+            findMember.setBirthDate(member.getBirthDate());
+
+        if(hasText(member.getPhoneNumber()))
+            findMember.setPhoneNumber(member.getPhoneNumber());
 
 
         Long id = findMember.getId();

@@ -17,4 +17,5 @@ public class UpdateReportRequest {
 
     Animal animal;
 
+
 }

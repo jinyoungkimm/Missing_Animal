@@ -104,7 +104,7 @@ public class ApiPageController {
     String memberJoin(){
 
 
-        return "/api/memberApi/memberJoin";
+        return "/api/memberApi/memberJoinApi";
 
     }
 
