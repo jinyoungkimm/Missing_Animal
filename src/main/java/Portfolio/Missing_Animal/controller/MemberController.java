@@ -25,19 +25,6 @@ public class MemberController {
 
     private final ReportService reportService;
 
-    @GetMapping("/memberQuery")
-    String membersQuery(){
-
-        return "api/memberApi/members";
-
-    }
-
-    @GetMapping("/memberQueryWithId")
-    String memberQueryWithId(){
-
-        return "api/memberApi/memberWithId";
-
-    }
 
 
     //회원 가입 기능

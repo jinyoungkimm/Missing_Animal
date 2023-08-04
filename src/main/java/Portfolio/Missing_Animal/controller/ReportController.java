@@ -38,31 +38,6 @@ public class ReportController {
     private final MissingAddressRepositorySDJ missingAddressRepository;  // Spring Data JPA Repository
 
 
-    @GetMapping("/reportQuery")
-    public String registerQuery(){
-
-
-        return "api/reportApi/reports";
-
-    }
-
-    @GetMapping("/reportQueryWithId")
-    public String registerQueryWithId(){
-
-
-        return "api/reportApi/reportWithId";
-
-    }
-
-    @GetMapping("/reportImageQuery")
-    public String registerImageQuery(){
-
-
-        return "api/reportApi/reportImageQuery";
-
-    }
-
-
 
     @GetMapping("/{registerId}")
     String clickRegisterForReport(@PathVariable("registerId") Long registerId, Model model){

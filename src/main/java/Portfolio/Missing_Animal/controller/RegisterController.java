@@ -32,30 +32,6 @@ public class RegisterController {
 
     private final StorageServiceForRegister storageService;
 
-    @GetMapping("/registerQuery")
-    public String registerQuery(){
-
-
-        return "api/registerApi/registers";
-
-    }
-
-    @GetMapping("/registerQueryWithId")
-    public String registerQueryWithId(){
-
-
-        return "api/registerApi/registerWithId";
-
-    }
-
-    @GetMapping("/registerImageQuery")
-    public String registerImageQuery(){
-
-
-        return "api/registerApi/registerImageQuery";
-
-    }
-
 
 
 
