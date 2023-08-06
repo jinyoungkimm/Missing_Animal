@@ -16,6 +16,8 @@ import Portfolio.Missing_Animal.spring_data_jpa.ReportRepositorySDJ;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -104,5 +106,14 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
         findreport.setAnimal(report.getAnimal());
 
         return reportId;
+    }
+
+    @Override
+    public Page<Report> findReportInfo(String userId, Pageable pageable) {
+
+        Page<Report> reports = reportRepository.findByUserId(userId, pageable);
+
+        return reports;
+
     }
 }

@@ -9,6 +9,10 @@ import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -69,32 +73,34 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    String mypage(Model model){ // cookie에 회원ID를 저장시켜서 userId를 받아서 아래의 내용들을 조회를 할 예정!
+    String mypage(Model model,
+                  @PageableDefault(page = 0,size = 2,sort = "id", direction = Sort.Direction.ASC) Pageable pageable){ // cookie에 회원ID를 저장시켜서 userId를 받아서 아래의 내용들을 조회를 할 예정!
 
-        // 회원 가입 시 기입한 내용 출력
-        //memberService.memberInfo();
-
-        // 해당 회원이 등록한 실종 정보가 있다면 출력
-        //memberService.findRegiserInfo(userId);
 
         // 임의로 "wlsdud6523"라고 userId를 가정함
         Member findMember = memberService.memberInfo("wlsdud6523");
-        List<Register> findRegisters = memberService.findRegiserInfo("wlsdud6523");
-
-        for (Register findRegister : findRegisters) {
-            System.out.println("findRegister = " + findRegister);
-        }
-
-
-        List<Report> findReports = memberService.findReportInfo("wlsdud6523");
-
-        for (Report findReport : findReports) {
-            System.out.println("findReport = " + findReport);
-        }
 
         model.addAttribute("member",findMember);
-        model.addAttribute("registers",findRegisters);
-        model.addAttribute("reports",findReports);
+
+
+
+        Page<Register> registerPage = registerService.findRegiserInfo("wlsdud6523",pageable);
+
+        model.addAttribute("registerPage",registerPage);
+
+
+
+        Page<Report> reportPage = reportService.findReportInfo("wlsdud6523",pageable);
+
+        int nowPage = reportPage.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
+        int startPage = Math.max(nowPage - 4,1);
+        int endPage = Math.min(nowPage + 5,reportPage.getTotalPages());
+
+        model.addAttribute("reportPage",reportPage);
+        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+
 
         return "members/mypage";
     }

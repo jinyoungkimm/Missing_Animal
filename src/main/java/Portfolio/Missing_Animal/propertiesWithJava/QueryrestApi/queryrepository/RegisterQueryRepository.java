@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
+package Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;

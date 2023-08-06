@@ -30,4 +30,7 @@ public interface ReportRepositorySDJ extends JpaRepository<Report,Long> {
     public Page<Report> findAll(Pageable pageable);
 
 
+    @Query("SELECT r FROM Report r LEFT JOIN FETCH r.member m WHERE m.userId=:userId")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
+    public Page<Report> findByUserId(@Param("userId") String userId,Pageable pageable);
 }

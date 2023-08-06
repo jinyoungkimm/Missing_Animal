@@ -107,6 +107,14 @@ public class RegisterRepositoryImpl implements RegisterRepository {
 
     }
 
+    @Override
+    public Page<Register> findByUserId(String userId, Pageable pageable) {
+
+        Page<Register> registers = registerRepositorySDJ.findByUserId(userId, pageable);
+
+        return registers;
+    }
+
 
     @Override
     public List<Register> findByAnimalName(String animalName) {

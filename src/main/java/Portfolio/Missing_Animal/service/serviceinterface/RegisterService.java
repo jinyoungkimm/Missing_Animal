@@ -27,4 +27,7 @@ public interface RegisterService {
     Page<Register> searchByRegisterCond(RegisterSearchCond registerSearchCond, Pageable pageable);
 
     Page<Register> searchByRegisterCond2(RegisterSearchCond registerSearchCond, Pageable pageable);
+
+
+    Page<Register> findRegiserInfo(String userId,Pageable pageable);
 }

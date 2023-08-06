@@ -1,11 +1,9 @@
-package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
+package Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.querycontroller;
 
-import Portfolio.Missing_Animal.QueryrestApi.queryrepository.ReportQueryRepository;
-import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository.ReportQueryRepository;
 import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.dto.ReportDto;
 import Portfolio.Missing_Animal.dto.ReportDtoWithPagination;
-import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForReport;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
@@ -21,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/reports")

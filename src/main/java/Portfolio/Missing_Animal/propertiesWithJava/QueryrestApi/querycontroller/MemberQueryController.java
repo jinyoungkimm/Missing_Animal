@@ -1,7 +1,7 @@
-package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
+package Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.querycontroller;
 
 
-import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MemberQueryRepository;
+import Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository.MemberQueryRepository;
 import Portfolio.Missing_Animal.dto.MemberDto;
 import Portfolio.Missing_Animal.dto.MemberDtoWithPagination;
 import jakarta.persistence.NoResultException;
@@ -11,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController// @ResponseBody를 자동으로 붙여줌
 @RequestMapping("/api/members")

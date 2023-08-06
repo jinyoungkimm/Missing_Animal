@@ -56,5 +56,9 @@ public interface RegisterRepositorySDJ extends JpaRepository<Register,Long>, Reg
     @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
     public List<Register> findByAnimalName(@Param("animalName") String animalName);
 
+    @Query("SELECT r FROM Register r LEFT JOIN FETCH r.member m WHERE m.userId=:userId")
+    @QueryHints(value = @QueryHint(name="org.hibernate.readOnly",value="true"))
+    public Page<Register> findByUserId(@Param("userId") String userId,Pageable pageable);
+
 
 }

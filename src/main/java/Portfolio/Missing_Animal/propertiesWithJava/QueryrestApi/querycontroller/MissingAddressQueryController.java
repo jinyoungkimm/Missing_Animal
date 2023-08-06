@@ -1,7 +1,6 @@
-package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
+package Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.querycontroller;
 
-import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MissingAddressQueryRepository;
-import Portfolio.Missing_Animal.domainEntity.MissingAddress;
+import Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository.MissingAddressQueryRepository;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.MissingAddressDtoWithPagination;
 import Portfolio.Missing_Animal.dto.MissingAddressSearchCond;
@@ -11,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/api/missingaddress")// @ResponseBody를 자동으로 붙여줌

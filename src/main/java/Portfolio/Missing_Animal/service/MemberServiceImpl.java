@@ -11,6 +11,8 @@ import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -142,6 +144,8 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+
+
     @Override // 특정 회원이 등록한 실종 정보가 있다면 출력
     @Transactional(readOnly = true)
     public List<Register> findRegiserInfo(String userId) {
@@ -178,6 +182,9 @@ public class MemberServiceImpl implements MemberService {
 
 
     }
+
+
+
     @Override
     @Transactional(readOnly = true)
     public List<Report> findReportInfo(String userId) {
@@ -200,6 +207,8 @@ public class MemberServiceImpl implements MemberService {
         }
 
     }
+
+
 
     @Override
     @Transactional(readOnly = true)

@@ -11,6 +11,7 @@ import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -93,6 +94,14 @@ public class ReportRepositoryImpl implements ReportRepository {
 
         return page;
 
+    }
+
+    @Override
+    public Page<Report> findByUserId(String userId, Pageable pageable) {
+
+        Page<Report> reports = reportRepositorySDJ.findByUserId(userId, pageable);
+
+        return reports;
     }
 
 }

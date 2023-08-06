@@ -4,6 +4,7 @@ import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 import Portfolio.Missing_Animal.dto.RegisterDtoWithPagination;
 import Portfolio.Missing_Animal.dto.ReportDto;
+import Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository.RegisterQueryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

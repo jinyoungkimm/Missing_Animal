@@ -231,7 +231,14 @@ public class RegisterServiceImpl implements RegisterService {
 
     }
 
+    @Override
+    public Page<Register> findRegiserInfo(String userId, Pageable pageable) {
 
+        Page<Register> registers = registerRepository.findByUserId(userId, pageable);
+
+        return registers;
+
+    }
 
 
     public static String findPrefecture(String str){
