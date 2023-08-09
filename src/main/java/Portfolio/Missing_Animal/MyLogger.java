@@ -4,12 +4,16 @@ package Portfolio.Missing_Animal;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-@Scope(value = "request") // http 요청이 들어와야 지만, 빈이 새로 생성되며, 요청이 들어오고 응답이 종료될 때까지 스프링 컨테이너가 관리!
+@Scope(value = "request",proxyMode = ScopedProxyMode.TARGET_CLASS) // http 요청이 들어와야 지만, 빈이 새로 생성되며, 요청이 들어오고 응답이 종료될 때까지 스프링 컨테이너가 관리!
+ // proxyMode = ScopedProxyMode.TARGET_CLASS -> MyLogger의 프록시 객체를 1개 생성하여, Http 요청이 들어 오지 않아도 가짜 프록시(MyLogger에 대한)를
+// Controller, Service의 MyLogger 빈에 미리 주입 가능!
+
 public class MyLogger {
 
 
