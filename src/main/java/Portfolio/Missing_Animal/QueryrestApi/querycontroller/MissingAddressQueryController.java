@@ -1,6 +1,6 @@
-package Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.querycontroller;
+package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
-import Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository.MissingAddressQueryRepository;
+import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MissingAddressQueryRepository;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.MissingAddressDtoWithPagination;
 import Portfolio.Missing_Animal.dto.MissingAddressSearchCond;

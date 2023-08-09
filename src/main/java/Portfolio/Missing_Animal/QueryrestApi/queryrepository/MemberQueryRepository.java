@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository;
+package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 
 import Portfolio.Missing_Animal.domainEntity.Member;
@@ -8,6 +8,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,14 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
+@Primary                                // 인터페이스 A에 대해서, 2개의 Repository 빈이 등록될 시의 전략
+                                        // @Primay or @Qualifier 이용!!!
+@Qualifier("JPAMemberQueryRepository")  // @Qualifer는 @Primary보다 우선권이 높다. 의존관계 자동 주입시, 필드앞에 예를 들어 , @Qualifier("SpringDataJPAMemberQueryRepository)
+                                        // 를 붙이면, 비록 MemberQueryRepository에 @Primary가 붙어 있어도, SpringDataJPAMemberQueryRepository가 의존관계로 주입됨.
+                                        // -> 예를 들어, 코드에서 자주사용하는 메인 DB 커넥션을 획득하는 스프링 빈이 있다고 하자.
+// 여기서에는 @Qualifer 지정하는 것 없이, @Primary만 지정해서 메인 커넥션을 획득해서 사용하면 되고
+// 서브 DB 커넥션을 획득하는 스프링 빈에서는 @Qualifer("~~~")를 생성자 or setter에 명시하여 [같은 인터페이스]를 상속받은 Repository라도
+// 같은 타입에 대해 2개 이상의 빈이 조회될 때 해결할 수가 있다.
 public class MemberQueryRepository {
 
     private final EntityManager em;

@@ -4,7 +4,6 @@ import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.dto.MemberDto;
 import Portfolio.Missing_Animal.dto.MemberDtoWithPagination;
 import Portfolio.Missing_Animal.dto.ReportDto;
-import Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository.MemberQueryRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

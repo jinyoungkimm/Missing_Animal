@@ -1,9 +1,9 @@
-package Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.querycontroller;
+package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 
-import Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository.RegisterQueryRepository;
+import Portfolio.Missing_Animal.QueryrestApi.queryrepository.RegisterQueryRepository;
 import Portfolio.Missing_Animal.dto.RegisterDtoWithPagination;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
 import jakarta.persistence.NoResultException;

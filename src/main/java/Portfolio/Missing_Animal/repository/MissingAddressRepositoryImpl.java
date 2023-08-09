@@ -8,6 +8,8 @@ import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,8 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Primary
+@Qualifier("mainMissingAddressRepository")
 public class MissingAddressRepositoryImpl implements MissingAddressRepository {
 
     private final EntityManager em;

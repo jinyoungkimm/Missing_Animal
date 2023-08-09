@@ -9,6 +9,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Primary
+@Qualifier("mainReportRepositoryImpl")
 public class ReportRepositoryImpl implements ReportRepository {
 
     private final EntityManager em;

@@ -1,4 +1,4 @@
-package Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository;
+package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.QMissingAddress;
@@ -13,6 +13,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
@@ -38,6 +40,8 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
+@Primary
+@Qualifier("JPAMissingAddressQueryRepository")
 public class MissingAddressQueryRepository {
 
     private final EntityManager em;

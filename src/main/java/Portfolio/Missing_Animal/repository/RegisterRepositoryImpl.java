@@ -9,6 +9,8 @@ import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Primary
+@Qualifier("mainRegisterRepository")
 public class RegisterRepositoryImpl implements RegisterRepository {
 
     private final EntityManager em;

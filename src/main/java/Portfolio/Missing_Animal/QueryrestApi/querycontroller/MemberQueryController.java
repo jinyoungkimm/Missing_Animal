@@ -1,7 +1,7 @@
-package Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.querycontroller;
+package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 
-import Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository.MemberQueryRepository;
+import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MemberQueryRepository;
 import Portfolio.Missing_Animal.dto.MemberDto;
 import Portfolio.Missing_Animal.dto.MemberDtoWithPagination;
 import jakarta.persistence.NoResultException;

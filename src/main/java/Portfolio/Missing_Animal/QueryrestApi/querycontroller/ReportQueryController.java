@@ -1,6 +1,6 @@
-package Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.querycontroller;
+package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
-import Portfolio.Missing_Animal.propertiesWithJava.QueryrestApi.queryrepository.ReportQueryRepository;
+import Portfolio.Missing_Animal.QueryrestApi.queryrepository.ReportQueryRepository;
 import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.dto.ReportDto;
 import Portfolio.Missing_Animal.dto.ReportDtoWithPagination;

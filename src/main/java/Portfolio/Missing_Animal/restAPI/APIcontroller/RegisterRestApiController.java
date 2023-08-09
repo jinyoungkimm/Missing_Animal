@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/registerApi")
+@RequestMapping("/api/registers")
 @RequiredArgsConstructor
 public class RegisterRestApiController {
 
@@ -26,7 +26,7 @@ public class RegisterRestApiController {
 
     private final MemberService memberService;
 
-    @PostMapping("registerCreation") // 실종 등록 API
+    @PostMapping("new") // 실종 등록 API
     public RegisterResponseDto registerApi(@RequestBody RegisterRequestDto registerRequestDto) {
 
         Register register = createRegister(registerRequestDto);

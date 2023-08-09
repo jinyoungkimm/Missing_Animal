@@ -58,7 +58,7 @@ public class FileSystemStorageServiceForRegister implements StorageServiceForReg
 
 			try (InputStream inputStream = file.getInputStream()) {
 				Files.copy(inputStream, destinationFile,
-						StandardCopyOption.REPLACE_EXISTING);
+						StandardCopyOption.REPLACE_EXISTING); // 파일이 기존에 존재하는 경우, 덮어 쓰기를 해주는 옵션이다.
 			}
 		} catch (IOException e) {
 			throw new StorageException("Failed to store file.", e);
