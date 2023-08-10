@@ -16,7 +16,7 @@
 
     <form  role="form"  enctype="multipart/form-data" action="" th:object="${report}" method="post">
 
-        <h2>신고하기</h2>
+        <h2>신고하기</h2><h3 th:if = "${param.status}" color = "color - red" th:text = "'신고 완료!'"></h3>
 
         <br>
 

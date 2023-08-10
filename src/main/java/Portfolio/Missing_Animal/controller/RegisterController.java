@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -49,7 +50,7 @@ public class RegisterController {
 
     @PostMapping("")
     public String registerMissingPost(Register register,
-                                      @RequestParam("file") MultipartFile file){
+                                      @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
         if(!file.isEmpty()) {
 
@@ -63,7 +64,10 @@ public class RegisterController {
         // 고로, cascade(연쇄 반응).Persist를 설정하여, [register 엔티티를 영속화할 때, 연관된 엔티티도 자동으로 영속화 시켜줘야 한다.]
         registerService.registerMissing(register);
 
-        return "redirect:/";
+
+        redirectAttributes.addAttribute("status",true);
+
+        return "redirect:/register";
 
     }
 
@@ -167,7 +171,7 @@ public class RegisterController {
     @PostMapping("/{registerId}/edit")
     public String updateRegister(Register register,
                                  @PathVariable("registerId") Long registerId,
-                                 @RequestParam("file") MultipartFile file) throws IOException {
+                                 @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) throws IOException {
 
         Register findRegister = registerService.findOne(registerId);
 
@@ -186,7 +190,9 @@ public class RegisterController {
 
         registerService.updateForm(registerId, register);
 
-        return "redirect:/";
+        redirectAttributes.addAttribute("status",true);
+
+        return "redirect:/register/{registerId}/edit";
     }
 
     @GetMapping("/missingAddress")

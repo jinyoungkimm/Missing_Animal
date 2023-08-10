@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -57,7 +58,7 @@ public class ReportController {
     @PostMapping("/{registerId}")
     String report(@PathVariable("registerId") Long registerId,
                   @ModelAttribute Report report,
-                  @RequestParam("file") MultipartFile file){
+                  @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
         if(!file.isEmpty()) {
 
@@ -69,7 +70,9 @@ public class ReportController {
 
         Long saveId = reportService.saveReport(registerId, report);
 
-        return "redirect:/";
+        redirectAttributes.addAttribute("status",true);
+
+        return "redirect:/report/{registerId}";
     }
 
     @GetMapping("/{reportId}/getOneReport")
@@ -109,7 +112,7 @@ public class ReportController {
     @PostMapping("/{reportId}/edit")
     String updateReportPost(Report report,
                             @PathVariable("reportId") Long reportId,
-                            @RequestParam("file") MultipartFile file) throws IOException {
+                            @RequestParam("file") MultipartFile file,RedirectAttributes redirectAttributes) throws IOException {
 
         System.out.println("report = " + reportId);
 
@@ -131,7 +134,10 @@ public class ReportController {
 
         Long updateId = reportService.updateReport(reportId, report);
 
-        return "redirect:/";
+
+        redirectAttributes.addAttribute("status",true);
+
+        return "redirect:/report/{reportId}/edit";
 
     }
 

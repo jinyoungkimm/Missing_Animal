@@ -16,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -118,12 +119,14 @@ public class MemberController {
     }
 
     @PostMapping("/mypage/{id}/editMember")
-    String mypageMemberUpdatePost(Member member){
+    String mypageMemberUpdatePost(Member member, RedirectAttributes redirectAttributes){
 
         memberService.updateMember(member.getId(), member);
-        
 
-        return "redirect:/member";
+        redirectAttributes.addAttribute("status",true);
+        redirectAttributes.addAttribute("id",member.getId());
+
+        return "redirect:/member/mypage/{id}/editMember";
 
 
     }
@@ -141,12 +144,15 @@ public class MemberController {
     }
 
     @PostMapping("/mypage/{id}/editRegister")
-    String mypageRegisterUpdatePost(Register register){
+    String mypageRegisterUpdatePost(Register register,RedirectAttributes redirectAttributes){
 
 
         registerService.updateForm(register.getId(),register);
 
-        return "redirect:/member";
+        redirectAttributes.addAttribute("id",register.getId());
+        redirectAttributes.addAttribute("status",true);
+
+        return "redirect:/member/mypage/{id}/editRegister";
 
 
     }
@@ -163,11 +169,15 @@ public class MemberController {
     }
 
     @PostMapping("/mypage/{id}/editReport")
-    String mypageReportUpdatePost(Report report){
+    String mypageReportUpdatePost(Report report,RedirectAttributes redirectAttributes){
 
         reportService.updateReport(report.getId(),report);
 
-        return "redirect:/member";
+
+        redirectAttributes.addAttribute("id",report.getId());
+        redirectAttributes.addAttribute("status",true);
+
+        return "redirect:/member/mypage/{id}/editReport";
 
 
     }

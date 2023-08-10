@@ -7,7 +7,7 @@
 
 
   <form th:object="${member}" method="post">
-
+    <h3 th:if = "${param.status}" color = "color - red" th:text = "'변경 완료!'"></h3>
     <div class="form-group">
       <label >회원 ID</label>
       <input type="text" th:field="*{userId}" class="form-control"

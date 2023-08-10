@@ -16,7 +16,7 @@
 
     <form  role="form"  enctype="multipart/form-data" action="" th:object="${register}" method="post">
 
-        <h2>반려 동물 실종 등록</h2>
+        <h2>반려 동물 실종 등록</h2><h3 th:if = "${param.status}" color = "color - red" th:text = "'등록 완료!'"></h3>
 
         <br>
 
