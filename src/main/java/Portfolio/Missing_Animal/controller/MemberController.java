@@ -9,12 +9,15 @@ import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -23,6 +26,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -44,8 +48,44 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String Controller_join_Post(Member member){
+    public String Controller_join_Post(@ModelAttribute Member member,BindingResult bindingResult){
 
+
+        System.out.println(member);
+
+        if(!StringUtils.hasText(member.getUsername()))
+            bindingResult.rejectValue("username","required");
+
+        if(!StringUtils.hasText(member.getUserId()))
+            bindingResult.rejectValue("userId","required");
+
+        if(!StringUtils.hasText(member.getPassword()))
+            bindingResult.rejectValue("password","required");
+
+        if(!StringUtils.hasText(member.getPhoneNumber()))
+            bindingResult.rejectValue("phoneNumber","required");
+        else{
+
+            String phoneNumber = member.getPhoneNumber();
+            try{
+
+                Integer i = Integer.parseInt(phoneNumber);
+
+            }
+            catch (Exception e){
+
+                bindingResult.rejectValue("phoneNumber","typeMismatch.phnoeNumber");
+
+            }
+
+        }
+
+        if(!StringUtils.hasText(member.getEmail().getLast()))
+            bindingResult.rejectValue("email.last","required");
+
+
+        if(bindingResult.hasErrors())
+            return "members/memberJoin";
 
         memberService.join(member);
 
@@ -56,20 +96,49 @@ public class MemberController {
     @GetMapping("/login")
     public String Controller_LogIn_Get(Model model){
 
+        Member member = new Member();
 
-        model.addAttribute("memberId",new String());
-        model.addAttribute("password",new String());
+        model.addAttribute("member",member);
+
 
         return "members/loginForm";
 
     }
 
+    /**
+     * BindingResult는 반드시 @ModelAttribute 뒤에 적어야 한다.(@ModelAttribute에 의해서 객체가 생성되지 않으면, BindingResult 사용 불가)
+     * BindingResult가 매개변수에 있으면, 클라이언트에서 [타입 에러]를 일으켜도 그 에러 정보를 BindingResult에 담아서 컨트롤러가 호출이 된다.
+     * 그러나, 없다면, 4xx 에러를 클라이언트에게 던지면서 오류 페이지로 이동을 시킨다.
+     */
     @PostMapping("/login")
-    public String Controller_LogIn_Post(HttpServletRequest request){
+    public String Controller_LogIn_Post(@ModelAttribute Member member,BindingResult bindingResult,Model model){
 
-        System.out.println(request.getParameter("memberId"));
-        System.out.println(request.getParameter("password"));
+        String userId = member.getUserId();
+        String password = member.getPassword();
 
+        if(!StringUtils.hasText(userId)){
+
+            bindingResult.rejectValue("userId","required");
+
+
+        }
+
+        if(!StringUtils.hasText(password)){
+
+            bindingResult.rejectValue("password","required");
+
+        }
+
+
+        if(bindingResult.hasErrors()){ // 로그인 실패 시
+
+            log.info("errors={}",bindingResult);
+            model.addAttribute("member",member); // @ModelAttrobute는 자동으로 model에 들어가기 때문에, 사실 이 부분 생략 가능
+            return "members/loginForm";
+
+        }
+
+        // 로그인 성공 시!
         return "redirect:/member/login";
     }
 
@@ -119,7 +188,52 @@ public class MemberController {
     }
 
     @PostMapping("/mypage/{id}/editMember")
-    String mypageMemberUpdatePost(Member member, RedirectAttributes redirectAttributes){
+    String mypageMemberUpdatePost(@ModelAttribute Member member, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+        if(!StringUtils.hasText(member.getUsername()))
+        {
+            bindingResult.rejectValue("username","required");
+        }
+
+        if(!StringUtils.hasText(member.getUserId()))
+        {
+            bindingResult.rejectValue("userId","required");
+        }
+
+        if(!StringUtils.hasText(member.getPassword()))
+        {
+            bindingResult.rejectValue("password", "required");
+        }
+
+        if(!StringUtils.hasText(member.getPhoneNumber())) {
+
+                bindingResult.rejectValue("phoneNumber", "required");
+        }
+
+        else{
+
+            String phoneNumber = member.getPhoneNumber();
+            try{
+
+                Integer i = Integer.parseInt(phoneNumber);
+
+            }
+            catch (Exception e){
+
+                bindingResult.rejectValue("phoneNumber","typeMismatch.phnoeNumber");
+
+            }
+
+        }
+
+        //회원 가입 실패 시
+        if(bindingResult.hasErrors()){
+
+            // model.addAttribute("member",member)은 생략 가능!
+          return "members/mypage-MemberupdateForm";
+
+        }
+
 
         memberService.updateMember(member.getId(), member);
 

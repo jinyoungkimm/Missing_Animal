@@ -22,7 +22,7 @@
 
         <div class="form-group">
             <label th:for="phoneNumber">보호자의 연락처</label>
-            <input  type="text" th:field="${member.phoneNumber}" class="form-control" disabled>
+            <input  type="text" th:field="${member.phoneNumber}" class="form-control" >
         </div>
 
         <br>
@@ -30,26 +30,34 @@
 
         <div class="form-group">
             <label th:for="first">보호자의 email</label>
-            <input  type="text" th:field="${member.email.first}" class="form-control" disabled>
+            <input  type="text" th:field="${member.email.first}" class="form-control" >
         </div>
 
         <br>
 
         <div class="form-group">
             <label th:for="zipcode">우편번호</label>
-            <input id="1" type="text" th:field="${report.findedAddress.zipcode}" class="form-control" placeholder="발견한 장소의 주소를 입력하세요([우편번호 찾기]를 통해서 기입)" disabled>
+            <input id="1" type="text" th:field="${report.findedAddress.zipcode}" class="form-control" placeholder="발견한 장소의 주소를 입력하세요([우편번호 찾기]를 통해서 기입)" th:errorclass="field-error">
+        <div class = "field-error" th:errors="${report.findedAddress.zipcode}">
+             오류 메시지
+        </div>
         </div>
 
         <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
 
         <div class="form-group">
             <label th:for="streetAdr">도로명 주소</label>
-            <input  id ="2" type="text" th:field="${report.findedAddress.streetAdr}" class="form-control" placeholder="발견한 장소의 주소를 입력하세요([우편번호 찾기]를 통해서 기입)" disabled>
+            <input  id ="2" type="text" th:field="${report.findedAddress.streetAdr}" class="form-control" placeholder="발견한 장소의 주소를 입력하세요([우편번호 찾기]를 통해서 기입)" th:errorclass="field-error">
+
+            <div class = "field-error" th:errors="${report.findedAddress.streetAdr}">
+                오류 메시지
+            </div>
+
         </div>
 
         <div class="form-group">
             <label th:for="detailAdr">상세주소</label>
-            <input id="3" type="text" th:field="${report.findedAddress.detailAdr}" class="form-control" placeholder="발견한 장소의 주소를 입력하세요([우편번호 찾기]를 통해서 기입)" disabled>
+            <input id="3" type="text" th:field="${report.findedAddress.detailAdr}" class="form-control" placeholder="발견한 장소의 주소를 입력하세요([우편번호 찾기]를 통해서 기입)" >
         </div>
 
         <br>

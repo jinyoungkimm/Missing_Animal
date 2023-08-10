@@ -18,17 +18,35 @@
         <h3 th:if = "${param.status}" color = "color - red" th:text = "'가입 완료!'"></h3>
         <div class="form-group">
             <label th:for="username">이름</label>
-            <input  type="text" th:field="${member.username}" class="form-control" placeholder="회원님의 성함을 기입하세요" >
+            <input  type="text" th:field="${member.username}" class="form-control" placeholder="회원님의 성함을 기입하세요" th:errorclass="field-error">
+        <div class = "field-error" th:errors="${member.username}">
+            오류 메시지
+        </div>
+
         </div>
 
         <div class="form-group">
             <label th:for="userId">ID</label>
-            <input  type="text" th:field="${member.userId}" class="form-control" placeholder="만드실 ID를 기입하세요" >
+            <input  type="text" th:field="${member.userId}" class="form-control" placeholder="만드실 ID를 기입하세요" th:errorclass="field-error">
+            <div class = "field-error" th:errors="${member.userId}">
+                오류 메시지
+            </div>
         </div>
 
         <div class="form-group">
             <label th:for="password">PW</label>
-            <input  type="password" th:field="${member.password}" class="form-control" placeholder="비밀번호를 기입하세요" >
+            <input  type="password" th:field="${member.password}" class="form-control" placeholder="비밀번호를 기입하세요" th:errorclass="field-error">
+            <div class = "field-error" th:errors="${member.password}">
+                오류 메시지
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label th:for="phoneNumber">전화번호</label>
+            <input  type="text" th:field="${member.phoneNumber}" class="form-control" placeholder="전화 번호를 입력하세요('-'은 제외하고 입력하세요)" th:errorclass="field-error">
+            <div class = "field-error" th:errors="${member.phoneNumber}">
+                오류 메시지
+            </div>
         </div>
 
 
@@ -39,8 +57,10 @@
             <input  type="text" th:field="${member.email.first}" class="form-control" placeholder="이메일 앞자리 주소를 기입하세요(ex.wlsdud6523)" >
 
             <label th:for="email2">나머지 주소</label>
-            <input  type="text" th:field="${member.email.last}" class="form-control" placeholder="이메일 뒷자리 주소를 기입하세요(ex.naver.com)">
-
+            <input  type="text" th:field="${member.email.last}" class="form-control" placeholder="이메일 뒷자리 주소를 기입하세요(ex.naver.com)" th:errorclass="field-error">
+            <div class = "field-error" th:errors="${member.email.last}">
+                오류 메시지
+            </div>
         </div>
 
         <div class="form-group">

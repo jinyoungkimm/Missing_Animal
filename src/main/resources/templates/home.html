@@ -10,7 +10,7 @@
 <body>
 <div class="container">
 
-
+    <h3 th:if = "${param.status}" color = "color - red" th:text = "'로그인 성공!'"></h3>
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">

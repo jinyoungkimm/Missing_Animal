@@ -14,6 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -49,8 +51,30 @@ public class RegisterController {
     }
 
     @PostMapping("")
-    public String registerMissingPost(Register register,
+    public String registerMissingPost(@ModelAttribute Register register, BindingResult bindingResult,
                                       @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
+
+
+        if(!StringUtils.hasText(register.getAnimalName())){
+            bindingResult.rejectValue("animalName","required");
+        }
+        if(!StringUtils.hasText(register.getAnimalSex()))
+            bindingResult.rejectValue("animalSex","required");
+        if(!StringUtils.hasText(register.getAnimalVariety()))
+            bindingResult.rejectValue("animalVariety","required");
+        if(!StringUtils.hasText(register.getMissingAddress().getZipcode()))
+            bindingResult.rejectValue("missingAddress.zipcode","required");
+        if(!StringUtils.hasText(register.getMissingAddress().getStreetName()))
+            bindingResult.rejectValue("missingAddress.streetName","required");
+
+
+        if(bindingResult.hasErrors()) {
+
+            //model.addAttribute("register",register);  생략 가능
+            return "registers/register";
+
+        }
+
 
         if(!file.isEmpty()) {
 
@@ -132,15 +156,23 @@ public class RegisterController {
     }
 
     @PostMapping("/search/list/myVilage") // 우리 동네 실종 동물 찾기
-    public String registerListBySearchCondtion2(Model model,
-                                               @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable,
-                                               RegisterSearchCond registerSearchCond)
+    public String registerListBySearchCondtion2(@ModelAttribute RegisterSearchCond registerSearchCond ,BindingResult bindingResult, Model model,
+                                               @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable
+                                              )
     {
-        System.out.println("registerSearchCond = " + registerSearchCond);;
+
+
+        if(!StringUtils.hasText(registerSearchCond.getZipcode()))
+            bindingResult.rejectValue("zipcode","required");
+        if(bindingResult.hasErrors())
+            return "registers/registersByMissingAddress";
+
+
+
 
         Page<Register> page = registerService.searchByRegisterCond2(registerSearchCond,pageable);
 
-        System.out.println("size = " + page.getTotalElements());
+
 
         int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
         int startPage = Math.max(nowPage - 4,1);
@@ -200,10 +232,10 @@ public class RegisterController {
 
         //List<Register> registers = registerService.ListingMissingAnimalByMissingAddress(missingAddress);
 
-        RegisterSearchCond searchCond = new RegisterSearchCond();
+        RegisterSearchCond registerSearchCond = new RegisterSearchCond();
 
 
-        model.addAttribute("searchCond",searchCond);
+        model.addAttribute("registerSearchCond",registerSearchCond);
 
 
         return "registers/registersByMissingAddress";

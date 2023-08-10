@@ -11,16 +11,22 @@
     <div class="form-group">
       <label >회원 ID</label>
       <input type="text" th:field="*{userId}" class="form-control"
-             placeholder="이름을 입력하세요" disabled/>
+             placeholder="이름을 입력하세요" />
+
+
     </div>
 
     <div class="form-group">
       <label >회원명</label>
-      <input type="text" th:field="*{username}" class="form-control"
+      <input type="text" th:field="*{username}" class="form-control" th:errorclass="field-error"
              placeholder="회원명을 입력" />
+      <div class = "field-error" th:errors="*{username}">
+        오류 메시지
+      </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <button type="submit" class="btn btn-primary">수정 완료</button>
   </form>
   <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->

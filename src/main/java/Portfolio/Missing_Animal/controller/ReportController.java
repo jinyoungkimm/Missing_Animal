@@ -9,8 +9,11 @@ import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForReport
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.jdt.internal.compiler.problem.AbortMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -57,8 +60,23 @@ public class ReportController {
 
     @PostMapping("/{registerId}")
     String report(@PathVariable("registerId") Long registerId,
-                  @ModelAttribute Report report,
+                  @ModelAttribute Report report, BindingResult bindingResult1,
+                  @ModelAttribute Member member, BindingResult bindingResult2,
+                  @ModelAttribute Register register, BindingResult bindingResult3,
                   @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
+
+
+        System.out.println("111111111111111111111111111");
+
+        if(!StringUtils.hasText(report.getFindedAddress().getZipcode()))
+            bindingResult1.rejectValue("findedAddress.zipcode","required");
+
+        if(!StringUtils.hasText(report.getFindedAddress().getStreetAdr()))
+            bindingResult1.rejectValue("findedAddress.streetAdr","required");
+
+        if(bindingResult1.hasErrors())
+            return "reports/report";
+
 
         if(!file.isEmpty()) {
 
