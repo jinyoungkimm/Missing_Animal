@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header" />
+
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+
+
+        <h3>[발견 신고 내역 리스트]</h3>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>발견자 ID</th>
+                <th>발견자 이름</th>
+                <th>발견자 전화번호</th>
+                <th>발견 날짜</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="report : ${page}">
+                <td th:text="${report.id}"></td>
+                <td th:text="${report.member.userId}"></td>
+                <td th:text="${report.member.username}"></td>
+                <td th:text="${report.member.phoneNumber}"></td>
+                <td th:text="${report.findedTime}"></td>
+                <td>
+                    <a href="#" th:href="@{/report/{reportId}/getOneReportWithoutUpdate (reportId=${report.id})}"
+                       class="btn btn-primary" role="button">자세히 보기</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- pageNumber를 [동적]으로 출력하는 부분 -->
+        <th:block th:each="page : ${#numbers.sequence(startPage,endPage)}">
+
+            <a th:if="${page != nowPage}" th:href="@{/report/{registerId}/getReports(registerId=${report.register.id} ,page = ${ page -1})}" th:text="${page}"></a>
+            <!-- 만약 nowPage가 1번이라면, 1번이 아닌 pageNumber를 출력한다.( 1, 2,3,4...) -->
+            <!-- a 태그를 사용함으로써, 다른 pageNumber를 클릭하게 되면 링크를 타고 들어가서 다시 페이징이 된다.-->
+            <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"> </strong>
+            <!-- nowpage의 pageNumber를 출력 -->
+        </th:block>
+    </div>
+
+
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+
+</html>

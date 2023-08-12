@@ -68,12 +68,16 @@
                 <td th:text="${register.registerStatus}"></td>
 
                 <td>
-                    <a href="#" th:href="@{/register/{registerId}/getOneRegister (registerId=${register.id})}"
+                    <a href="#" th:href="@{/register/{registerId}/getOneRegisterWithoutUpdate (registerId=${register.id})}"
                        class="btn btn-primary" role="button">자세히 보기</a>
                 </td>
                 <td>
                     <a href="#" th:href="@{/report/{registerId} (registerId=${register.id})}"
                        class="btn btn-primary" role="button">발견 신고</a>
+                </td>
+                <td th:if="${register.reportedStatus.toString()} == 'YES'">
+                    <a href="#" th:href="@{/report/{registerId}/getOneReportWithoutUpdate (registerId=${register.id})}"
+                       class="btn btn-primary" role="button">신고된 내역 보기</a>
                 </td>
             </tr>
             </tbody>

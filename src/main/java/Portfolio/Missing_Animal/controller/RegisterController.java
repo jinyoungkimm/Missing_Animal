@@ -111,7 +111,6 @@ public class RegisterController {
 
         Page<Register> page = registerService.listingRegisterV2(pageable);
 
-
         int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
         int startPage = Math.max(nowPage - 4,1);
         int endPage = Math.min(nowPage + 5,page.getTotalPages());
@@ -264,6 +263,28 @@ public class RegisterController {
         model.addAttribute("register",findRegister);
 
         return "registers/showOneRegister";
+
+    }
+
+    @GetMapping("{registerId}/getOneRegisterWithoutUpdate")
+    public String findOneRegisterById2(@PathVariable("registerId") Long registerId, Model model
+    )
+    {
+
+        Register findRegister = registerService.findOne(registerId);
+
+        if(!isEmpty(findRegister.getFileName()))
+        {
+            Path path = storageService.load(findRegister.getFileName());
+            String serveFile = MvcUriComponentsBuilder.fromMethodName(FileUploadControllerForRegister.class,
+                    "serveFile", path.getFileName().toString()).build().toUri().toString();
+            model.addAttribute("file",serveFile);
+
+        }
+
+        model.addAttribute("register",findRegister);
+
+        return "registers/showOneRegisterWithoutUpdate";
 
     }
 

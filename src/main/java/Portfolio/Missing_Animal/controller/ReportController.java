@@ -8,8 +8,13 @@ import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForReport;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
+import Portfolio.Missing_Animal.spring_data_jpa.ReportRepositorySDJ;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.jdt.internal.compiler.problem.AbortMethod;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -38,6 +43,8 @@ public class ReportController {
    // private final MissingAddressRepository missingAddressRepository; // 순수 JPA Repository
 
     private final RegisterRepositorySDJ registerRepository; // Spring Data JPA Repository
+
+    private final ReportRepositorySDJ reportRepository; // Spring Data JPA Repository
 
     private final MissingAddressRepositorySDJ missingAddressRepository;  // Spring Data JPA Repository
 
@@ -110,6 +117,46 @@ public class ReportController {
 
         model.addAttribute("report",findReport);
         return "reports/showOneReport";
+
+    }
+
+    @GetMapping("/{reportId}/getOneReportWithoutUpdate")
+    String getOneReportWithoutUpdate(@PathVariable("reportId") Long reportId,Model model){
+
+        Report findReport = reportService.findOne(reportId);
+
+
+        if(!isEmpty(findReport.getFileName()))
+        {
+            Path path = storageService.load(findReport.getFileName());
+            String serveFile = MvcUriComponentsBuilder.fromMethodName(FileUploadControllerForReport.class,
+                    "serveFile", path.getFileName().toString()).build().toUri().toString();
+            model.addAttribute("file",serveFile);
+
+        }
+
+        model.addAttribute("report",findReport);
+        return "reports/showOneReportWithoutUpdate";
+
+    }
+
+    @GetMapping("/{registerId}/getReports")
+    String findReportsByRegisterId(@PathVariable("registerId") Long registerId,
+                                   @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable,
+                                   Model model){
+
+        Page<Report> page = reportRepository.findReportsByRegisterId(registerId, pageable);
+        model.addAttribute("page",page);
+
+        int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
+        int startPage = Math.max(nowPage - 4,1);
+        int endPage = Math.min(nowPage + 5,page.getTotalPages());
+
+        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+
+        return "reports/reportList";
 
     }
 

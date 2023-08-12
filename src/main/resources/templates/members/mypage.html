@@ -66,6 +66,10 @@
                     <a href="#" th:href="@{/register/{registerId}/getOneRegister (registerId=${register.id})}"
                        class="btn btn-primary" role="button">자세히 보기</a>
                 </td>
+                <td th:if="${register.reportedStatus.toString()} == 'YES'">
+                    <a href="#" th:href="@{/report/{registerId}/getReports (registerId=${register.id})}"
+                       class="btn btn-primary" role="button">신고된 내역 보기</a>
+                </td>
             </tr>
             </tbody>
         </table>
