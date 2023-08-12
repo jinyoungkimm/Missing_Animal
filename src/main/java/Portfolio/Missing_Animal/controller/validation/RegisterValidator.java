@@ -15,7 +15,7 @@ public class RegisterValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         // 타입 검증
-        return Member.class.isAssignableFrom(clazz);
+        return Register.class.isAssignableFrom(clazz);
 
         // 즉, 매개변수로 넘어오는 clazz의 타입이 Member가 맞냐? or Register 자식 타입이 맞냐를 검증!
 
