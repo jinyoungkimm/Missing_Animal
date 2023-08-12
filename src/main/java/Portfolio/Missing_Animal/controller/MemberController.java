@@ -19,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,6 +39,25 @@ public class MemberController {
 
     private final MemberValidator memberValidator; // 검증 Validator를 주입
 
+    /**
+     * @Validated
+     * -> @ModelAttribute 앞에 @Validated가 꼭 있어야 지만, memberValidator가 호출이 된다.
+     * 근데 만약에 이 Controller에서 등록된 Validator는 memberValidator 1개 뿐이여서,
+     * 아래에서  dataBinder.addValidators(memberValidator) 이거 하나만 등록해줘도 문제가 없다.
+     * 근데 만약 Validator가 여러 개 있다면, @Validated는 WebDataBinder에서 등록된 Validator 중 어떤 것을 사용해야 할지를
+     * 모른다.
+     * 그때 우리가 오버라이딩한 Validator.supports()가 유용한 역할을 한다.
+     * @ModelAttribbute의 클래스를 support의 매개변수로 넘긴 뒤에, WebDataBinder에 등록된 모든 Validator의 supprt()를 호출한다.
+     * support 의 결과 타입에 맞는 Validator을 스프링이 선택을 한다.
+     *
+     */
+    @InitBinder
+    public void init(WebDataBinder dataBinder){
+
+        dataBinder.addValidators(memberValidator); // Controller가 호출될 때마다 memberValidator가 새로 적용됨.
+
+    }
+
 
     //회원 가입 기능
     @GetMapping("/join")
@@ -50,10 +71,10 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String Controller_join_Post(@ModelAttribute Member member,BindingResult bindingResult){
+    public String Controller_join_Post(@Validated @ModelAttribute Member member, BindingResult bindingResult){
 
 
-        memberValidator.validate(member,bindingResult);
+      //  memberValidator.validate(member,bindingResult);
 
        /* if(!StringUtils.hasText(member.getUsername()))
             bindingResult.rejectValue("username","required");
@@ -115,13 +136,13 @@ public class MemberController {
      * 그러나, 없다면, 4xx 에러를 클라이언트에게 던지면서 오류 페이지로 이동을 시킨다.
      */
     @PostMapping("/login")
-    public String Controller_LogIn_Post(@ModelAttribute Member member,BindingResult bindingResult,Model model){
+    public String Controller_LogIn_Post(@Validated @ModelAttribute Member member,BindingResult bindingResult,Model model){
 
         String userId = member.getUserId();
         String password = member.getPassword();
 
 
-        memberValidator.validate(member,bindingResult);
+      //  memberValidator.validate(member,bindingResult);
 
        /* if(!StringUtils.hasText(userId)){
 
@@ -195,10 +216,10 @@ public class MemberController {
     }
 
     @PostMapping("/mypage/{id}/editMember")
-    String mypageMemberUpdatePost(@ModelAttribute Member member, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    String mypageMemberUpdatePost(@Validated @ModelAttribute Member member, BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
 
-        memberValidator.validate(member,bindingResult);
+       // memberValidator.validate(member,bindingResult);
 
        /* if(!StringUtils.hasText(member.getUsername()))
 

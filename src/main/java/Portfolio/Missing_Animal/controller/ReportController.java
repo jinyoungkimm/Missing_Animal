@@ -1,5 +1,6 @@
 package Portfolio.Missing_Animal.controller;
 
+import Portfolio.Missing_Animal.controller.validation.ReportValidator;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
 
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -48,6 +51,15 @@ public class ReportController {
 
     private final MissingAddressRepositorySDJ missingAddressRepository;  // Spring Data JPA Repository
 
+    private final ReportValidator reportValidator;
+
+    @InitBinder
+    public void init(WebDataBinder dataBinder){
+
+        dataBinder.addValidators(reportValidator);
+
+    }
+
 
 
     @GetMapping("/{registerId}")
@@ -73,13 +85,11 @@ public class ReportController {
                   @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
 
-        System.out.println("111111111111111111111111111");
-
-        if(!StringUtils.hasText(report.getFindedAddress().getZipcode()))
+       /* if(!StringUtils.hasText(report.getFindedAddress().getZipcode()))
             bindingResult1.rejectValue("findedAddress.zipcode","required");
 
         if(!StringUtils.hasText(report.getFindedAddress().getStreetAdr()))
-            bindingResult1.rejectValue("findedAddress.streetAdr","required");
+            bindingResult1.rejectValue("findedAddress.streetAdr","required");*/
 
         if(bindingResult1.hasErrors())
             return "reports/report";
@@ -175,11 +185,12 @@ public class ReportController {
     }
 
     @PostMapping("/{reportId}/edit")
-    String updateReportPost(Report report,
+    String updateReportPost(@Validated @ModelAttribute Report report,BindingResult bindingResult,
                             @PathVariable("reportId") Long reportId,
                             @RequestParam("file") MultipartFile file,RedirectAttributes redirectAttributes) throws IOException {
 
-        System.out.println("report = " + reportId);
+        if(bindingResult.hasErrors())
+            return "reports/reportUpdate";
 
         Report findReport = reportService.findOne(reportId);
 

@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -38,6 +40,11 @@ public class RegisterController {
 
     private final RegisterValidator registerValidator;
 
+    @InitBinder
+    public void init(WebDataBinder dataBinder){
+        dataBinder.addValidators(registerValidator);
+    }
+
 
     @GetMapping("")
     public String registerMissingGet(Model model){
@@ -52,10 +59,10 @@ public class RegisterController {
     }
 
     @PostMapping("")
-    public String registerMissingPost(@ModelAttribute Register register, BindingResult bindingResult,
+    public String registerMissingPost(@Validated  @ModelAttribute Register register, BindingResult bindingResult,
                                       @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
-        registerValidator.validate(register,bindingResult);
+        //registerValidator.validate(register,bindingResult);
 
 
        /* if(!StringUtils.hasText(register.getAnimalName())){
@@ -202,11 +209,15 @@ public class RegisterController {
     }
 
     @PostMapping("/{registerId}/edit")
-    public String updateRegister(Register register,
+    public String updateRegister(@Validated @ModelAttribute Register register, BindingResult bindingResult,
                                  @PathVariable("registerId") Long registerId,
                                  @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) throws IOException {
 
+
         Register findRegister = registerService.findOne(registerId);
+
+        if(bindingResult.hasErrors())
+            return "registers/registerUpdate";
 
         if(!file.isEmpty() )
         {
