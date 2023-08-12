@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.controller;
 
 
+import Portfolio.Missing_Animal.controller.validation.MemberValidator;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.domainEntity.Report;
@@ -34,6 +35,7 @@ public class MemberController {
 
     private final ReportService reportService;
 
+    private final MemberValidator memberValidator; // 검증 Validator를 주입
 
 
     //회원 가입 기능
@@ -51,9 +53,9 @@ public class MemberController {
     public String Controller_join_Post(@ModelAttribute Member member,BindingResult bindingResult){
 
 
-        System.out.println(member);
+        memberValidator.validate(member,bindingResult);
 
-        if(!StringUtils.hasText(member.getUsername()))
+       /* if(!StringUtils.hasText(member.getUsername()))
             bindingResult.rejectValue("username","required");
 
         if(!StringUtils.hasText(member.getUserId()))
@@ -79,9 +81,11 @@ public class MemberController {
             }
 
         }
+        if(!StringUtils.hasText(member.getEmail().getFirst()))
+            bindingResult.rejectValue("email.first","required");
 
         if(!StringUtils.hasText(member.getEmail().getLast()))
-            bindingResult.rejectValue("email.last","required");
+            bindingResult.rejectValue("email.last","required");*/
 
 
         if(bindingResult.hasErrors())
@@ -116,7 +120,10 @@ public class MemberController {
         String userId = member.getUserId();
         String password = member.getPassword();
 
-        if(!StringUtils.hasText(userId)){
+
+        memberValidator.validate(member,bindingResult);
+
+       /* if(!StringUtils.hasText(userId)){
 
             bindingResult.rejectValue("userId","required");
 
@@ -127,7 +134,7 @@ public class MemberController {
 
             bindingResult.rejectValue("password","required");
 
-        }
+        }*/
 
 
         if(bindingResult.hasErrors()){ // 로그인 실패 시
@@ -190,7 +197,11 @@ public class MemberController {
     @PostMapping("/mypage/{id}/editMember")
     String mypageMemberUpdatePost(@ModelAttribute Member member, BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
-        if(!StringUtils.hasText(member.getUsername()))
+
+        memberValidator.validate(member,bindingResult);
+
+       /* if(!StringUtils.hasText(member.getUsername()))
+
         {
             bindingResult.rejectValue("username","required");
         }
@@ -224,7 +235,7 @@ public class MemberController {
 
             }
 
-        }
+        }*/
 
         //회원 가입 실패 시
         if(bindingResult.hasErrors()){

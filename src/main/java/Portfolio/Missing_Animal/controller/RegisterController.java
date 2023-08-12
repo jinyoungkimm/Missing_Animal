@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.controller;
 
 
+import Portfolio.Missing_Animal.controller.validation.RegisterValidator;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterSearchCond;
@@ -35,7 +36,7 @@ public class RegisterController {
 
     private final StorageServiceForRegister storageService;
 
-
+    private final RegisterValidator registerValidator;
 
 
     @GetMapping("")
@@ -54,8 +55,10 @@ public class RegisterController {
     public String registerMissingPost(@ModelAttribute Register register, BindingResult bindingResult,
                                       @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
+        registerValidator.validate(register,bindingResult);
 
-        if(!StringUtils.hasText(register.getAnimalName())){
+
+       /* if(!StringUtils.hasText(register.getAnimalName())){
             bindingResult.rejectValue("animalName","required");
         }
         if(!StringUtils.hasText(register.getAnimalSex()))
@@ -65,7 +68,7 @@ public class RegisterController {
         if(!StringUtils.hasText(register.getMissingAddress().getZipcode()))
             bindingResult.rejectValue("missingAddress.zipcode","required");
         if(!StringUtils.hasText(register.getMissingAddress().getStreetName()))
-            bindingResult.rejectValue("missingAddress.streetName","required");
+            bindingResult.rejectValue("missingAddress.streetName","required");*/
 
 
         if(bindingResult.hasErrors()) {
@@ -159,7 +162,6 @@ public class RegisterController {
                                                @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable
                                               )
     {
-
 
         if(!StringUtils.hasText(registerSearchCond.getZipcode()))
             bindingResult.rejectValue("zipcode","required");
