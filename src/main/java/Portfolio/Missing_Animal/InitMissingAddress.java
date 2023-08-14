@@ -56,12 +56,17 @@ public class InitMissingAddress {
                 Member member = new Member();
                 member.setUserId(userId);
                 member.setUsername(userName);
+                member.setPassword("eoskan6523");
+                member.setPhoneNumber("01097336523");
 
 
                 em.persist(member);
 
                 Register register1 = new Register();
                 register1.setAnimalName(animalName1);
+                register1.setAnimalAge("4");
+                register1.setAnimalSex("male");
+                register1.setAnimalVariety("시골잡종1");
                 register1.setMissingAddress(missingAddress);
                 register1.setMember(member);
                 register1.setRegisterStatus(registerStatus1);
@@ -70,6 +75,9 @@ public class InitMissingAddress {
 
                 Register register2 = new Register();
                 register2.setAnimalName(animalName2);
+                register2.setAnimalAge("4");
+                register2.setAnimalSex("female");
+                register2.setAnimalVariety("시골잡종2");
                 register2.setMissingAddress(missingAddress);
                 register2.setMember(member);
                 register2.setRegisterStatus(registerStatus2);
@@ -120,6 +128,8 @@ public class InitMissingAddress {
         Member member = new Member();
         member.setUserId(userId);
         member.setUsername(userName);
+        member.setPassword("eoskan6523");
+        member.setPhoneNumber("01097336523");
         EmailForm emailForm = new EmailForm();
         emailForm.setFirst("wlsdud6523");
         emailForm.setLast("naver.com");
@@ -134,6 +144,9 @@ public class InitMissingAddress {
         Register register1 = new Register();
         register1.setFileName(fileName1);
         register1.setAnimalName(animalName1);
+        register1.setAnimalAge("4");
+        register1.setAnimalSex("male");
+        register1.setAnimalVariety("시골잡종1");
         register1.setMissingAddress(missingAddress);
         register1.setMember(member);
         register1.setRegisterStatus(registerStatus1);
@@ -142,6 +155,9 @@ public class InitMissingAddress {
 
         Register register2 = new Register();
         register2.setFileName(fileName2);
+        register2.setAnimalAge("4");
+        register2.setAnimalSex("female");
+        register2.setAnimalVariety("시골잡종2");
         register2.setAnimalName(animalName2);
         register2.setMissingAddress(missingAddress);
         register2.setMember(member);

@@ -8,9 +8,14 @@ import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
+import Portfolio.Missing_Animal.restAPI.validation.RegisterRequestDtoValidator;
+import Portfolio.Missing_Animal.restAPI.validation.UpdateRegisterRequestValidator;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -26,8 +31,27 @@ public class RegisterRestApiController {
 
     private final MemberService memberService;
 
-    @PostMapping("new") // 실종 등록 API
-    public RegisterResponseDto registerApi(@RequestBody RegisterRequestDto registerRequestDto) {
+    private final RegisterRequestDtoValidator registerRequestDtoValidator;
+    private final UpdateRegisterRequestValidator updateRegisterRequestValidator;
+
+  /*  @InitBinder
+    public void init(WebDataBinder dataBinder){
+
+        dataBinder.addValidators(registerRequestDtoValidator);
+        dataBinder.addValidators(updateRegisterRequestValidator);
+
+    }*/
+
+
+
+    @PostMapping("/new") // 실종 등록 API
+    public Object registerApi(@RequestBody  RegisterRequestDto registerRequestDto, BindingResult bindingResult) {
+
+       registerRequestDtoValidator.validate(registerRequestDto,bindingResult); // 직접 호출
+
+        if(bindingResult.hasErrors())
+            return bindingResult.getAllErrors();
+
 
         Register register = createRegister(registerRequestDto);
 
@@ -51,11 +75,15 @@ public class RegisterRestApiController {
     }
 
     // 실종 등록 내용 [수정] API
-    @PostMapping("/{registerId}/edit")
-    public UpdateRegisterResponse updateRegister(@PathVariable("registerId") Long registerId,
-                                                 @RequestBody UpdateRegisterRequest updateRegisterRequest){
+    @PostMapping("/edit")
+    public Object updateRegister(@RequestBody  UpdateRegisterRequest updateRegisterRequest, BindingResult bindingResult){
 
-        System.out.println("UpdateRegisterRequest = " + updateRegisterRequest);
+        updateRegisterRequestValidator.validate(updateRegisterRequest,bindingResult); // 직접 호출
+
+
+        if(bindingResult.hasErrors())
+            return bindingResult.getAllErrors();
+
 
         Register register = new Register();
 
@@ -68,8 +96,8 @@ public class RegisterRestApiController {
         register.setRegisterStatus(updateRegisterRequest.getRegisterStatus());
         register.setReportedStatus(updateRegisterRequest.getReportedStatus());
 
-        System.out.println("register = " + register);
 
+        Long registerId = updateRegisterRequest.getRegisterId();
         Long updateId = registerService.updateForm(registerId, register);
 
         if(updateId != null){

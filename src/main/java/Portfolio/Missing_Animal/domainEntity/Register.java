@@ -5,6 +5,7 @@ import Portfolio.Missing_Animal.domainEntity.animal.Animal;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,11 +27,15 @@ public class Register { //실종 등록
 
     private String fileName;
 
+
     private String animalName;
+
 
     private String animalSex;
 
+
     private String animalAge;
+
 
     private String animalVariety;
 

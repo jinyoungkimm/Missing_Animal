@@ -3,8 +3,13 @@ package Portfolio.Missing_Animal.restAPI.APIcontroller;
 
 import Portfolio.Missing_Animal.APIdto.*;
 import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.restAPI.validation.LoginRequestDtoValidator;
+import Portfolio.Missing_Animal.restAPI.validation.MemberRequestDtoValidator;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,9 +19,18 @@ public class MemberRestApiController {
 
     private final MemberService memberService;
 
+    private final LoginRequestDtoValidator loginRequestDtoValidator;
+
+    private final MemberRequestDtoValidator memberRequestDtoValidator;
+
+
     @PostMapping("/login") // 로그인 API
-    LoginResponseDto loginApi(@RequestBody LoginRequestDto loginRequest)
+    Object loginApi(@RequestBody  LoginRequestDto loginRequest, BindingResult bindingResult)
     {
+        loginRequestDtoValidator.validate(loginRequest,bindingResult); // 직접 호출
+
+        if(bindingResult.hasErrors())
+            return bindingResult.getAllErrors();
 
         String userId = loginRequest.getUserId();
         String password = loginRequest.getPassword();
@@ -46,7 +60,14 @@ public class MemberRestApiController {
     }
 
     @PostMapping("/join") // 회원 등록 API
-    MemberResponseDto joinApi(@RequestBody MemberRequestDto memberRequestDto){
+    Object joinApi(@RequestBody  MemberRequestDto memberRequestDto,BindingResult bindingResult){
+
+        memberRequestDtoValidator.validate(memberRequestDto,bindingResult); // 직접 호출
+
+        if(bindingResult.hasErrors())
+            return bindingResult.getAllErrors();
+
+
 
         String userName = memberRequestDto.getUserName();
         String userId = memberRequestDto.getUserId();

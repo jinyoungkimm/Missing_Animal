@@ -5,6 +5,7 @@ import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+
 import lombok.Data;
 
 @Data
@@ -12,6 +13,8 @@ public class UpdateRegisterRequest {
 
 
     // 수정 내용
+    private Long registerId;
+
     private String animalName;
 
     private String animalSex;

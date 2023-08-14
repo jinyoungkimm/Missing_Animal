@@ -10,12 +10,9 @@ import java.time.LocalDateTime;
 @Data
 public class UpdateReportRequest {
 
+    Long reportId;
 
     AddressForm findedAddress;
-
-    LocalDateTime findedTime;
-
-    Animal animal;
 
 
 }

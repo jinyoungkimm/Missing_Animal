@@ -1,9 +1,7 @@
 package Portfolio.Missing_Animal.controller.validation;
 
 import Portfolio.Missing_Animal.domainEntity.Member;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.executable.ExecutableValidator;
-import jakarta.validation.metadata.BeanDescriptor;
+
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -30,14 +28,14 @@ public class MemberValidator implements Validator { // Validator는 자바 표�
 
         Member member = (Member)target; // 타입 캐스팅
 
-        if(!StringUtils.hasText(member.getUsername()))
+       /* if(!StringUtils.hasText(member.getUsername()))
             errors.rejectValue("username","required");
 
         if(!StringUtils.hasText(member.getUserId()))
             errors.rejectValue("userId","required");
 
         if(!StringUtils.hasText(member.getPassword()))
-            errors.rejectValue("password","required");
+            errors.rejectValue("password","required");*/
 
         if(!StringUtils.hasText(member.getPhoneNumber()))
             errors.rejectValue("phoneNumber","required");
@@ -51,7 +49,7 @@ public class MemberValidator implements Validator { // Validator는 자바 표�
             }
             catch (Exception e){
 
-                errors.rejectValue("phoneNumber","typeMismatch.phnoeNumber");
+                errors.rejectValue("phoneNumber","typeMismatch.phoneNumber");
 
             }
 

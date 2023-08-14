@@ -85,11 +85,6 @@ public class ReportController {
                   @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
 
-       /* if(!StringUtils.hasText(report.getFindedAddress().getZipcode()))
-            bindingResult1.rejectValue("findedAddress.zipcode","required");
-
-        if(!StringUtils.hasText(report.getFindedAddress().getStreetAdr()))
-            bindingResult1.rejectValue("findedAddress.streetAdr","required");*/
 
         if(bindingResult1.hasErrors())
             return "reports/report";

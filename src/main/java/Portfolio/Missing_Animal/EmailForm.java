@@ -2,7 +2,7 @@ package Portfolio.Missing_Animal;
 
 
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotEmpty;
+
 import lombok.Data;
 
 @Embeddable

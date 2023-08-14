@@ -10,18 +10,27 @@
     <h2>POST 방식</h2>
     { <br>
 
-    "userName": <input id ="userName" type="text" value="" placeholder="EX)김진영"><br>
+    "userId": <input id ="userId" required ="true" type="text" value="" placeholder="1 이상을 입력하세요"><br>
 
-    "userId": <input id ="userId" type="text" value="" placeholder="EX) 가입된 id 입력(ex. wlsdud6523)"><br>
+    "password": <input id ="password" required ="true" type="text" value="" placeholder="1 이상을 입력하세요"><br>
 
-    "password": <input id ="password" type="text" value="" placeholder="비밀번호 입력"><br>
 
-    "phoneNumber": <input id ="phoneNumber" type="text" value="" placeholder="010-9733-6523"><br>
+    "registerId": <input id ="registerId" required ="true" type="text" value="" placeholder="1 이상을 입력하세요"><br>
+
+    "findedAddress": { <br>
+
+
+    &nbsp&nbsp&nbsp"zipcode": <input id ="zipcode" type="text" value="" placeholder="EX)31434"><br>
+
+    &nbsp&nbsp&nbsp"streetAdr": <input id ="streetAdr" type="text" value="" placeholder="EX)부산시 해운대로 해운대로 731번길"><br>
+
+    &nbsp&nbsp&nbsp"detailAdr": <input id ="detailAdr" type="text" value="" placeholder="EX)105동 401호"><br>
 
 
     }<br>
 
-    <button onclick="memberJoin()">Post</button>
+    <button onclick="reportCreation()">Post</button>
+
 
     <p id ="jj">
 
@@ -34,7 +43,6 @@
 
     </p>
 
-
     <p id ="response">
 
     </p>
@@ -42,15 +50,22 @@
 
 
     <script>
-function memberJoin(){
+function reportCreation(){
 
-let _userName = document.getElementById("userName").value;
 let _userId = document.getElementById("userId").value;
 let _password = document.getElementById("password").value;
-let _phoneNumber = document.getElementById("phoneNumber").value;
 
 
-fetch('http://localhost:8080/api/members/join',{
+let _registerId = document.getElementById("registerId").value;
+
+
+let _zipcode = document.getElementById("zipcode").value;
+let _streetAdr = document.getElementById("streetAdr").value;
+let _detailAdr = document.getElementById("detailAdr").value;
+
+
+
+fetch('http://localhost:8080/api/reports/new',{
 
 method: "POST",
 headers: {
@@ -59,13 +74,21 @@ headers: {
 
   body: JSON.stringify({
 
-    userName: _userName ,
+    userId: _userId,
 
-    userId: _userId ,
+    password: _password,
 
-    password: _password ,
+    registerId: _registerId,
 
-    phoneNumber: _phoneNumber ,
+    findedAddress: {
+
+        zipcode: _zipcode,
+
+        streetAdr: _streetAdr,
+
+        detailAdr: _detailAdr,
+
+    },
 
   }),
 

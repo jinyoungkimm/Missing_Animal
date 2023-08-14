@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.domainEntity;
 
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

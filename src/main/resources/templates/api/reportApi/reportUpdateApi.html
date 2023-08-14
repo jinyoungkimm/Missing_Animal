@@ -10,14 +10,21 @@
     <h2>POST 방식</h2>
     { <br>
 
-    "userId": <input id ="userId" type="text" value="" placeholder="EX) 가입된 id 입력(ex. wlsdud6523)"><br>
+    "reportId": <input id ="reportId" required ="true" type="text" value="" placeholder="1 이상을 입력하세요"><br>
 
-    "password": <input id ="password" type="text" value="" placeholder="비밀번호 입력"><br>
+    "findedAddress": { <br>
+
+
+    &nbsp&nbsp&nbsp"zipcode": <input id ="zipcode" type="text" value="" placeholder="EX)31434"><br>
+
+    &nbsp&nbsp&nbsp"streetAdr": <input id ="streetAdr" type="text" value="" placeholder="EX)부산시 해운대로 해운대로 731번길"><br>
+
+    &nbsp&nbsp&nbsp"detailAdr": <input id ="detailAdr" type="text" value="" placeholder="EX)105동 401호"><br>
 
 
     }<br>
 
-    <button onclick="login()">Post</button>
+    <button onclick="reportUpdate()">Post</button>
 
 
     <p id ="jj">
@@ -31,7 +38,6 @@
 
     </p>
 
-
     <p id ="response">
 
     </p>
@@ -39,13 +45,16 @@
 
 
     <script>
-function login(){
+function reportUpdate(){
 
-let _userId = document.getElementById("userId").value;
-let _password = document.getElementById("password").value;
+let _reportId = document.getElementById("reportId").value;
+let _zipcode = document.getElementById("zipcode").value;
+let _streetAdr = document.getElementById("streetAdr").value;
+let _detailAdr = document.getElementById("detailAdr").value;
 
 
-fetch('http://localhost:8080/api/members/login',{
+
+fetch('http://localhost:8080/api/reports/edit',{
 
 method: "POST",
 headers: {
@@ -54,17 +63,24 @@ headers: {
 
   body: JSON.stringify({
 
-    userId: _userId ,
+    reportId: _reportId,
 
-    password: _password ,
+    findedAddress: {
+
+        zipcode: _zipcode,
+
+        streetAdr: _streetAdr,
+
+        detailAdr: _detailAdr,
+
+    },
 
   }),
 
 }).then((response) => response.json())
 
 .then((data) => {
-
-   document.getElementById("jj").innerHTML =  `<a href="https://codebeautify.org/jsonviewer" target="_blank">아래의 JSON을 이쁘게 출력하러 가기</a><br><br>`;
+     document.getElementById("jj").innerHTML =  `<a href="https://codebeautify.org/jsonviewer" target="_blank">아래의 JSON을 이쁘게 출력하러 가기</a><br><br>`;
   document.getElementById("ma").innerHTML = `사용법<br>
         1.아래의 결과물을 드래그하여 복사한다(반드시 결과의 전체를 복사하자!)<br>
         2.위 링크를 클릭하여 사이트 이동<br>
