@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.controller;
 
 
+import Portfolio.Missing_Animal.annotation.Login;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -54,7 +55,7 @@ public class HomeController {
      * @SessionAttribute을 사용하면, [이미] 로그인된 사용자를 찾을 때, 주석 처리된 부분을
      * 스프링이 자동으로 처리를 해준다.
      */
-    @RequestMapping("/")
+    //@RequestMapping("/")
     public String homeV2(@SessionAttribute(name = SESSION_ID, required = false)
                              Member member,Model model){
 
@@ -67,6 +68,20 @@ public class HomeController {
         // 세션이 있는 경우!
        // Object attribute = session.getAttribute(SESSION_ID); //  세션 테이블에서 해당 객체(Member)를 가지고 온다.
         //Member member = (Member) attribute; // 타입 캐스팅
+        if(member == null)
+            return "home";
+
+        // 세션이 유지되는 경우!
+        model.addAttribute("member",member);
+        return "homeLoginSuccess";
+
+    }
+
+    @RequestMapping("/")
+    public String homeV3(@Login Member member,Model model){
+
+
+        // 세션이 있는 경우!
         if(member == null)
             return "home";
 

@@ -40,10 +40,10 @@ public class RegisterController {
 
     private final RegisterValidator registerValidator;
 
-    @InitBinder
+   /* @InitBinder
     public void init(WebDataBinder dataBinder){
         dataBinder.addValidators(registerValidator);
-    }
+    }*/
 
 
     @GetMapping("")
@@ -59,24 +59,10 @@ public class RegisterController {
     }
 
     @PostMapping("")
-    public String registerMissingPost(@Validated  @ModelAttribute Register register, BindingResult bindingResult,
-                                      @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
+    public String registerMissingPost( @ModelAttribute Register register, BindingResult bindingResult,
+                                       @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
-        //registerValidator.validate(register,bindingResult);
-
-
-       /* if(!StringUtils.hasText(register.getAnimalName())){
-            bindingResult.rejectValue("animalName","required");
-        }
-        if(!StringUtils.hasText(register.getAnimalSex()))
-            bindingResult.rejectValue("animalSex","required");
-        if(!StringUtils.hasText(register.getAnimalVariety()))
-            bindingResult.rejectValue("animalVariety","required");
-        if(!StringUtils.hasText(register.getMissingAddress().getZipcode()))
-            bindingResult.rejectValue("missingAddress.zipcode","required");
-        if(!StringUtils.hasText(register.getMissingAddress().getStreetName()))
-            bindingResult.rejectValue("missingAddress.streetName","required");*/
-
+        registerValidator.validate(register,bindingResult); // 직접 호출!
 
         if(bindingResult.hasErrors()) {
 
@@ -214,10 +200,10 @@ public class RegisterController {
                                  @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) throws IOException {
 
 
-        Register findRegister = registerService.findOne(registerId);
-
         if(bindingResult.hasErrors())
             return "registers/registerUpdate";
+
+        Register findRegister = registerService.findOne(registerId);
 
         if(!file.isEmpty() )
         {

@@ -106,6 +106,7 @@ public class MemberController {
      */
     @PostMapping("/login")
     public String Controller_LogIn_Post( @ModelAttribute LoginRequestDto loginRequestDto,BindingResult bindingResult,
+                                        @RequestParam(defaultValue = "/") String redirectURL,
                                         HttpServletRequest request) { // 서블릿이 제공하는 session 기능을 사용하기 위함!
 
         loginRequestDtoValidator.validate(loginRequestDto,bindingResult); // 직접 호출
@@ -136,7 +137,8 @@ public class MemberController {
          // 로그인 성공 시!
         HttpSession session = request.getSession(); // 신규 세션 생성이니, getSession(true)여야 하는데, getSession()의 디폴트 값은 true이다.
         session.setAttribute(SESSION_ID,login); // { "sessionId, Member객체 }로 Map 테이블이 생성.
-        return "redirect:/";
+
+        return "redirect:" + redirectURL;
 
 
     }
