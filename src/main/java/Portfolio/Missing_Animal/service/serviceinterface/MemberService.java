@@ -14,7 +14,7 @@ public interface MemberService {
     public Long join(Member member);
 
     // 로그인 서비스
-    public boolean login(Member member);
+    public Member login(Member member);
 
     public boolean isMemberExist(Member member);
 

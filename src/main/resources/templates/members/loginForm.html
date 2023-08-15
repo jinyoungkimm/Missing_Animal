@@ -17,22 +17,30 @@
 
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-   <form  id = "form" role="form" action=""  method="post">
+   <form  id = "form" role="form" action=""  th:object="${loginRequestDto}"  method="post">
+
+       <div th:if="${#fields.hasGlobalErrors()}">
+
+           <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+              th:text="${err}">글로벌 오류 메시지</p>
+
+       </div>
+
 
         <div class="form-group">
             <label >아이디</label>
-            <input  type="text" name ="userId" th:field="${member.userId}" class="form-control"
+            <input  type="text" name ="userId" th:field="${loginRequestDto.userId}" class="form-control"
             th:errorclass="field-error" placeholder="ex) wlsdud6523">
-            <div class = "field-error" th:errors="${member.userId}">
+            <div class = "field-error" th:errors="${loginRequestDto.userId}">
                 오류 메시지
             </div>
         </div>
 
         <div class="form-group">
             <label>비밀번호</label>
-            <input  type="password" name="password" th:field="${member.password}" class="form-control"
+            <input  type="password" name="password" th:field="${loginRequestDto.password}" class="form-control"
                     th:errorclass="field-error">
-            <div class = "field-error" th:errors="${member.password}">
+            <div class = "field-error" th:errors="${loginRequestDto.password}">
                 오류 메시지
             </div>
         </div>

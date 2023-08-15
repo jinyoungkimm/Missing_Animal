@@ -1,14 +1,17 @@
 package Portfolio.Missing_Animal.controller;
 
 
+import Portfolio.Missing_Animal.APIdto.LoginRequestDto;
 import Portfolio.Missing_Animal.controller.validation.MemberValidator;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.domainEntity.Report;
+import Portfolio.Missing_Animal.restAPI.validation.LoginRequestDtoValidator;
 import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -32,12 +35,16 @@ import java.util.List;
 @Slf4j
 public class MemberController {
 
+    private static final String SESSION_ID="session Id";
+
     private final MemberService memberService;
     private final RegisterService registerService;
 
     private final ReportService reportService;
 
     private final MemberValidator memberValidator; // 검증 Validator를 주입
+
+    private final LoginRequestDtoValidator loginRequestDtoValidator;
 
     /**
      * @Validated
@@ -51,12 +58,12 @@ public class MemberController {
      * support 의 결과 타입에 맞는 Validator을 스프링이 선택을 한다.
      *
      */
-    @InitBinder
+    /*@InitBinder
     public void init(WebDataBinder dataBinder){
 
         dataBinder.addValidators(memberValidator); // Controller가 호출될 때마다 memberValidator가 새로 적용됨.
-
-    }
+        dataBinder.addValidators(loginRequestDtoValidator);
+    }*/
 
 
     //회원 가입 기능
@@ -74,41 +81,6 @@ public class MemberController {
     public String Controller_join_Post(@Validated @ModelAttribute Member member, BindingResult bindingResult){
 
 
-      //  memberValidator.validate(member,bindingResult);
-
-       /* if(!StringUtils.hasText(member.getUsername()))
-            bindingResult.rejectValue("username","required");
-
-        if(!StringUtils.hasText(member.getUserId()))
-            bindingResult.rejectValue("userId","required");
-
-        if(!StringUtils.hasText(member.getPassword()))
-            bindingResult.rejectValue("password","required");
-
-        if(!StringUtils.hasText(member.getPhoneNumber()))
-            bindingResult.rejectValue("phoneNumber","required");
-        else{
-
-            String phoneNumber = member.getPhoneNumber();
-            try{
-
-                Integer i = Integer.parseInt(phoneNumber);
-
-            }
-            catch (Exception e){
-
-                bindingResult.rejectValue("phoneNumber","typeMismatch.phnoeNumber");
-
-            }
-
-        }
-        if(!StringUtils.hasText(member.getEmail().getFirst()))
-            bindingResult.rejectValue("email.first","required");
-
-        if(!StringUtils.hasText(member.getEmail().getLast()))
-            bindingResult.rejectValue("email.last","required");*/
-
-
         if(bindingResult.hasErrors())
             return "members/memberJoin";
 
@@ -119,12 +91,9 @@ public class MemberController {
 
     //로그인 기능
     @GetMapping("/login")
-    public String Controller_LogIn_Get(Model model){
+    public String Controller_LogIn_Get(@ModelAttribute LoginRequestDto loginRequestDto,Model model){ // 자동으로 model에 Member가 담긴다.
 
-        Member member = new Member();
-
-        model.addAttribute("member",member);
-
+        model.addAttribute("loginRequestDto",loginRequestDto); // 이걸 만약에 생략하게 되면, {"loginRequestDto", member}가 자동으로 들어가 버림.
 
         return "members/loginForm";
 
@@ -136,39 +105,56 @@ public class MemberController {
      * 그러나, 없다면, 4xx 에러를 클라이언트에게 던지면서 오류 페이지로 이동을 시킨다.
      */
     @PostMapping("/login")
-    public String Controller_LogIn_Post(@Validated @ModelAttribute Member member,BindingResult bindingResult,Model model){
+    public String Controller_LogIn_Post( @ModelAttribute LoginRequestDto loginRequestDto,BindingResult bindingResult,
+                                        HttpServletRequest request) { // 서블릿이 제공하는 session 기능을 사용하기 위함!
 
-        String userId = member.getUserId();
-        String password = member.getPassword();
+        loginRequestDtoValidator.validate(loginRequestDto,bindingResult); // 직접 호출
 
+        if (bindingResult.hasErrors()) { // 로그인 값 검증 에러
 
-      //  memberValidator.validate(member,bindingResult);
-
-       /* if(!StringUtils.hasText(userId)){
-
-            bindingResult.rejectValue("userId","required");
-
-
-        }
-
-        if(!StringUtils.hasText(password)){
-
-            bindingResult.rejectValue("password","required");
-
-        }*/
-
-
-        if(bindingResult.hasErrors()){ // 로그인 실패 시
-
-            log.info("errors={}",bindingResult);
-            model.addAttribute("member",member); // @ModelAttrobute는 자동으로 model에 들어가기 때문에, 사실 이 부분 생략 가능
+            log.info("errors={}", bindingResult);
             return "members/loginForm";
 
         }
 
-        // 로그인 성공 시!
-        return "redirect:/member/login";
+        // 해당 id,pw가 등록 x
+        String userId = loginRequestDto.getUserId();
+        String password = loginRequestDto.getPassword();
+        Member _login = new Member();
+        _login.setUserId(userId);
+        _login.setPassword(password);
+
+        Member login = memberService.login(_login);
+        if (login == null) // 로그인 실패
+        {
+
+                 bindingResult.reject("loginFail","아이디 또는 비밀번호가 맞지 않습니다."); // 글로벌 오류
+
+                 return "members/loginForm";
+        }
+
+         // 로그인 성공 시!
+        HttpSession session = request.getSession(); // 신규 세션 생성이니, getSession(true)여야 하는데, getSession()의 디폴트 값은 true이다.
+        session.setAttribute(SESSION_ID,login); // { "sessionId, Member객체 }로 Map 테이블이 생성.
+        return "redirect:/";
+
+
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+
+        HttpSession session = request.getSession(false); // false : 새션이 없어도, 새로운 세션을 만들지 않고, null을 반환!
+
+        if(session != null)
+            session.invalidate(); // 세션 무효화!!! 세션 테이블에서 해당 세션 id와 객체가 사라짐.
+
+        return "redirect:/";
+
+    }
+
+
+
 
     @GetMapping("/mypage")
     String mypage(Model model,
@@ -216,47 +202,12 @@ public class MemberController {
     }
 
     @PostMapping("/mypage/{id}/editMember")
-    String mypageMemberUpdatePost(@Validated @ModelAttribute Member member, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    String mypageMemberUpdatePost( @ModelAttribute Member member, BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
 
-       // memberValidator.validate(member,bindingResult);
+        memberValidator.validate(member,bindingResult);
 
-       /* if(!StringUtils.hasText(member.getUsername()))
 
-        {
-            bindingResult.rejectValue("username","required");
-        }
-
-        if(!StringUtils.hasText(member.getUserId()))
-        {
-            bindingResult.rejectValue("userId","required");
-        }
-
-        if(!StringUtils.hasText(member.getPassword()))
-        {
-            bindingResult.rejectValue("password", "required");
-        }
-
-        if(!StringUtils.hasText(member.getPhoneNumber())) {
-
-                bindingResult.rejectValue("phoneNumber", "required");
-        }
-
-        else{
-
-            String phoneNumber = member.getPhoneNumber();
-            try{
-
-                Integer i = Integer.parseInt(phoneNumber);
-
-            }
-            catch (Exception e){
-
-                bindingResult.rejectValue("phoneNumber","typeMismatch.phnoeNumber");
-
-            }
-
-        }*/
 
         //회원 가입 실패 시
         if(bindingResult.hasErrors()){

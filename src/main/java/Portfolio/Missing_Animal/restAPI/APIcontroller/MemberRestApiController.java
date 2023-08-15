@@ -39,10 +39,10 @@ public class MemberRestApiController {
         member.setUserId(userId);
         member.setPassword(password);
 
-        boolean login = memberService.login(member);
+        Member login = memberService.login(member);
 
         LoginResponseDto loginResponse = new LoginResponseDto();
-        if(login == true){
+        if(login != null){
 
             loginResponse.setIsExist(true);
 

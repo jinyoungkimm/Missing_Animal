@@ -40,10 +40,10 @@ class MemberServiceTest {
         Member newMember = new Member();
         newMember.setUserId("wlsdud65231");
         newMember.setPassword("eoskan6523");
-        boolean login = memberService.login(newMember);
+        Member login = memberService.login(newMember);
 
         //then
-        assertThat(login).isTrue();
+        assertThat(login).isNotNull();
 
         // commit()을 만나기 전에는 절대 DB에 SQL문이 반영X.(flush()를 하면, 스냅샵 DB에는 반영이 됨)
     }

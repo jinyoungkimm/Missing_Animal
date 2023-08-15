@@ -4,6 +4,7 @@ import Portfolio.Missing_Animal.domainEntity.Member;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberRepository {
 
@@ -20,6 +21,7 @@ public interface MemberRepository {
     public Page<Member> findAllWithPaging(int pageNumber,int size);
 
     public Member findByUserId(String userId);
+
 
     public List<Member> findByUserName(String username);
 

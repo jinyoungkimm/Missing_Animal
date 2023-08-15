@@ -1,12 +1,16 @@
 package Portfolio.Missing_Animal.controller;
 
 
+import Portfolio.Missing_Animal.domainEntity.Member;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,12 +25,26 @@ public class HomeController {
 
     public static HashMap<String, List<String>> chatPerson = new HashMap<>();
 
+    private static final String SESSION_ID="session Id";
 
     @RequestMapping("/")
-    public String home(){
+    public String home(HttpServletRequest request,Model model){
 
+        HttpSession session = request.getSession(false);
 
-        return "home";
+        // 세션이 없는 경우!
+        if(session == null)
+            return "home";
+
+        // 세션이 있는 경우!
+        Object attribute = session.getAttribute(SESSION_ID); //  세션 테이블에서 해당 객체(Member)를 가지고 온다.
+        Member member = (Member) attribute; // 타입 캐스팅
+        if(member == null)
+            return "home";
+
+        // 세션이 유지되는 경우!
+        model.addAttribute("member",member);
+        return "homeLoginSuccess";
 
     }
 

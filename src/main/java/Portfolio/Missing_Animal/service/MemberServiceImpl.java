@@ -11,6 +11,7 @@ import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,12 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.util.StringUtils.hasText;
 
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository; // 순수 JPA Repository
@@ -55,10 +58,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean login(Member member) { //로그인 기능(DB에 저장된 id값을 반환)
+    public Member login(Member member) { //로그인 기능(DB에 저장된 id값을 반환)
 
 
-        try {
+
+         try {
             /**
              * 먼저, 로그인 시 입력한 ID가, 회원가입이 된 ID인지를 검사해야 한다.( NoResultException, NonUniqueResultException 이용 )
              */
@@ -71,28 +75,35 @@ public class MemberServiceImpl implements MemberService {
              */
 
             // 암호화된 비밀번호(findMember::password)와 평문 비밀번호(매개변수 member::password)를 비교한다.
-            boolean isSame = findMember.checkPassword(member.getPassword(), bCryptPasswordEncoder);
 
-            // 비교해서 맞으면, controller에 true를 넘기고, 아니면 throw를 날려 준다.
-            if(isSame == true)
-                return true;
+             if(findMember != null) {
+                 boolean isSame = findMember.checkPassword(member.getPassword(), bCryptPasswordEncoder);
 
-            else
-                throw new IllegalStateException("비밀번호가 틀렸습니다.");
+                 // 비교해서 맞으면, controller에 true를 넘기고, 아니면 throw를 날려 준다.
+                 if (isSame == true)
+                     return findMember;
 
+                 else {
+                     log.info("비밀번호가 틀렸습니다.");
+                     return null;
+
+                 }
+             }
+             else
+                 return null;
 
         }
         catch(NonUniqueResultException e){ // 결과 값이 2개 이상일 떄!
 
-            throw new IllegalStateException("결과값이 2개 이상 조회되었습니다.");
+             log.info("결과값이 2개 이상 조회되었습니다.");
+             return null;
 
         }
         catch (NoResultException e){ // 결과값이 하나도 없을 떄!
 
-            throw  new IllegalStateException("로그인 시 입력한 id가 존재하지 않습니다");
+             log.info("로그인 시 입력한 id가 존재하지 않습니다.");
+             return null;
         }
-
-
 
     }
 

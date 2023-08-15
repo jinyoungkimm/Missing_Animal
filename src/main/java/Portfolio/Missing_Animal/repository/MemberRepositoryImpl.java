@@ -18,6 +18,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -87,11 +88,14 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public Member findByUserId(String userId) throws NoResultException, NonUniqueResultException {
 
-        return em.createQuery("SELECT m FROM Member m WHERE m.userId=:userId",Member.class)
-                .setParameter("userId",userId)
+
+        return em.createQuery("SELECT m FROM Member m WHERE m.userId=:userId", Member.class)
+                .setParameter("userId", userId)
                 .getSingleResult();
 
     }
+
+
     @Override
     public List<Member> findByUserName(String username)
     {

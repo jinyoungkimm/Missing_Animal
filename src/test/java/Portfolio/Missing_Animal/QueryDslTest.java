@@ -15,6 +15,7 @@ import com.querydsl.jpa.JPQLOps;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import org.assertj.core.api.OptionalAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static Portfolio.Missing_Animal.domainEntity.QMember.member;
 import static Portfolio.Missing_Animal.domainEntity.QRegister.register;
@@ -42,6 +44,7 @@ public class QueryDslTest {
     void before(){
 
         query = new JPAQueryFactory(em);
+
 
     }
 

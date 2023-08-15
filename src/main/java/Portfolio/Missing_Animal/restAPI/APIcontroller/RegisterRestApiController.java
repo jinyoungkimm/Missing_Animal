@@ -57,11 +57,11 @@ public class RegisterRestApiController {
 
         Member member = register.getMember();
 
-        boolean login = memberService.login(member);
+        Member login = memberService.login(member);
 
         RegisterResponseDto registerResponseDto = new RegisterResponseDto();
         registerResponseDto.setComplete(false);
-        if (login == true) {
+        if (login != null) {
 
             Long saveId = registerRestApiService.registerApi(register);
             registerResponseDto.setComplete(true);
