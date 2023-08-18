@@ -70,17 +70,17 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
     @Transactional(readOnly = true)
     public Report findOne(Long reportId){
 
-        try {
+       // try {
             Report report = reportRepositorySDJ.findById(reportId).get();
 
             return report;
-        }
-        catch(NonUniqueResultException e){
+     //   }
+      /*  catch(NonUniqueResultException e){
             throw new IllegalStateException("해당 id의 Report가 2개이상 조회됨");
         }
         catch (NoResultException e){
             throw new IllegalStateException("해당 id의 Report가 조회되지 않음");
-        }
+        }*/
     }
 
     @Override
