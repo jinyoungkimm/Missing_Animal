@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.restAPI.APIcontroller;
 
 import Portfolio.Missing_Animal.APIdto.*;
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.dto.SolvedIncidentDto;
 import Portfolio.Missing_Animal.restAPI.APIService.RegisterRestApiService;
 import Portfolio.Missing_Animal.domainEntity.Member;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/api/registers")
 @RequiredArgsConstructor
+@LogTrace
 public class RegisterRestApiController {
 
     private final RegisterRestApiService registerRestApiService;

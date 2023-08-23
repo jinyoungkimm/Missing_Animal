@@ -1,5 +1,6 @@
 package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterDto;
 
@@ -24,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 @RestController// @ResponseBody를 자동으로 붙여줌
 @RequestMapping("/api/registers")
 @RequiredArgsConstructor
+@LogTrace
 public class RegisterQueryController {
 
     private final RegisterQueryRepository registerQueryRepository;

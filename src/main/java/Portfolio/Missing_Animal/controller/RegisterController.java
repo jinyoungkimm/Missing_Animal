@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.controller;
 
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.controller.validation.RegisterValidator;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
@@ -33,6 +34,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/register")
+@LogTrace
 public class RegisterController {
     private final RegisterService registerService;
 

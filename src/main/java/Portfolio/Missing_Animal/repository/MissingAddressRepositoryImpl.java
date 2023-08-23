@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.repository;
 
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MissingAddressRepository;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Primary
 @Qualifier("mainMissingAddressRepository")
+@LogTrace
 public class MissingAddressRepositoryImpl implements MissingAddressRepository {
 
     private final EntityManager em;

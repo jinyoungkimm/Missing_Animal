@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.restAPI.APIcontroller;
 
 
 import Portfolio.Missing_Animal.APIdto.*;
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.restAPI.validation.LoginRequestDtoValidator;
 import Portfolio.Missing_Animal.restAPI.validation.MemberRequestDtoValidator;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
+@LogTrace
 public class MemberRestApiController {
 
     private final MemberService memberService;

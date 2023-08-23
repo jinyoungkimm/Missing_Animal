@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.controller;
 
 
 import Portfolio.Missing_Animal.APIdto.LoginRequestDto;
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.controller.validation.MemberValidator;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
@@ -33,6 +34,7 @@ import java.util.List;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 @Slf4j
+@LogTrace
 public class MemberController {
 
     private static final String SESSION_ID="session Id";

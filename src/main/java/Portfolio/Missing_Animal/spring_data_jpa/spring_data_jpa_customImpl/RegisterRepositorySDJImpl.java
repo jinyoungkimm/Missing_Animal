@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.spring_data_jpa.spring_data_jpa_customImpl;
 
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.QRegister;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterSearchCond;
@@ -26,6 +27,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 
 import java.util.List;
 
+@LogTrace
 public class RegisterRepositorySDJImpl implements RegisterRepositorySDJCustom {
 
     private final JPAQueryFactory query; // 생성자 주입!

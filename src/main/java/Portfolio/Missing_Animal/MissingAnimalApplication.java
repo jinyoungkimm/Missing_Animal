@@ -1,5 +1,6 @@
 package Portfolio.Missing_Animal;
 
+import Portfolio.Missing_Animal.Aspect.LogTraceAspect;
 import Portfolio.Missing_Animal.propertiesWithJava.StoragePropertiesForReport;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
 import Portfolio.Missing_Animal.propertiesWithJava.StoragePropertiesForRegister;
@@ -44,6 +45,13 @@ public class MissingAnimalApplication {
 
 			initMissingAddress.init();
 		};
+	}
+
+	@Bean
+	LogTraceAspect logTraceAspect(){ // 로그 트레이스를 빈 등록
+
+		return new LogTraceAspect();
+
 	}
 
 

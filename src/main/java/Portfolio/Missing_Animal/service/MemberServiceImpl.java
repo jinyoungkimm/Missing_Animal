@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.service;
 
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.domainEntity.Report;
@@ -28,6 +29,7 @@ import static org.springframework.util.StringUtils.hasText;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@LogTrace
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository; // 순수 JPA Repository

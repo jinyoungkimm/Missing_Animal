@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.controller;
 
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.annotation.Login;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
 @Controller
+@LogTrace
 public class HomeController {
 
     public static HashMap<String, List<String>> chatPerson = new HashMap<>();

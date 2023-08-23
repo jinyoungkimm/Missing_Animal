@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.repository;
 
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
 import Portfolio.Missing_Animal.spring_data_jpa.ReportRepositorySDJ;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Primary
 @Qualifier("mainReportRepositoryImpl")
+@LogTrace
 public class ReportRepositoryImpl implements ReportRepository {
 
     private final EntityManager em;

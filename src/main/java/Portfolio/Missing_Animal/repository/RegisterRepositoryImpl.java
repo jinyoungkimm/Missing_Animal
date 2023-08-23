@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.repository;
 
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterSearchCond;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
@@ -22,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Primary
 @Qualifier("mainRegisterRepository")
+@LogTrace
 public class RegisterRepositoryImpl implements RegisterRepository {
 
     private final EntityManager em;

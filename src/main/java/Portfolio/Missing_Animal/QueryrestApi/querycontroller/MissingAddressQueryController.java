@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MissingAddressQueryRepository;
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.dto.MissingAddressDto;
 import Portfolio.Missing_Animal.dto.MissingAddressDtoWithPagination;
 import Portfolio.Missing_Animal.dto.MissingAddressSearchCond;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/missingaddress")// @ResponseBody를 자동으로 붙여줌
 @RequiredArgsConstructor
+@LogTrace
 public class MissingAddressQueryController {
 
 

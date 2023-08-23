@@ -1,5 +1,6 @@
 package Portfolio.Missing_Animal.service;
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 
@@ -26,6 +27,7 @@ import static org.springframework.util.StringUtils.hasText;
 
 @Service
 @RequiredArgsConstructor
+@LogTrace
 public class RegisterServiceImpl implements RegisterService {
 
     private final RegisterRepository registerRepository; // 순수 JPA Repository

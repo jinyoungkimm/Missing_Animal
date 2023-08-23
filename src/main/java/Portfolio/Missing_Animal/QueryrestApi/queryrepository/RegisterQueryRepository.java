@@ -1,5 +1,6 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Primary
 @Qualifier("JPARegisterQueryRepository")
+@LogTrace
 public class RegisterQueryRepository {
     private final EntityManager em;
 

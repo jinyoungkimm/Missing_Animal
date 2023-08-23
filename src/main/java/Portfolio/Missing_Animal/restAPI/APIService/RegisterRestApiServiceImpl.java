@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.restAPI.APIService;
 
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.SolvedIncidentDto;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@LogTrace
 public class RegisterRestApiServiceImpl implements RegisterRestApiService {
 
     //private final RegisterRepository registerRepository; // 순수 JPA Repository

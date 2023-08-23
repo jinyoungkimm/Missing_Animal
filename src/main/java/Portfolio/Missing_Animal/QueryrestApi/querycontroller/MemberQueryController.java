@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.MemberQueryRepository;
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.dto.MemberDto;
 import Portfolio.Missing_Animal.dto.MemberDtoWithPagination;
 import jakarta.persistence.NoResultException;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController// @ResponseBody를 자동으로 붙여줌
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
+@LogTrace
 public class MemberQueryController {
 
     private final MemberQueryRepository memberQueryRepository;

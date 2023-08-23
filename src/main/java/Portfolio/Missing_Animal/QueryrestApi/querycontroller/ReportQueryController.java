@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.QueryrestApi.querycontroller;
 
 import Portfolio.Missing_Animal.QueryrestApi.queryrepository.ReportQueryRepository;
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.dto.ReportDto;
 import Portfolio.Missing_Animal.dto.ReportDtoWithPagination;
@@ -23,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping("/api/reports")
 @RequiredArgsConstructor
+@LogTrace
 public class ReportQueryController {
 
     private final ReportQueryRepository reportQueryRepository;

@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.repository;
 
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Primary
 @Qualifier("mainMemberRepsitory")
+@LogTrace
 public class MemberRepositoryImpl implements MemberRepository {
 
     private final EntityManager em;

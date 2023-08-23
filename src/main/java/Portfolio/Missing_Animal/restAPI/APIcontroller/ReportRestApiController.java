@@ -2,6 +2,7 @@ package Portfolio.Missing_Animal.restAPI.APIcontroller;
 
 
 import Portfolio.Missing_Animal.APIdto.*;
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.restAPI.validation.ReportRequestDtoValidator;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reports")
+@LogTrace
 public class ReportRestApiController {
 
     private final ReportService reportService;

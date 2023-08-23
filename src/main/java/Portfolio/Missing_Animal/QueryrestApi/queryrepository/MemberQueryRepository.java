@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.QueryrestApi.queryrepository;
 
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.dto.*;
 import Portfolio.Missing_Animal.spring_data_jpa.MemberRepositorySDJ;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
+@LogTrace
 @Primary                                // 인터페이스 A에 대해서, 2개의 Repository 빈이 등록될 시의 전략
                                         // @Primay or @Qualifier 이용!!!
 @Qualifier("JPAMemberQueryRepository")  // @Qualifer는 @Primary보다 우선권이 높다. 의존관계 자동 주입시, 필드앞에 예를 들어 , @Qualifier("SpringDataJPAMemberQueryRepository)

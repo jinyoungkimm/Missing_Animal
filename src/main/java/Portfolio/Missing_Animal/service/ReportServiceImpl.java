@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.AddressForm;
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.domainEntity.Report;
@@ -26,6 +27,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@LogTrace
 public class ReportServiceImpl implements ReportService { // 신고 관련 기능
 
     // 등록자 정보, 실종 등록 내역을 조회하기 위함!

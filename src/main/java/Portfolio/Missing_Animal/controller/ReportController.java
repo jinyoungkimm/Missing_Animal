@@ -1,5 +1,6 @@
 package Portfolio.Missing_Animal.controller;
 
+import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.controller.validation.ReportValidator;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
@@ -35,6 +36,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 @Controller
 @RequestMapping("/report")
 @RequiredArgsConstructor
+@LogTrace
 public class ReportController {
 
     private final ReportService reportService;
