@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.controller;
 
 import Portfolio.Missing_Animal.annotation.LogTrace;
+import Portfolio.Missing_Animal.annotation.Login;
 import Portfolio.Missing_Animal.controller.validation.ReportValidator;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
@@ -12,6 +13,7 @@ import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.ReportRepositorySDJ;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jdt.internal.compiler.problem.AbortMethod;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,15 +39,12 @@ import static org.springframework.util.StringUtils.isEmpty;
 @RequestMapping("/report")
 @RequiredArgsConstructor
 @LogTrace
+@Slf4j
 public class ReportController {
 
     private final ReportService reportService;
 
     private final StorageServiceForReport storageService;
-
-    //private final RegisterRepository registerRepository; // 순수 JPA Repository
-
-   // private final MissingAddressRepository missingAddressRepository; // 순수 JPA Repository
 
     private final RegisterRepositorySDJ registerRepository; // Spring Data JPA Repository
 
@@ -55,12 +54,12 @@ public class ReportController {
 
     private final ReportValidator reportValidator;
 
-    @InitBinder
+  /*  @InitBinder
     public void init(WebDataBinder dataBinder){
 
         dataBinder.addValidators(reportValidator);
 
-    }
+    }*/
 
 
 
@@ -81,14 +80,13 @@ public class ReportController {
 
     @PostMapping("/{registerId}")
     String report(@PathVariable("registerId") Long registerId,
-                  @ModelAttribute Report report, BindingResult bindingResult1,
-                  @ModelAttribute Member member, BindingResult bindingResult2,
-                  @ModelAttribute Register register, BindingResult bindingResult3,
+                  @Login Member member,
+                  @ModelAttribute Report report, BindingResult bindingResult,
                   @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
+        reportValidator.validate(report,bindingResult);
 
-
-        if(bindingResult1.hasErrors())
+        if(bindingResult.hasErrors())
             return "reports/report";
 
 
@@ -100,7 +98,9 @@ public class ReportController {
 
         }
 
-        Long saveId = reportService.saveReport(registerId, report);
+       // log.info("member.id={}",member.getId());
+
+        Long saveId = reportService.saveReport(member,registerId, report);
 
         redirectAttributes.addAttribute("status",true);
 

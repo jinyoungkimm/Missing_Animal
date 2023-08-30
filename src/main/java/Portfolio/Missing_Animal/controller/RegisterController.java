@@ -2,7 +2,9 @@ package Portfolio.Missing_Animal.controller;
 
 
 import Portfolio.Missing_Animal.annotation.LogTrace;
+import Portfolio.Missing_Animal.annotation.Login;
 import Portfolio.Missing_Animal.controller.validation.RegisterValidator;
+import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterSearchCond;
@@ -62,6 +64,7 @@ public class RegisterController {
 
     @PostMapping("")
     public String registerMissingPost( @ModelAttribute Register register, BindingResult bindingResult,
+                                       @Login Member member,
                                        @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
         registerValidator.validate(register,bindingResult); // 직접 호출!
@@ -84,7 +87,7 @@ public class RegisterController {
 
         // register 엔티티 저장(em.persist)시에, 연관 관계이 있는 Member,MissingAddress 등의 id 값을 모르면 등록(registerMissing)이 되지 않는다.
         // 고로, cascade(연쇄 반응).Persist를 설정하여, [register 엔티티를 영속화할 때, 연관된 엔티티도 자동으로 영속화 시켜줘야 한다.]
-        registerService.registerMissing(register);
+        registerService.registerMissing(member,register);
 
 
         redirectAttributes.addAttribute("status",true);

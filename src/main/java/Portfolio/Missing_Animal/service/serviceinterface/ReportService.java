@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.service.serviceinterface;
 
 import Portfolio.Missing_Animal.AddressForm;
+import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.domainEntity.Report;
 import org.springframework.data.domain.Page;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public interface ReportService {
 
-    Long saveReport(Long registerId, Report report);
+    Long saveReport(Member member, Long registerId, Report report);
 
     Report findOne(Long reportId);
 

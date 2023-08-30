@@ -1,17 +1,20 @@
 package Portfolio.Missing_Animal.service;
 
 import Portfolio.Missing_Animal.annotation.LogTrace;
+import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 
 import Portfolio.Missing_Animal.dto.RegisterSearchCond;
 import Portfolio.Missing_Animal.enumType.RegisterStatus;
 import Portfolio.Missing_Animal.enumType.ReportedStatus;
+import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,8 +31,10 @@ import static org.springframework.util.StringUtils.hasText;
 @Service
 @RequiredArgsConstructor
 @LogTrace
+@Slf4j
 public class RegisterServiceImpl implements RegisterService {
 
+    private final MemberRepository memberRepository;
     private final RegisterRepository registerRepository; // 순수 JPA Repository
 
    //private final MissingAddressRepository missingAddressRepository; // 순수 JPA Repository
@@ -41,29 +46,34 @@ public class RegisterServiceImpl implements RegisterService {
     //실종 등록
     @Override
     @Transactional
-    public Long registerMissing(Register register) {
+    public Long registerMissing(Member member,Register register) {
 
         register.setRegisterStatus(RegisterStatus.NOT_SOLVED);
         register.setReportedStatus(ReportedStatus.NO);
 
         String address = register.getMissingAddress().getStreetName();
         String prefecture = findPrefecture(address);
-        System.out.println("prefecture = " + prefecture);
+        log.info("prefecture = {}",prefecture);
 
         String cityName = findCity(address);
-        System.out.println("cityName = " + cityName);
+        log.info("cityName = {}" , cityName);
+
 
         String Gu = findGu(address);
-        System.out.println("Gu = " + Gu);
+        log.info("Gu = {}", Gu);
+
 
         String Dong = findDong(address);
-        System.out.println("Dong = " + Dong);
+        log.info("Dong = {}", Dong);
+
 
         String streetName = findStreetName(address);
-        System.out.println("streetName = " + streetName);
+        log.info("streetName = {}", streetName);
+
 
         String streetNumber = findStreetNumber(address);
-        System.out.println("streetNumber = " + streetNumber);
+        log.info("streetNumber = {}" , streetNumber);
+
 
         MissingAddress missingAddress = new MissingAddress();
         missingAddress.setPrefecture(prefecture);
@@ -75,6 +85,9 @@ public class RegisterServiceImpl implements RegisterService {
         missingAddress.setZipcode(register.getMissingAddress().getZipcode());
 
         register.setMissingAddress(missingAddress);
+
+        Member findMember = memberRepository.findByUserId(member.getUserId());
+        register.setMember(findMember);
 
         Long saveId = registerRepositorySDJ.save(register).getId();
 

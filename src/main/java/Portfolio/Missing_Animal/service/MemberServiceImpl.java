@@ -43,7 +43,14 @@ public class MemberServiceImpl implements MemberService {
     public Long join(Member member) { //회원가입
 
         //회원ID 중복 검사!
-        isMemberExist(member);
+        boolean memberExist = isMemberExist(member);
+
+        if(memberExist == false)
+        {
+            log.info("이미 사용 중인 ID입니다.");
+            return null;
+
+        }
 
         /**
          * Plain 비밀번호를 암호화 시켜서, 저장을 시킨다.
@@ -63,8 +70,6 @@ public class MemberServiceImpl implements MemberService {
     public Member login(Member member) { //로그인 기능(DB에 저장된 id값을 반환)
 
 
-
-         //try {
             /**
              * 먼저, 로그인 시 입력한 ID가, 회원가입이 된 ID인지를 검사해야 한다.( NoResultException, NonUniqueResultException 이용 )
              */
@@ -91,21 +96,9 @@ public class MemberServiceImpl implements MemberService {
 
                  }
              }
+
              else
                  return null;
-
-     //   }
-      //  catch(NonUniqueResultException e){ // 결과 값이 2개 이상일 떄!
-//
-        //     log.info("결과값이 2개 이상 조회되었습니다.");
-      //       return null;
-
-   //     }
-      //  catch (NoResultException e){ // 결과값이 하나도 없을 떄!
-
-     //        log.info("로그인 시 입력한 id가 존재하지 않습니다.");
-    //         return null;
-    //    }
 
     }
 
@@ -113,26 +106,13 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true) // 회원 가입 시, id 중복 검사!
     public boolean isMemberExist(Member member) {
 
-           // try {
-
                 Member findMember = memberRepositorySDJ.findByUserId(member.getUserId());
 
-                //throw new IllegalStateException("중복되는 id가 1개 존재합니다.");
-                if(findMember != null)
+                if(findMember != null) // 이미 사용 중인 회원 ID가 있는 경우!
                     return false;
+
                 else
-                    return false;
-
-        //    }
-            /*catch(NonUniqueResultException e){ // 결과 값이 2개 이상일 떄!
-
-                throw new IllegalStateException("결과값이 2개 이상 조회되었습니다.");
-
-            }
-            catch (NoResultException e){ // 결과값이 하나도 없을 떄!
-
-                return false;
-            }*/
+                    return true;
 
     }
 
@@ -141,19 +121,12 @@ public class MemberServiceImpl implements MemberService {
     public Member memberInfo(String userId) {
 
 
-        //try {
+
             Member findMember = memberRepositorySDJ.findByUserId(userId);
 
 
             return findMember;
-       // }
-        /*catch(NonUniqueResultException e){
-            throw new IllegalStateException("결과값이 2개 이상 조회됨");
-        }
-        catch(NoResultException e){
 
-            throw  new IllegalStateException("해당 Member가 존재하지 않습니다.");
-        }*/
 
     }
 
@@ -163,15 +136,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     public List<Register> findRegiserInfo(String userId) {
 
-      /*  List<Member> findMember = memberRepository.findByUserId(userId);
 
-        List<Register> registers = findMember.get(0).getRegisters();
-        if(registers.isEmpty())
-           throw new IllegalStateException("해당 회원이 등록한 실종 정보가 없습니다.");
-        else
-            return registers;*/
-
-        //try {
             Member findMember = memberRepositorySDJ.findByUserId(userId);
 
             List<Register> registers = findMember.getRegisters();
@@ -182,16 +147,6 @@ public class MemberServiceImpl implements MemberService {
             else
                 return registers;
 
-      //  }
-        /*catch(NonUniqueResultException e){
-
-            throw new IllegalStateException("결과값이 2개 이상 조회됨");
-
-        }
-        catch(NoResultException e){
-
-            throw  new IllegalStateException("해당 Member는 존재하지 않습니다.");
-        }*/
 
 
     }
@@ -202,7 +157,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     public List<Report> findReportInfo(String userId) {
 
-       // try{
+
 
             Member findMember = memberRepositorySDJ.findByUserId(userId);
             List<Report> reports = findMember.getReports();
@@ -211,13 +166,7 @@ public class MemberServiceImpl implements MemberService {
                 throw new IllegalStateException("해당 회원의 내역이 없습니다.");
             else
                 return reports;
-     //   }
-     /*   catch (NonUniqueResultException e){
-            throw new IllegalStateException("해당 id의 회원이 2개 이상 조회되었습니다.");
-        }
-        catch(NoResultException e){
-            throw new IllegalStateException("해당 id의 회원이 조회되지 않습니다.");
-        }*/
+
 
     }
 

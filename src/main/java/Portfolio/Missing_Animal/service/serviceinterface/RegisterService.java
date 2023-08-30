@@ -1,6 +1,7 @@
 package Portfolio.Missing_Animal.service.serviceinterface;
 
 
+import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterSearchCond;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface RegisterService {
 
     //실종 등록
-    public Long registerMissing(Register register);
+    public Long registerMissing(Member member, Register register);
 
     //실종 목록
     public List<Register> listingRegister();

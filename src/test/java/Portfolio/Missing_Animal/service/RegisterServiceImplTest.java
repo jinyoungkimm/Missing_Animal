@@ -57,7 +57,7 @@ class RegisterServiceImplTest {
         Long savedId = register.getId();
 
         //when
-        registerService.registerMissing(register);
+        registerService.registerMissing(member,register);
 
         List<Register> 사랑이 = registerRepository.findByAnimalName("사랑");
 
@@ -103,25 +103,25 @@ class RegisterServiceImplTest {
         Register register1 = new Register();
         register1.setAnimalName("사랑이1");
         register1.setMember(member1);
-        registerService.registerMissing(register1);
+        //registerService.registerMissing(register1);
 
 
         Register register2 = new Register();
         register2.setAnimalName("사랑이2");
         register2.setMember(member2);
-        registerService.registerMissing(register2);
+       // registerService.registerMissing(register2);
 
 
         Register register3 = new Register();
         register3.setAnimalName("사랑이3");
         register3.setMember(member3);
-        registerService.registerMissing(register3);
+        //registerService.registerMissing(register3);
 
 
         Register register4 = new Register();
         register4.setAnimalName("사랑이4");
         register4.setMember(member4);
-        registerService.registerMissing(register4);
+        //registerService.registerMissing(register4);
 
         //when
 

@@ -54,7 +54,7 @@ public class ReportRestApiController {
 
         // 이 시점에는 해당 member가 존재(Report와 연결된 Member 객체는 registerId로 찾아서 연결할 거임!)
 
-        Long saveId = reportService.saveReport(reportRequestDto.getRegisterId(),report);
+        Long saveId = reportService.saveReport(member,reportRequestDto.getRegisterId(),report);
 
         if(saveId != null){
 

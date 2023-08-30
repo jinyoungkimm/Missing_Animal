@@ -34,6 +34,8 @@ public class MemberValidator implements Validator { // Validator는 자바 표�
         if(!StringUtils.hasText(member.getUserId()))
             errors.rejectValue("userId","required");
 
+
+
         if(!StringUtils.hasText(member.getPassword()))
             errors.rejectValue("password","required");
 

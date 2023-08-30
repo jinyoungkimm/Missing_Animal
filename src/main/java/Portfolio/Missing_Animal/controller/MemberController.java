@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.controller;
 
 import Portfolio.Missing_Animal.APIdto.LoginRequestDto;
 import Portfolio.Missing_Animal.annotation.LogTrace;
+import Portfolio.Missing_Animal.annotation.Login;
 import Portfolio.Missing_Animal.controller.validation.MemberValidator;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
@@ -87,7 +88,12 @@ public class MemberController {
         if(bindingResult.hasErrors())
             return "members/memberJoin";
 
-        memberService.join(member);
+        Long memberId = memberService.join(member);
+        if(memberId == null){
+
+            bindingResult.reject("joinFail","이미 사용 중인 회원 ID입니다.");
+            return "members/memberJoin";
+        }
 
         return "redirect:/";
     }
@@ -163,23 +169,24 @@ public class MemberController {
 
     @GetMapping("/mypage")
     String mypage(Model model,
+                  @Login Member member,
                   @PageableDefault(page = 0,size = 2,sort = "id", direction = Sort.Direction.ASC) Pageable pageable){ // cookie에 회원ID를 저장시켜서 userId를 받아서 아래의 내용들을 조회를 할 예정!
 
+        String userId = member.getUserId();
 
-        // 임의로 "wlsdud6523"라고 userId를 가정함
-        Member findMember = memberService.memberInfo("wlsdud6523");
+        Member findMember = memberService.memberInfo(userId);
 
         model.addAttribute("member",findMember);
 
 
 
-        Page<Register> registerPage = registerService.findRegiserInfo("wlsdud6523",pageable);
+        Page<Register> registerPage = registerService.findRegiserInfo(userId,pageable);
 
         model.addAttribute("registerPage",registerPage);
 
 
 
-        Page<Report> reportPage = reportService.findReportInfo("wlsdud6523",pageable);
+        Page<Report> reportPage = reportService.findReportInfo(userId,pageable);
 
         int nowPage = reportPage.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
         int startPage = Math.max(nowPage - 4,1);

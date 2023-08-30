@@ -15,7 +15,18 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
     <form  role="form" action="" th:object="${member}" method="post">
-        <h3 th:if = "${param.status}" color = "color - red" th:text = "'가입 완료!'"></h3>
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+               th:text="${err}">글로벌 오류 메시지</p>
+
+        </div>
+
+
+
+
+        <h3 th:if = "${param.status}" color = "color - red" th:text = "'[가입 완료!]'"></h3>
         <div class="form-group">
             <label th:for="username">이름</label>
             <input  type="text" th:field="${member.username}" class="form-control" placeholder="회원님의 성함을 기입하세요" th:errorclass="field-error">
