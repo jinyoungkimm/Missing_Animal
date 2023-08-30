@@ -21,7 +21,7 @@ public class LogInterceptor implements HandlerInterceptor {
 
         String requestURI = request.getRequestURI();
 
-        String uuid = UUID.randomUUID().toString();
+        String uuid = UUID.randomUUID().toString().substring(0,5);
 
         request.setAttribute(LOG_ID,uuid); // LogInterceptore은 싱글톤처럼 동작하기 때문에, 이렇게 set을 해 두면
                                            // postHandle,afterCompletion()에서 getAttribute(LOG_ID)로 꺼내서 사용 가능!
@@ -34,7 +34,7 @@ public class LogInterceptor implements HandlerInterceptor {
 
         }
 
-        log.info("REQUEST [{}][{}][{}]",uuid,requestURI,handler);
+        log.info("PreHandle : REQUEST [{}][{}][{}]",uuid,requestURI,handler);
 
         return true; // true가 아니면 절대로 컨트롤러를 호출하지 않고 끝낸다.
 
@@ -43,7 +43,7 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override // 예외가 발생하면 postHandle은 호출이 안 된다.
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-        log.info("postHandle [{}]",modelAndView);
+        log.info("PostHandle : [{}]",modelAndView);
 
     }
 
@@ -56,7 +56,7 @@ public class LogInterceptor implements HandlerInterceptor {
         String logId = (String) request.getAttribute(LOG_ID);
 
         // 종료에 관한 로그는 항상 afterCompletion()에서!!!!
-        log.info("REPONSE [{}][{}]",logId,requestURI);
+        log.info("AfterCompletion : REPONSE [{}][{}]",logId,requestURI);
 
 
         // 예외에 대한 처리는 반드시 항상 호출되는 afterCompletion()에서 해주자!

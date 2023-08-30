@@ -48,7 +48,7 @@ public class MissingAddress {
         this.zipcode = zipcode;
         this.cityName = city;
         this.gu = gu;
-        Dong = dong;
+        this.Dong = dong;
         this.streetName = streetName;
         this.streetNumber = streetNumber;
         this.registers = registers;

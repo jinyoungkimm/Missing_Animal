@@ -7,6 +7,7 @@ import Portfolio.Missing_Animal.domainEntity.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 
 @Controller
 @LogTrace
+@Slf4j
 public class HomeController {
 
     public static HashMap<String, List<String>> chatPerson = new HashMap<>();
@@ -89,6 +91,7 @@ public class HomeController {
 
         // 세션이 유지되는 경우!
         model.addAttribute("member",member);
+
         return "homeLoginSuccess";
 
     }
@@ -113,10 +116,14 @@ public class HomeController {
     }
 
     @RequestMapping("/chatInit")
-    String chatInit( //@RequestParam("sender") String sender,
+    String chatInit(
+                @Login Member member,
                 Model model){
 
-        String sender = "wlsdud6525";
+
+        String sender = member.getUserId();
+        log.info("sender = {}",member.getUserId());
+
         List<ChatList> chatList = new ArrayList<>();
 
 
@@ -126,9 +133,9 @@ public class HomeController {
 
             List<ChatList> collect = receivers.stream().map(reciever -> {
 
-                String url = "http://localhost:8080/chatPage?receiver=" + reciever;
+                String url = "http://43.202.152.228:8080/chatPage?receiver=" + reciever;
 
-                String roomNum = createRoomNum(sender, reciever);
+                //String roomNum = createRoomNum(sender, reciever);
 
                 return new ChatList(url,reciever);})
 
@@ -146,12 +153,15 @@ public class HomeController {
     }
 
     @GetMapping("/chatPage")
-    String chatPage(//@RequestParam("sender") String sender,
+    String chatPage(
+            @Login Member member,
             @RequestParam("receiver") String receiver,
             Model model){
 
 
-        String sender = "wlsdud6525";
+        //String sender = "wlsdud6523";
+        String sender = member.getUserId();
+        log.info("sender = {}",sender);
 
         String roomNum = createRoomNum(sender, receiver); // 채팅방 id 생성 메서드
 

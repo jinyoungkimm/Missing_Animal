@@ -80,8 +80,9 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String Controller_join_Post(@Validated @ModelAttribute Member member, BindingResult bindingResult){
+    public String Controller_join_Post( @ModelAttribute Member member, BindingResult bindingResult){
 
+        memberValidator.validate(member,bindingResult);
 
         if(bindingResult.hasErrors())
             return "members/memberJoin";

@@ -1,9 +1,4 @@
 
-//채팅방 기능
-//let username = prompt("아이디를 입력하세요"); // 본인의 id
-//let roomNum = prompt("채팅방 번호를 입력하세요");
-
-
 var _sender = document.getElementById("sender").value;
 var _receiver = document.getElementById("receiver").value;
 var _roomNum = document.getElementById("roomNum").value;
@@ -13,7 +8,7 @@ console.log(_roomNum);
 console.log(_sender);
 console.log(_receiver);
 
-const eventSource = new EventSource(`http://localhost:8081/chat/roomNum/${_sender}/${_receiver}/${_roomNum}`); // SSE 연결하기!
+const eventSource = new EventSource(`http://13.209.0.103:8089/chat/roomNum/${_sender}/${_receiver}/${_roomNum}`); // SSE 연결하기!
 
 eventSource.onmessage = (event) => {// SSE Protocol에 의해서, 만약 본인과 상대방이 해당 채팅방(roomNum)에 메시지를 보내서, DB에 INSERT될 때마다 [자동]으로, 
                                     // 이 이벤트가 실행이 되면서, 채팅 웹 페이지가 db의 채팅방(roomNum)에 저장돼 있는 메시지(본인과 상대방의 메시지)
@@ -32,7 +27,6 @@ if(data.sender == _sender) // 본인의 id
   //채팅창의 오른쪽, 즉 파란색 쪽에 message가 출력되어야 한다.(본인이 보낸 메세지는 항상 파란색 쪽에 출력이 되었다.)
 
   initMyMessage(data); 
-  
 
 }
 else{
@@ -152,7 +146,7 @@ async function addMessage(){
     };
      
     // 내가 실시간으로 적은 메세지를, JS를 통해서 저장시키는 코드!
-      fetch("http://localhost:8081/chat",{
+      fetch("http://13.209.0.103:8089/chat",{
 
       method: "post",                                                                                          
                                                         

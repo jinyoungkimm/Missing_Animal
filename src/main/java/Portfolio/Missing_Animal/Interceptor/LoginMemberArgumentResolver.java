@@ -1,6 +1,5 @@
 package Portfolio.Missing_Animal.Interceptor;
 
-
 import Portfolio.Missing_Animal.annotation.Login;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
 
-        log.info("supportsParameter 실행");
+        log.info("SupportsParameter 실행(@Login Member member가 매개변수에 있는지 확인!)");
         boolean hasLoginAnnotation =
                 parameter.hasParameterAnnotation(Login.class);
         boolean hasMemberType =
@@ -33,7 +32,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        log.info("resolveArgument 실행");
+        log.info("ResolveArgument 실행(SESSION_ID가 있다면, TABLE에서 SESSION_ID를 조회하여, member 객체를 자동으로 찾아줌)");
 
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
@@ -44,8 +43,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         }
 
 
-        return session.getAttribute(SESSION_ID); // 여기서 해당 세션의 객체(Member)를 찾아서 컨트롤러의 매개변수(@Login Member member)
-        //에 담아준다.
+        return session.getAttribute(SESSION_ID); // 여기서 해당 세션의 객체(Member)를 찾아서 컨트롤러의 매개변수(@Login Member member)에 담아준다.
 
     }
 }
