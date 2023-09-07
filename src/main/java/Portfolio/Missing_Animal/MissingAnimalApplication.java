@@ -69,7 +69,7 @@ public class MissingAnimalApplication {
 	 * Actuator 사용 시 주의 사항 : Actuator는 애플리케이션 내부의 정보를 너~무 많이 노출한다.
 	 * 그래서 외부 인터넷 망에서 Actuator의 Endpoint를 공개하는 것은 보안 상 좋은 방법이 아니다.
 	 * -> http://localhost:[9292]와 같이 Port Number를 다르게 설정하여, 외부에서 8080는 접근 가능하도록 해 놓고,
-	 * 외부에서 9292 port에 대해서는 접근을 막아 놓자!
+	 * 외부에서 9292 port에 대해서는 접근을 막아 놓자!( [management].server.port=9292 : Actuator의 Port Number를 9292로 변경 )
 	 *
 	 */
 	@Bean
