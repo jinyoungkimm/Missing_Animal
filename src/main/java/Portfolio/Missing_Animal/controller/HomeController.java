@@ -4,9 +4,12 @@ package Portfolio.Missing_Animal.controller;
 import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.annotation.Login;
 import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
+import Portfolio.Missing_Animal.service.serviceinterface.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,11 +30,16 @@ import static java.util.stream.Collectors.toList;
 @Controller
 @LogTrace
 @Slf4j
+@RequiredArgsConstructor
 public class HomeController {
 
     public static HashMap<String, List<String>> chatPerson = new HashMap<>();
 
     private static final String SESSION_ID="session Id";
+
+
+    private final MemberRepository memberRepository;
+
 
    // @RequestMapping("/")
     public String homeV1(HttpServletRequest request,Model model){
@@ -158,8 +166,12 @@ public class HomeController {
             @RequestParam("receiver") String receiver,
             Model model){
 
+        //receiver, 즉 이 id가 회원 가입이된 id인지 아닌지를 판단!
+        Member _receiver = memberRepository.findByUserId(receiver);
+        if(_receiver ==  null){
+            throw new IllegalStateException("해당 id는 존재하지 않는 id입니다.");
+        }
 
-        //String sender = "wlsdud6523";
         String sender = member.getUserId();
         log.info("sender = {}",sender);
 

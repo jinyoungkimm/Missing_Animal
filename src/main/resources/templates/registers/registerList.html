@@ -75,10 +75,16 @@
                     <a href="#" th:href="@{/report/{registerId} (registerId=${register.id})}"
                        class="btn btn-primary" role="button">발견 신고</a>
                 </td>
-                <td th:if="${register.reportedStatus.toString()} == 'YES'">
+              <!--  <td th:if="${register.reportedStatus.toString()} == 'YES'">
                     <a href="#" th:href="@{/report/{registerId}/getOneReportWithoutUpdate (registerId=${register.id})}"
-                       class="btn btn-primary" role="button">신고된 내역 보기</a>
+                       class="btn btn-primary" role="button">신고된 내역들 보기</a>
+                </td> -->
+
+                <td th:if="${register.reportedStatus.toString()} == 'YES'">
+                    <a href="#" th:href="@{/report/{registerId}/getReports (registerId=${register.id})}"
+                       class="btn btn-primary" role="button">신고된 내역들 보기</a>
                 </td>
+
             </tr>
             </tbody>
         </table>

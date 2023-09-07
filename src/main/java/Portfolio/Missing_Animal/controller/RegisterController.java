@@ -96,16 +96,7 @@ public class RegisterController {
 
     }
 
-   // @GetMapping("/list")
-    public String registerListV1(Model model){
 
-        List<Register> registers = registerService.listingRegister();
-
-        model.addAttribute("registers",registers);
-
-        return "registers/registerList";
-
-    }
 
     @GetMapping("/list")
     public String registerListV2(Model model, @PageableDefault(page = 0,size = 2,sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
@@ -254,6 +245,19 @@ public class RegisterController {
     {
 
         Register findRegister = registerService.findOne(registerId);
+        Member member = findRegister.getMember();
+
+        if(member.getEmail() != null) {
+            String email = member.getEmail().getFirst() + "@" + member.getEmail().getLast();
+            member.getEmail().setFirst(email);
+        }
+        else{
+
+            String email = "이메일에 대한 정보가 없습니다.";
+            member.getEmail().setFirst(email);
+
+        }
+
 
         if(!isEmpty(findRegister.getFileName()))
         {
@@ -277,6 +281,11 @@ public class RegisterController {
 
         Register findRegister = registerService.findOne(registerId);
 
+        Member member = findRegister.getMember();
+        String email = member.getEmail().getFirst() + "@" + member.getEmail().getLast();
+        member.getEmail().setFirst(email);
+
+
         if(!isEmpty(findRegister.getFileName()))
         {
             Path path = storageService.load(findRegister.getFileName());
@@ -287,6 +296,7 @@ public class RegisterController {
         }
 
         model.addAttribute("register",findRegister);
+        model.addAttribute("member",member);
 
         return "registers/showOneRegisterWithoutUpdate";
 

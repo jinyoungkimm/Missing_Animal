@@ -95,7 +95,7 @@ public class ApiPageController {
     String login(){
 
 
-        return "/api/memberApi/loginApi";
+        return "api/memberApi/loginApi";
 
     }
 
@@ -104,7 +104,7 @@ public class ApiPageController {
     String memberJoin(){
 
 
-        return "/api/memberApi/memberJoinApi";
+        return "api/memberApi/memberJoinApi";
 
     }
 
@@ -112,7 +112,7 @@ public class ApiPageController {
     String memberUpdate(){
 
 
-        return "/api/memberApi/memberUpdateApi";
+        return "api/memberApi/memberUpdateApi";
 
     }
 
@@ -120,7 +120,7 @@ public class ApiPageController {
     String register(){
 
 
-        return "/api/registerApi/registerApi";
+        return "api/registerApi/registerApi";
 
     }
 
@@ -128,7 +128,7 @@ public class ApiPageController {
     String registerUpdate(){
 
 
-        return "/api/registerApi/registerUpdateApi";
+        return "api/registerApi/registerUpdateApi";
 
     }
 
@@ -136,14 +136,14 @@ public class ApiPageController {
     String report(){
 
 
-        return "/api/reportApi/reportApi";
+        return "api/reportApi/reportApi";
 
     }
 
     @GetMapping("/reportUpdate")
     String reportUpdate(){
 
-        return "/api/reportApi/reportUpdateApi";
+        return "api/reportApi/reportUpdateApi";
 
     }
 

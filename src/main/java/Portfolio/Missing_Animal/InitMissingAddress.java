@@ -86,28 +86,28 @@ public class InitMissingAddress {
 
 
                 //report : Register == 1 : 2
-                AddressForm addressForm1 = new AddressForm("1","2","3");
+                AddressForm addressForm1 = new AddressForm("1-1-1","부산시 해운대로 해운대로 781","105동 401호");
                 Report report1 = new Report();
                 report1.setRegister(register1);
                 report1.setMember(member);
                 report1.setFindedAddress(addressForm1);
                 em.persist(report1);
 
-                AddressForm addressForm2 = new AddressForm("4","5","6");
+                AddressForm addressForm2 = new AddressForm("1-1-2","부산시 해운대로 해운대로 782","105동 402호");
                 Report report2 = new Report();
                 report2.setRegister(register1);
                 report2.setMember(member);
                 report2.setFindedAddress(addressForm2);
                 em.persist(report2);
 
-                AddressForm addressForm3 = new AddressForm("7","8","9");
+                AddressForm addressForm3 = new AddressForm("1-1-3","부산시 해운대로 해운대로 783","105동 403호");
                 Report report3 = new Report();
                 report3.setRegister(register2);
                 report3.setMember(member);
                 report3.setFindedAddress(addressForm3);
                 em.persist(report3);
 
-                AddressForm addressForm4 = new AddressForm("10","11","12");
+                AddressForm addressForm4 = new AddressForm("1-1-4","부산시 해운대로 해운대로 784","105동 404호");
                 Report report4 = new Report();
                 report4.setRegister(register2);
                 report4.setMember(member);
@@ -167,7 +167,7 @@ public class InitMissingAddress {
 
 
         //report : Register == 1 : 2
-        AddressForm addressForm1 = new AddressForm("1","2","3");
+        AddressForm addressForm1 = new AddressForm("2-1-1","부산시 광안리구 광안리로 781","205동 401호");
         Report report1 = new Report();
         report1.setRegister(register1);
         report1.setMember(member);
@@ -175,7 +175,7 @@ public class InitMissingAddress {
         report1.setFindedAddress(addressForm1);
         em.persist(report1);
 
-        AddressForm addressForm2 = new AddressForm("4","5","6");
+        AddressForm addressForm2 = new AddressForm("2-1-2","부산시 광안리구 광안리로 782","205동 402호");
         Report report2 = new Report();
         report2.setRegister(register1);
         report2.setMember(member);
@@ -183,7 +183,7 @@ public class InitMissingAddress {
         report2.setFindedAddress(addressForm2);
         em.persist(report2);
 
-        AddressForm addressForm3 = new AddressForm("7","8","9");
+        AddressForm addressForm3 = new AddressForm("2-1-3","부산시 광안리구 광안리로 783","205동 403호");
         Report report3 = new Report();
         report3.setRegister(register2);
         report3.setMember(member);
@@ -191,7 +191,7 @@ public class InitMissingAddress {
         report3.setFindedAddress(addressForm3);
         em.persist(report3);
 
-        AddressForm addressForm4 = new AddressForm("10","11","12");
+        AddressForm addressForm4 = new AddressForm("2-1-4","부산시 광안리구 광안리로 784","205동 404호");
         Report report4 = new Report();
         report4.setRegister(register2);
         report4.setMember(member);

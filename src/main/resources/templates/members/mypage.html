@@ -68,7 +68,7 @@
                 </td>
                 <td th:if="${register.reportedStatus.toString()} == 'YES'">
                     <a href="#" th:href="@{/report/{registerId}/getReports (registerId=${register.id})}"
-                       class="btn btn-primary" role="button">신고된 내역 보기</a>
+                       class="btn btn-primary" role="button">신고된 내역들 보기</a>
                 </td>
             </tr>
             </tbody>
@@ -95,7 +95,7 @@
             <tr th:each="report : ${reportPage}">
                 <td th:text="${report.id}"></td>
                 <td th:text="${report.findedTime}"></td>
-                <td th:text="${report.findedAddress}"></td>
+                <td th:text="${report.findedAddress.streetAdr}"></td>
                 <td>
                     <a href="#" th:href="@{/report/{reportId}/getOneReport (reportId=${report.id})}"
                        class="btn btn-primary" role="button">자세히 보기</a>

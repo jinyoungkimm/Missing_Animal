@@ -73,6 +73,7 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
 
         newReport.setFindedTime(LocalDateTime.now());
         newReport.setFindedAddress(report.getFindedAddress());
+        newReport.setFileName(report.getFileName());
 
         //report 저장
         Long saveId = reportRepositorySDJ.save(newReport).getId();

@@ -14,9 +14,20 @@
 
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
+
+
+    <br>
+
     <form  role="form"  enctype="multipart/form-data" action="" th:object="${report}" method="post">
 
         <h2>신고하기</h2><h3 th:if = "${param.status}" color = "color - red" th:text = "'[신고 완료!]'"></h3>
+
+        <br>
+
+        <div class="form-group">
+            <label th:for="userId">보호자의 회원ID</label>
+            <input  type="text" th:field="${member.userId}" class="form-control" >
+        </div>
 
         <br>
 
@@ -33,7 +44,7 @@
             <input  type="text" th:field="${member.email.first}" class="form-control" >
         </div>
 
-        <br>
+        <br><br>
 
         <div class="form-group">
             <label th:for="zipcode">우편번호</label>
@@ -65,7 +76,7 @@
         <div class="form-group">
 
             <tr>
-                <td>발견 당시의 사진 첨부(최대1개)</td>
+                <td>발견 당시의 사진 첨부(최대1개,최대 용량 1280KB)</td>
                 <td><input type="file" name="file"/></td>
             </tr>
 

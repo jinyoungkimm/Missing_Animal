@@ -67,9 +67,13 @@ public class ReportController {
     String clickRegisterForReport(@PathVariable("registerId") Long registerId, Model model){
 
         Register register = registerRepository.findById(registerId).get();
+
         Member member = register.getMember();
+        String email = member.getEmail().getFirst() + "@" + member.getEmail().getLast();
+        member.getEmail().setFirst(email);
 
         model.addAttribute("register",register); // 어떤 Register에 대한 신고인지에 대한 정보가 필요
+
         model.addAttribute("member",member); // 어떤 Member가 신고를 하는지에 대한 정보가 필요!
         Report report = new Report();
         model.addAttribute("report",report);
@@ -80,8 +84,9 @@ public class ReportController {
 
     @PostMapping("/{registerId}")
     String report(@PathVariable("registerId") Long registerId,
-                  @Login Member member,
+                  @Login Member _member,
                   @ModelAttribute Report report, BindingResult bindingResult,
+                  @ModelAttribute Member member,
                   @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
         reportValidator.validate(report,bindingResult);
@@ -94,13 +99,16 @@ public class ReportController {
 
             storageService.store(file);
             String originalFilename = file.getOriginalFilename();
+
+            log.info("filename={}",originalFilename);
+
             report.setFileName(originalFilename);
 
         }
 
-       // log.info("member.id={}",member.getId());
 
-        Long saveId = reportService.saveReport(member,registerId, report);
+
+        Long saveId = reportService.saveReport(_member,registerId, report);
 
         redirectAttributes.addAttribute("status",true);
 
@@ -111,6 +119,19 @@ public class ReportController {
     String findOneReportById(@PathVariable("reportId") Long reportId,Model model){
 
         Report findReport = reportService.findOne(reportId);
+        Member member = findReport.getMember();
+
+        if(member.getEmail() != null) {
+
+            String email = member.getEmail().getFirst() + "@" + member.getEmail().getLast();
+            member.getEmail().setFirst(email);
+
+        }
+        else{
+
+            String email = "이메일에 대한 정보가 없습니다.";
+            member.getEmail().setFirst(email);
+        }
 
 
         if(!isEmpty(findReport.getFileName()))
@@ -123,6 +144,7 @@ public class ReportController {
         }
 
         model.addAttribute("report",findReport);
+        model.addAttribute("member",member);
         return "reports/showOneReport";
 
     }
@@ -131,7 +153,9 @@ public class ReportController {
     String getOneReportWithoutUpdate(@PathVariable("reportId") Long reportId,Model model){
 
         Report findReport = reportService.findOne(reportId);
-
+        Member member = findReport.getMember();
+        String email = member.getEmail().getFirst() + "@" + member.getEmail().getLast();
+        member.getEmail().setFirst(email);
 
         if(!isEmpty(findReport.getFileName()))
         {
@@ -143,6 +167,7 @@ public class ReportController {
         }
 
         model.addAttribute("report",findReport);
+        model.addAttribute("member",member);
         return "reports/showOneReportWithoutUpdate";
 
     }
@@ -151,8 +176,14 @@ public class ReportController {
     String findReportsByRegisterId(@PathVariable("registerId") Long registerId,
                                    @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable,
                                    Model model){
+        System.out.println("registerId : " + registerId);
 
         Page<Report> page = reportRepository.findReportsByRegisterId(registerId, pageable);
+        for (Report report : page) {
+            System.out.println("report="+report);
+        }
+
+        model.addAttribute("registerId",registerId);
         model.addAttribute("page",page);
 
         int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
