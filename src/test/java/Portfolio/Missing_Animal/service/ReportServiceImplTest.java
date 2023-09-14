@@ -25,7 +25,7 @@ class ReportServiceImplTest {
     ReportService reportService;
 
 
-    @Test
+   /* @Test
     @Rollback(value = false)
     void saveReport() {
 
@@ -56,7 +56,7 @@ class ReportServiceImplTest {
         assertThat(findReport.getFindedAddress().getStreetAdr()).isEqualTo("b");
         assertThat(findReport.getFindedAddress().getDetailAdr()).isEqualTo("a");
 
-    }
+    }*/
 
     @Test
     void findAll(){

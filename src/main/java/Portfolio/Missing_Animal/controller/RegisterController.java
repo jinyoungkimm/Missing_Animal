@@ -8,6 +8,7 @@ import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterSearchCond;
+import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
 import lombok.Data;
@@ -27,11 +28,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
 import static org.springframework.util.StringUtils.isEmpty;
+import static org.springframework.util.StringUtils.quote;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,6 +43,8 @@ import static org.springframework.util.StringUtils.isEmpty;
 @LogTrace
 public class RegisterController {
     private final RegisterService registerService;
+
+    private final RegisterRepository registerRepository;
 
     private final StorageServiceForRegister storageService;
 
@@ -199,20 +205,32 @@ public class RegisterController {
         if(bindingResult.hasErrors())
             return "registers/registerUpdate";
 
-        Register findRegister = registerService.findOne(registerId);
+        //Register findRegister = registerService.findOne(registerId);
+        Register findRegister = registerRepository.findById(registerId);
 
         if(!file.isEmpty() )
         {
-            String fileName = findRegister.getFileName();
+            String fileName = null;
 
-            storageService.deleteOne(fileName); // 이전에 저장한 파일 삭제!
+            if(findRegister.getFileName() != null){
 
-            storageService.store(file); // 새로 수정한 사진 저장!
+                fileName = findRegister.getFileName();
+
+                storageService.deleteOne(fileName); // 이전에 저장한 파일 삭제!
+
+                storageService.store(file); // 새로 수정한 사진 저장!
+
+            }
+
+             else{
+                 storageService.store(file);
+            }
 
         }
 
         String originalFilename = file.getOriginalFilename();
         register.setFileName(originalFilename);
+
 
         registerService.updateForm(registerId, register);
 
@@ -221,10 +239,12 @@ public class RegisterController {
         return "redirect:/register/{registerId}/edit";
     }
 
+
+
     @GetMapping("/missingAddress")
     public String showRegistersWithMissingAddress(Model model){
 
-        //List<Register> registers = registerService.ListingMissingAnimalByMissingAddress(missingAddress);
+
 
         RegisterSearchCond registerSearchCond = new RegisterSearchCond();
 

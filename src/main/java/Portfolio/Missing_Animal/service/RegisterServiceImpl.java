@@ -11,6 +11,7 @@ import Portfolio.Missing_Animal.enumType.ReportedStatus;
 import Portfolio.Missing_Animal.repository.repositoryinterface.MemberRepository;
 import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
+import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForRegister;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -38,10 +41,10 @@ public class RegisterServiceImpl implements RegisterService {
     private final RegisterRepository registerRepository; // 순수 JPA Repository
 
    //private final MissingAddressRepository missingAddressRepository; // 순수 JPA Repository
-
     private final RegisterRepositorySDJ registerRepositorySDJ;
-
     private final MissingAddressRepositorySDJ missingAddressRepositorySDJ;
+
+    private final StorageServiceForRegister storageService;
 
     //실종 등록
     @Override
@@ -127,15 +130,14 @@ public class RegisterServiceImpl implements RegisterService {
     @Transactional // dirty checking 이용(Spring Data JPA는 Dirty Checking이 기능하지 x)
     public Long updateForm(Long registerId, Register register) {
 
+
         Register findRegister = registerRepository.findById(registerId);
 
         if(hasText(register.getFileName()))
             findRegister.setFileName(register.getFileName());
 
-
         if(hasText(register.getAnimalName()))
             findRegister.setAnimalName(register.getAnimalName());
-
 
         if(hasText(register.getAnimalSex()))
             findRegister.setAnimalSex(register.getAnimalSex());
@@ -155,7 +157,6 @@ public class RegisterServiceImpl implements RegisterService {
         if(register.getReportedStatus() != null)
             findRegister.setReportedStatus(register.getReportedStatus());
 
-        System.out.println("findRegister = " + findRegister);
 
         return registerId;
     }

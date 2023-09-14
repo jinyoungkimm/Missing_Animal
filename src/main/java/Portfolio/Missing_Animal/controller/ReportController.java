@@ -7,6 +7,7 @@ import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.Register;
 
 import Portfolio.Missing_Animal.domainEntity.Report;
+import Portfolio.Missing_Animal.repository.repositoryinterface.ReportRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.ReportService;
 import Portfolio.Missing_Animal.service.serviceinterface.StorageServiceForReport;
 import Portfolio.Missing_Animal.spring_data_jpa.MissingAddressRepositorySDJ;
@@ -51,6 +52,8 @@ public class ReportController {
     private final ReportRepositorySDJ reportRepository; // Spring Data JPA Repository
 
     private final MissingAddressRepositorySDJ missingAddressRepository;  // Spring Data JPA Repository
+
+    private final ReportRepository _reportRepository;
 
     private final ReportValidator reportValidator;
 
@@ -220,15 +223,26 @@ public class ReportController {
         if(bindingResult.hasErrors())
             return "reports/reportUpdate";
 
-        Report findReport = reportService.findOne(reportId);
+        //Report findReport = reportService.findOne(reportId);
+        Report findReport = _reportRepository.findById(reportId);
 
         if(!file.isEmpty())
         {
-            String fileName = findReport.getFileName();
+            String fileName = null;
 
-            storageService.deleteOne(fileName); // 이전에 저장한 파일 삭제!
+            if(findReport.getFileName() != null) {
 
-            storageService.store(file); // 새로 수정한 사진 저장!
+                fileName = findReport.getFileName();
+
+                storageService.deleteOne(fileName); // 이전에 저장한 파일 삭제!
+
+                storageService.store(file); // 새로 수정한 사진 저장!
+            }
+            else{
+
+                storageService.store(file);
+
+            }
 
         }
 

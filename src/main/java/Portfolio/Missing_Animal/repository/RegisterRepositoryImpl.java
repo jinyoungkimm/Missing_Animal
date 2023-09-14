@@ -60,6 +60,7 @@ public class RegisterRepositoryImpl implements RegisterRepository {
         return em.createQuery("SELECT r FROM Register r" +
 
                         " LEFT JOIN FETCH r.member m" + // toOne은 모두 fetch join!
+
                         " LEFT JOIN FETCH r.missingAddress mr" +
 
                         " WHERE r.id=:id", Register.class)

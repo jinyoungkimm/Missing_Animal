@@ -259,7 +259,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/mypage/{id}/editRegister")
+    /*@PostMapping("/mypage/{id}/editRegister")
     String mypageRegisterUpdatePost(Register register,RedirectAttributes redirectAttributes){
 
 
@@ -271,7 +271,7 @@ public class MemberController {
         return "redirect:/member/mypage/{id}/editRegister";
 
 
-    }
+    }*/
     // mypage의 [신고 내용 정보] 수정 폼
     @GetMapping("/mypage/{id}/editReport")
     String mypageReportUpdateGet(@PathVariable("id") Long id,Model model){
@@ -284,7 +284,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/mypage/{id}/editReport")
+  /*  @PostMapping("/mypage/{id}/editReport")
     String mypageReportUpdatePost(Report report,RedirectAttributes redirectAttributes){
 
         reportService.updateReport(report.getId(),report);
@@ -296,6 +296,6 @@ public class MemberController {
         return "redirect:/member/mypage/{id}/editReport";
 
 
-    }
+    }*/
 
 }

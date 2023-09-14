@@ -179,7 +179,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional // dirty checking을 이요하여 [수정]
+    @Transactional // dirty checking을 이용하여 [수정]
     public Long updateMember(Long memberId, Member member) {
 
         Member findMember = memberRepository.findById(memberId); // dirty checking을 사용하기 위해서는 순수 JPA Repository를 사용해야 함!

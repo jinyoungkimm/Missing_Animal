@@ -53,7 +53,7 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
         Report newReport = new Report();
 
         //Register 조회
-        Register register = registerRepositorySDJ.findById(registerId).get();
+        Register register = registerRepository.findById(registerId);
         register.setReportedStatus(ReportedStatus.YES);
         newReport.setRegister(register);
 
@@ -67,10 +67,9 @@ public class ReportServiceImpl implements ReportService { // 신고 관련 기�
          * 즉, 이 member 객체를 소위 [준영속] 상태로 인식을 하기에, Merge를 사용해서 해결해야 한다.
          * 그러나 Merge의 사용은 되도록 자제해야 한다.
          */
+
         Member findMember = memberRepository.findByUserId(member.getUserId());
         newReport.setMember(findMember);
-
-
         newReport.setFindedTime(LocalDateTime.now());
         newReport.setFindedAddress(report.getFindedAddress());
         newReport.setFileName(report.getFileName());

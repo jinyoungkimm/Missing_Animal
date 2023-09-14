@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal.service;
 import Portfolio.Missing_Animal.domainEntity.Member;
 import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
+import Portfolio.Missing_Animal.repository.repositoryinterface.RegisterRepository;
 import Portfolio.Missing_Animal.service.serviceinterface.RegisterService;
 import Portfolio.Missing_Animal.spring_data_jpa.RegisterRepositorySDJ;
 import jakarta.persistence.EntityManager;
@@ -29,8 +30,8 @@ class RegisterServiceImplTest {
     @Autowired
     RegisterService registerService;
 
-   // @Autowired
-   // RegisterRepository registerRepository; //순수 JPA Repository
+    @Autowired
+    RegisterRepository registerRepository1; //순수 JPA Repository
 
     @Autowired
     RegisterRepositorySDJ registerRepository; // Spring Data JPA
@@ -135,14 +136,13 @@ class RegisterServiceImplTest {
     }
 
     @Test
-    @org.springframework.transaction.annotation.Transactional
+   // @org.springframework.transaction.annotation.Transactional
     @Rollback(value = false)
     void updateForm(){
 
-        Register byId = registerRepository.findById(1L).get();
-
-        byId.setAnimalName("1111");
-
+        Register register = new Register();
+        register.setAnimalName("11112222");
+        registerService.updateForm(1L,register);
 
     }
 

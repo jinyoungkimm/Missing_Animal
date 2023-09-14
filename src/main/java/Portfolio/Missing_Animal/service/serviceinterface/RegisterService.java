@@ -7,7 +7,9 @@ import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.dto.RegisterSearchCond;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface RegisterService {
@@ -21,7 +23,7 @@ public interface RegisterService {
     public Page<Register> listingRegisterV2(Pageable pageable);
 
     public Register findOne(Long id);
-    Long updateForm(Long registerId,Register register);
+    Long updateForm(Long registerId, Register register) ;
 
     public List<Register> ListingMissingAnimalByMissingAddress(MissingAddress missingAddress);
 

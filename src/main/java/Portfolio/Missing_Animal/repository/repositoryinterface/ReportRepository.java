@@ -15,7 +15,7 @@ public interface ReportRepository {
 
     public long count();
 
-    public Report findById(Long regiserId);
+    public Report findById(Long reportId);
 
     public List<Report> findAll();
 

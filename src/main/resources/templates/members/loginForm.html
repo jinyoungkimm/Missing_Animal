@@ -17,6 +17,8 @@
 
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
+    <h1>[로그인 후, 이용 가능]</h1>
+
    <form  id = "form" role="form" action=""  th:object="${loginRequestDto}"  method="post">
 
        <div th:if="${#fields.hasGlobalErrors()}">
