@@ -240,8 +240,8 @@ public class RegisterController {
 
 
     @GetMapping("{registerId}/getOneRegister")
-    public String findOneRegisterById(@PathVariable("registerId") Long registerId, Model model
-    )
+    public String findOneRegisterById(@PathVariable("registerId") Long registerId, Model model)
+
     {
 
         Register findRegister = registerService.findOne(registerId);
@@ -282,8 +282,17 @@ public class RegisterController {
         Register findRegister = registerService.findOne(registerId);
 
         Member member = findRegister.getMember();
-        String email = member.getEmail().getFirst() + "@" + member.getEmail().getLast();
-        member.getEmail().setFirst(email);
+
+        if(member.getEmail() != null) {
+            String email = member.getEmail().getFirst() + "@" + member.getEmail().getLast();
+            member.getEmail().setFirst(email);
+        }
+        else{
+
+            String email = "이메일에 대한 정보가 없습니다.";
+            member.getEmail().setFirst(email);
+
+        }
 
 
         if(!isEmpty(findRegister.getFileName()))

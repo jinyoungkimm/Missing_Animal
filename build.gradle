@@ -29,6 +29,9 @@ dependencies {
 	//actuator 추가
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+	//micrometer의 구현체로 프로메테우스를 등록 : /actuator/prometheus를 실행하면, Actuator에 [프로메테우스 메트릭 수집] Endpoint가 자동으로 추가된 것을 볼 수가 있다.
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
 	//implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	// 스프링 AOP 사용!

@@ -58,7 +58,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Member findById(Long id){
+    public Member findById(Long id) {
 
       return em.createQuery("SELECT m FROM Member m" +
               " WHERE m.id=:id",Member.class)
@@ -66,14 +66,33 @@ public class MemberRepositoryImpl implements MemberRepository {
               .getSingleResult();
 
     }
+
     @Override
     public List<Member> findAll(){
 
         return em.createQuery(
-                "SELECT m from Member m",Member.class
-        ).getResultList();
+
+                "SELECT m from Member m",Member.class)
+
+                .getResultList();
+
+        /**       Fetch join으로도 해결이 가능
+         *
+         *                  return em.createQuery(
+         *
+         *                 "SELECT m from Member m "+
+         *
+         *                 "left fetch join "+
+         *
+         *                 "Register r",Member.class)
+         *
+         *                 .getResultList();
+         */
 
     }
+
+
+
 
     @Override
     public Page<Member> findAllWithPaging(int pageNumber,int size){ // Spring Data JPA 이용
@@ -112,7 +131,6 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public Page<Member> findByUserNameWithPaging(String username,int pageNumber,int size){ // Spring Data JPA 이용
-
 
         PageRequest pageRequest = PageRequest.of(pageNumber, size);
 

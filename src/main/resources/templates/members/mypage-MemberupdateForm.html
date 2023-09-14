@@ -6,25 +6,39 @@
   <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
 
-  <form th:object="${member}" method="post">
+  <form th:object="${member}" action="" method="post">
+
     <h3 th:if = "${param.status}" color = "color - red" th:text = "'변경 완료!'"></h3>
+
     <div class="form-group">
       <label >회원 ID</label>
-      <input type="text" th:field="*{userId}" class="form-control"
-             placeholder="이름을 입력하세요" />
-
-
+      <input type="text" th:field="*{userId}" class="form-control" placeholder="이름을 입력하세요" disabled>
     </div>
+    <br>
+
 
     <div class="form-group">
       <label >회원명</label>
-      <input type="text" th:field="*{username}" class="form-control" th:errorclass="field-error"
-             placeholder="회원명을 입력" />
-      <div class = "field-error" th:errors="*{username}">
-        오류 메시지
-      </div>
+      <input type="text" th:field="*{username}" class="form-control" th:errorclass="field-error" placeholder="회원명을 입력" >
     </div>
+    <br>
 
+    <div class="form-group">
+      <label >전화 번호</label>
+      <input type="text" th:field="*{phoneNumber}" class="form-control" th:errorclass="field-error" placeholder="회원명을 입력" disabled>
+    </div>
+    <br>
+
+    <div class="form-group">
+
+      <label th:for="email1">이메일 주소</label>
+      <input  type="text" th:field="*{email.first}" class="form-control" placeholder="이메일 앞자리 주소를 기입하세요(ex.wlsdud6523)">
+
+      <label th:for="email2">나머지 주소</label>
+      <input  type="text" th:field="*{email.last}" class="form-control" placeholder="이메일 뒷자리 주소를 기입하세요(ex.naver.com)">
+
+    </div>
+    <br>
 
     <button type="submit" class="btn btn-primary">수정 완료</button>
   </form>

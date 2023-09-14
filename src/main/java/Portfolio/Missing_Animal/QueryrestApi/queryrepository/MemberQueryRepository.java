@@ -275,18 +275,15 @@ public class MemberQueryRepository {
     // new DTO로 직접 [컬렉션]을 [따로] 조회 2( 컬렉션 조회 시, IN 쿼리에 Member의 id값들을 다 넣어서, 거기에 해당하는 Register를 추출)
     public List<MemberDto> findAllMembers4() { // (1+N) 문제 [해결]
 
-        // root 조회(toOne 관계를 1번에 모두 조회)
-        List<MemberDto> members = findMembers(); // toOne에 대한 조회
+        // root Entity 조회
+        List<MemberDto> members = findMembers();
 
-        List<Long> memberIds = toMemberDtoIds(members);
+        List<Long> memberIds = toMemberDtoIds(members); // 조회된 members의 id값을 추출
 
-
-        Map<Long,List<RegisterDto>> registerMap = findRegisterMap(memberIds); // toMany(컬렉션 Register)에 대한 조회 1.
-
-        Map<Long,List<ReportDto>> reportMap = findReportMap(memberIds); // toMany(컬렉션 Report)에 대한 조회 2
+        Map<Long,List<RegisterDto>> registerMap = findRegisterMap(memberIds); // @..toMany(Register Collection)에 대한 조회 1.
+        Map<Long,List<ReportDto>> reportMap = findReportMap(memberIds); // @..toMany(Report Collection)에 대한 조회 2
 
 
-        //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
         members.forEach(memberDto -> {
 
             Long id = memberDto.getMemberId();
@@ -301,6 +298,8 @@ public class MemberQueryRepository {
         return members;
 
     }
+
+
 
     // List<MemberDto>에 있는 모든 id값들을 추출하여, 다시 List<Long>으로 반환!
     private List<Long> toMemberDtoIds(List<MemberDto> result) {
@@ -320,7 +319,8 @@ public class MemberQueryRepository {
 
                                 "RegisterDto(r.id,r.member.id,r.missingAddress.id,r.animalName,r.animalSex,r.animalAge,r.registerDate,r.registerStatus,r.reportedStatus)"+
 
-                        " FROM Register r" +
+                                " FROM Register r" +
+
                                 // IN 쿼리를 사용하여 Member의 id값들을 모두 다 넣는다 -> 1 번의 쿼리 호출로 RegisterDTO 다 들고 옴 -> [1 + N] 문제 해결됨!!
                                 " WHERE r.member.id IN :memberIds", RegisterDto.class)
 
@@ -333,6 +333,8 @@ public class MemberQueryRepository {
 
                 .collect(Collectors.groupingBy(RegisterDto::getMemberId));
     }
+
+
 
     public  Map<Long, List<ReportDto>> findReportMap(List<Long> memberIds){
 

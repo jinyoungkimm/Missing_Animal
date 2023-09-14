@@ -29,7 +29,7 @@
                 <td th:text="${member.email.first}"></td>
                 <td th:text="${member.phoneNumber}"></td>
                 <td>
-                    <a href="#" th:href="@{/member/mypage/{id}/editMember (id=${member.id})}"
+                    <a href="#" th:href="@{/member/{memberId}/getOneMember(memberId=${member.id})}"
                        class="btn btn-primary" role="button">자세히 보기</a>
                 </td>
             </tr>

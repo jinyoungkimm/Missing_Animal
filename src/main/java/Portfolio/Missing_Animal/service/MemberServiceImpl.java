@@ -32,10 +32,9 @@ import static org.springframework.util.StringUtils.hasText;
 @LogTrace
 public class MemberServiceImpl implements MemberService {
 
-    private final MemberRepository memberRepository; // 순수 JPA Repository
-
-    private final MemberRepositorySDJ memberRepositorySDJ; // Spring Data JPA Repository
-    private final PasswordEncoder bCryptPasswordEncoder; // passWordEncoder는 [인터페이스]이며, BCryptPasswordEncoder는 그 [구현체]이다.
+    private final MemberRepository memberRepository; // 순수 JPA Repository [인터페이스]
+    private final MemberRepositorySDJ memberRepositorySDJ; // Spring Data JPA Repository [인터페이스]
+    private final PasswordEncoder bCryptPasswordEncoder; // passWordEncoder는 [인터페이스]이며, , BCryptPasswordEncoder는 그 [구현체]이다.
 
 
     @Override
@@ -121,15 +120,11 @@ public class MemberServiceImpl implements MemberService {
     public Member memberInfo(String userId) {
 
 
-
-            Member findMember = memberRepositorySDJ.findByUserId(userId);
-
+            Member findMember = memberRepository.findByUserId(userId);
 
             return findMember;
 
-
     }
-
 
 
     @Override // 특정 회원이 등록한 실종 정보가 있다면 출력
@@ -201,13 +196,10 @@ public class MemberServiceImpl implements MemberService {
         if(hasText(member.getPhoneNumber()))
             findMember.setPhoneNumber(member.getPhoneNumber());
 
-
         Long id = findMember.getId();
 
         return id;
 
-
     }
-
 
 }

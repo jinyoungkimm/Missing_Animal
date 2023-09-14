@@ -165,8 +165,6 @@ public class MemberController {
     }
 
 
-
-
     @GetMapping("/mypage")
     String mypage(Model model,
                   @Login Member member,
@@ -201,6 +199,28 @@ public class MemberController {
         return "members/mypage";
     }
 
+    @GetMapping("/{memberId}/getOneMember")
+    String myPagegetOneMember(@PathVariable("memberId") Long memberId,Model model){
+
+        Member findMember = memberService.findOne(memberId);
+
+        if(findMember.getEmail() != null) {
+            String email = findMember.getEmail().getFirst() + "@" + findMember.getEmail().getLast();
+            findMember.getEmail().setFirst(email);
+        }
+        else{
+
+            String email = "이메일에 대한 정보가 없습니다.";
+            findMember.getEmail().setFirst(email);
+
+        }
+
+        model.addAttribute("member",findMember);
+
+        return "members/showOneMember";
+
+    }
+
     // mypage의 [회원 정보] 수정 폼
     @GetMapping("/mypage/{id}/editMember")
     String mypageMemberUpdateGet(@PathVariable("id") Long id,Model model){
@@ -214,20 +234,7 @@ public class MemberController {
     }
 
     @PostMapping("/mypage/{id}/editMember")
-    String mypageMemberUpdatePost( @ModelAttribute Member member, BindingResult bindingResult, RedirectAttributes redirectAttributes){
-
-
-        memberValidator.validate(member,bindingResult);
-
-
-
-        //회원 가입 실패 시
-        if(bindingResult.hasErrors()){
-
-            // model.addAttribute("member",member)은 생략 가능!
-          return "members/mypage-MemberupdateForm";
-
-        }
+    String mypageMemberUpdatePost(@ModelAttribute Member member,  RedirectAttributes redirectAttributes){
 
 
         memberService.updateMember(member.getId(), member);

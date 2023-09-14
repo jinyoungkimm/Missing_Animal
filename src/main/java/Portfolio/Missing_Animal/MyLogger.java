@@ -3,6 +3,7 @@ package Portfolio.Missing_Animal;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import jakarta.servlet.http.HttpServlet;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,6 @@ import java.util.UUID;
 // Controller, Service의 MyLogger 빈에 미리 주입 가능!
 
 public class MyLogger {
-
 
     public String uuid;
     public String requestURL;
