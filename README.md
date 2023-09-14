@@ -4,7 +4,7 @@
 📓 Github : https://github.com/jinyoungkimm/Missing_Animal.git<br>
 📓 포트폴리오 소개 : https://drive.google.com/file/d/11-skbzl-8FW1KsmqWA4jfyxwnwLB20Dj/view?usp=sharing<br><br>
 
- - 포프폴리오 소개 자료 中 -<br><br>
+ - 포프폴리오 소개 자료 中 <br><br>
 ![Slide3](https://github.com/jinyoungkimm/Missing_Animal/assets/100742333/808a6caa-6065-40a7-b815-317c35038961)
 
 
