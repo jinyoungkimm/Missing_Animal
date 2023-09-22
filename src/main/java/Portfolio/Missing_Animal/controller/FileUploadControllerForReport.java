@@ -51,13 +51,6 @@ public class FileUploadControllerForReport {
 
         storageService.store(file);
 
-		/*for(MultipartFile f:file) {
-
-			redirectAttributes.addFlashAttribute("message",
-					"You successfully uploaded " + f.getOriginalFilename() + "!");
-
-		}*/
-
         return "redirect:/";
     }
 

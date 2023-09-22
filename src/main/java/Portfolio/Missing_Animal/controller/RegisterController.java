@@ -34,8 +34,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-import static org.springframework.util.StringUtils.isEmpty;
-import static org.springframework.util.StringUtils.quote;
+import static org.springframework.util.StringUtils.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -50,18 +49,14 @@ public class RegisterController {
 
     private final RegisterValidator registerValidator;
 
-   /* @InitBinder
-    public void init(WebDataBinder dataBinder){
-        dataBinder.addValidators(registerValidator);
-    }*/
-
 
     @GetMapping("")
     public String registerMissingGet(Model model){
 
         Register register = new Register();
-        model.addAttribute("register",register);
 
+
+        model.addAttribute("register",register);
 
 
         return "registers/register";
@@ -94,7 +89,6 @@ public class RegisterController {
         // register 엔티티 저장(em.persist)시에, 연관 관계이 있는 Member,MissingAddress 등의 id 값을 모르면 등록(registerMissing)이 되지 않는다.
         // 고로, cascade(연쇄 반응).Persist를 설정하여, [register 엔티티를 영속화할 때, 연관된 엔티티도 자동으로 영속화 시켜줘야 한다.]
         registerService.registerMissing(member,register);
-
 
         redirectAttributes.addAttribute("status",true);
 
@@ -153,8 +147,9 @@ public class RegisterController {
     }
 
     @PostMapping("/search/list/myVilage") // 우리 동네 실종 동물 찾기
-    public String registerListBySearchCondtion2(@ModelAttribute RegisterSearchCond registerSearchCond ,BindingResult bindingResult, Model model,
-                                               @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable
+    public String registerListBySearchCondtion2(
+                                                @ModelAttribute RegisterSearchCond registerSearchCond ,BindingResult bindingResult, Model model,
+                                                @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable
                                               )
     {
 
@@ -164,11 +159,7 @@ public class RegisterController {
             return "registers/registersByMissingAddress";
 
 
-
-
         Page<Register> page = registerService.searchByRegisterCond2(registerSearchCond,pageable);
-
-
 
         int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
         int startPage = Math.max(nowPage - 4,1);
@@ -190,6 +181,23 @@ public class RegisterController {
     String updateRegisterGet(@PathVariable("registerId") Long registerId, Model model){
 
         Register findRegister = registerService.findOne(registerId);
+
+        MissingAddress missingAddress = findRegister.getMissingAddress();
+
+        String streetName = missingAddress.getStreetName();
+
+        if(hasText(missingAddress.getDong()))
+            streetName = missingAddress.getDong() + " " + streetName;
+        if(hasText(missingAddress.getGu()))
+            streetName = missingAddress.getGu() + " " + streetName;
+        if(hasText(missingAddress.getCityName()))
+            streetName = missingAddress.getCityName() + " " + streetName;
+        if(hasText(missingAddress.getPrefecture()))
+            streetName = missingAddress.getPrefecture() + " " +streetName;
+        if(hasText(missingAddress.getStreetNumber()))
+            streetName = streetName + " " + missingAddress.getStreetNumber();
+
+        missingAddress.setStreetName(streetName);
 
         model.addAttribute("register",findRegister);
 
@@ -229,8 +237,8 @@ public class RegisterController {
         }
 
         String originalFilename = file.getOriginalFilename();
-        register.setFileName(originalFilename);
 
+        register.setFileName(originalFilename);
 
         registerService.updateForm(registerId, register);
 
@@ -240,27 +248,19 @@ public class RegisterController {
     }
 
 
-
     @GetMapping("/missingAddress")
     public String showRegistersWithMissingAddress(Model model){
 
-
-
         RegisterSearchCond registerSearchCond = new RegisterSearchCond();
 
-
         model.addAttribute("registerSearchCond",registerSearchCond);
-
 
         return "registers/registersByMissingAddress";
 
     }
 
-
-
-
     @GetMapping("{registerId}/getOneRegister")
-    public String findOneRegisterById(@PathVariable("registerId") Long registerId, Model model)
+    public String findOneRegister_NoUpdate(@PathVariable("registerId") Long registerId, Model model)
 
     {
 
@@ -278,7 +278,6 @@ public class RegisterController {
 
         }
 
-
         if(!isEmpty(findRegister.getFileName()))
         {
             Path path = storageService.load(findRegister.getFileName());
@@ -287,6 +286,23 @@ public class RegisterController {
             model.addAttribute("file",serveFile);
 
         }
+
+
+        MissingAddress missingAddress = findRegister.getMissingAddress();
+        String streetName = missingAddress.getStreetName();
+
+        if(hasText(missingAddress.getDong()))
+            streetName = missingAddress.getDong() + " " + streetName;
+        if(hasText(missingAddress.getGu()))
+            streetName = missingAddress.getGu() + " " + streetName;
+        if(hasText(missingAddress.getCityName()))
+            streetName = missingAddress.getCityName() + " " + streetName;
+        if(hasText(missingAddress.getPrefecture()))
+            streetName = missingAddress.getPrefecture() + " " +streetName;
+        if(hasText(missingAddress.getStreetNumber()))
+            streetName = streetName + " " + missingAddress.getStreetNumber();
+
+        missingAddress.setStreetName(streetName);
 
         model.addAttribute("register",findRegister);
 
@@ -295,11 +311,11 @@ public class RegisterController {
     }
 
     @GetMapping("{registerId}/getOneRegisterWithoutUpdate")
-    public String findOneRegisterById2(@PathVariable("registerId") Long registerId, Model model
-    )
+    public String findOneRegister_YesUpdate(@PathVariable("registerId") Long registerId, Model model)
     {
 
         Register findRegister = registerService.findOne(registerId);
+
 
         Member member = findRegister.getMember();
 
@@ -323,6 +339,22 @@ public class RegisterController {
             model.addAttribute("file",serveFile);
 
         }
+
+        MissingAddress missingAddress = findRegister.getMissingAddress();
+        String streetName = missingAddress.getStreetName();
+
+        if(hasText(missingAddress.getDong()))
+            streetName = missingAddress.getDong() + " " + streetName;
+        if(hasText(missingAddress.getGu()))
+            streetName = missingAddress.getGu() + " " + streetName;
+        if(hasText(missingAddress.getCityName()))
+            streetName = missingAddress.getCityName() + " " + streetName;
+        if(hasText(missingAddress.getPrefecture()))
+            streetName = missingAddress.getPrefecture() + " " +streetName;
+        if(hasText(missingAddress.getStreetNumber()))
+            streetName = streetName + " " + missingAddress.getStreetNumber();
+
+        missingAddress.setStreetName(streetName);
 
         model.addAttribute("register",findRegister);
         model.addAttribute("member",member);

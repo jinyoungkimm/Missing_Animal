@@ -6,6 +6,7 @@ import Portfolio.Missing_Animal.annotation.LogTrace;
 import Portfolio.Missing_Animal.annotation.Login;
 import Portfolio.Missing_Animal.controller.validation.MemberValidator;
 import Portfolio.Missing_Animal.domainEntity.Member;
+import Portfolio.Missing_Animal.domainEntity.MissingAddress;
 import Portfolio.Missing_Animal.domainEntity.Register;
 import Portfolio.Missing_Animal.domainEntity.Report;
 import Portfolio.Missing_Animal.restAPI.validation.LoginRequestDtoValidator;
@@ -61,17 +62,10 @@ public class MemberController {
      * support 의 결과 타입에 맞는 Validator을 스프링이 선택을 한다.
      *
      */
-    /*@InitBinder
-    public void init(WebDataBinder dataBinder){
-
-        dataBinder.addValidators(memberValidator); // Controller가 호출될 때마다 memberValidator가 새로 적용됨.
-        dataBinder.addValidators(loginRequestDtoValidator);
-    }*/
-
 
     //회원 가입 기능
     @GetMapping("/join")
-    public String Controller_join_Get(Model model){
+    public String join_Get(Model model){
 
         Member member = new Member();
         model.addAttribute("member",member);
@@ -81,7 +75,7 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String Controller_join_Post( @ModelAttribute Member member, BindingResult bindingResult){
+    public String join_Post( @ModelAttribute Member member, BindingResult bindingResult){
 
         memberValidator.validate(member,bindingResult);
 
@@ -100,7 +94,7 @@ public class MemberController {
 
     //로그인 기능
     @GetMapping("/login")
-    public String Controller_LogIn_Get(@ModelAttribute LoginRequestDto loginRequestDto,Model model){ // 자동으로 model에 Member가 담긴다.
+    public String LogIn_Get(@ModelAttribute LoginRequestDto loginRequestDto,Model model){ // 자동으로 model에 Member가 담긴다.
 
         model.addAttribute("loginRequestDto",loginRequestDto); // 이걸 만약에 생략하게 되면, {"loginRequestDto", member}가 자동으로 들어가 버림.
 
@@ -114,7 +108,7 @@ public class MemberController {
      * 그러나, 없다면, 4xx 에러를 클라이언트에게 던지면서 오류 페이지로 이동을 시킨다.
      */
     @PostMapping("/login")
-    public String Controller_LogIn_Post( @ModelAttribute LoginRequestDto loginRequestDto,BindingResult bindingResult,
+    public String LogIn_Post( @ModelAttribute LoginRequestDto loginRequestDto,BindingResult bindingResult,
                                         @RequestParam(defaultValue = "/") String redirectURL,
                                         HttpServletRequest request) { // 서블릿이 제공하는 session 기능을 사용하기 위함!
 
@@ -200,7 +194,7 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}/getOneMember")
-    String myPagegetOneMember(@PathVariable("memberId") Long memberId,Model model){
+    String myPageGetOneMember(@PathVariable("memberId") Long memberId,Model model){
 
         Member findMember = memberService.findOne(memberId);
 
@@ -223,7 +217,7 @@ public class MemberController {
 
     // mypage의 [회원 정보] 수정 폼
     @GetMapping("/mypage/{id}/editMember")
-    String mypageMemberUpdateGet(@PathVariable("id") Long id,Model model){
+    String MemberUpdate_Get(@PathVariable("id") Long id,Model model){
 
 
         Member member = memberService.findOne(id);
@@ -234,7 +228,7 @@ public class MemberController {
     }
 
     @PostMapping("/mypage/{id}/editMember")
-    String mypageMemberUpdatePost(@ModelAttribute Member member,  RedirectAttributes redirectAttributes){
+    String MemberUpdate_Post(@ModelAttribute Member member,  RedirectAttributes redirectAttributes){
 
 
         memberService.updateMember(member.getId(), member);
@@ -246,56 +240,5 @@ public class MemberController {
 
 
     }
-
-    // mypage의 [실종 등록 정보] 수정 폼
-    @GetMapping("/mypage/{id}/editRegister")
-    String mypageRegisterUpdateGet(@PathVariable("id") Long id,Model model){
-
-
-        Register register = registerService.findOne(id);
-        model.addAttribute("register",register);
-
-        return "members/mypage-RegisterupdateForm";
-
-    }
-
-    /*@PostMapping("/mypage/{id}/editRegister")
-    String mypageRegisterUpdatePost(Register register,RedirectAttributes redirectAttributes){
-
-
-        registerService.updateForm(register.getId(),register);
-
-        redirectAttributes.addAttribute("id",register.getId());
-        redirectAttributes.addAttribute("status",true);
-
-        return "redirect:/member/mypage/{id}/editRegister";
-
-
-    }*/
-    // mypage의 [신고 내용 정보] 수정 폼
-    @GetMapping("/mypage/{id}/editReport")
-    String mypageReportUpdateGet(@PathVariable("id") Long id,Model model){
-
-
-        Register register = registerService.findOne(id);
-        model.addAttribute("register",register);
-
-        return "members/mypage-RegisterupdateForm";
-
-    }
-
-  /*  @PostMapping("/mypage/{id}/editReport")
-    String mypageReportUpdatePost(Report report,RedirectAttributes redirectAttributes){
-
-        reportService.updateReport(report.getId(),report);
-
-
-        redirectAttributes.addAttribute("id",report.getId());
-        redirectAttributes.addAttribute("status",true);
-
-        return "redirect:/member/mypage/{id}/editReport";
-
-
-    }*/
 
 }

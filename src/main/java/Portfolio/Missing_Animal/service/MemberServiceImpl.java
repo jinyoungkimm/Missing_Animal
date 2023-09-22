@@ -54,7 +54,6 @@ public class MemberServiceImpl implements MemberService {
         /**
          * Plain 비밀번호를 암호화 시켜서, 저장을 시킨다.
          */
-
         Member newMember = member.hashPassword(bCryptPasswordEncoder); // member 객체 안의 평문 비밀번호가 암호화된 비밀번호로 교체된다.
 
         Long saveId = memberRepositorySDJ.save(newMember).getId();
@@ -68,12 +67,10 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     public Member login(Member member) { //로그인 기능(DB에 저장된 id값을 반환)
 
-
             /**
              * 먼저, 로그인 시 입력한 ID가, 회원가입이 된 ID인지를 검사해야 한다.( NoResultException, NonUniqueResultException 이용 )
              */
             Member findMember = memberRepositorySDJ.findByUserId(member.getUserId());
-
 
             /**
              *  이 시점에서, 해당 ID가 가입된 ID임은 증명이 됐다.
@@ -81,7 +78,6 @@ public class MemberServiceImpl implements MemberService {
              */
 
             // 암호화된 비밀번호(findMember::password)와 평문 비밀번호(매개변수 member::password)를 비교한다.
-
              if(findMember != null) {
                  boolean isSame = findMember.checkPassword(member.getPassword(), bCryptPasswordEncoder);
 
@@ -147,12 +143,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
-
     @Override
     @Transactional(readOnly = true)
     public List<Report> findReportInfo(String userId) {
-
-
 
             Member findMember = memberRepositorySDJ.findByUserId(userId);
             List<Report> reports = findMember.getReports();
@@ -162,9 +155,7 @@ public class MemberServiceImpl implements MemberService {
             else
                 return reports;
 
-
     }
-
 
 
     @Override

@@ -55,28 +55,18 @@ public class RegisterServiceImpl implements RegisterService {
         register.setReportedStatus(ReportedStatus.NO);
 
         String address = register.getMissingAddress().getStreetName();
+
         String prefecture = findPrefecture(address);
-        log.info("prefecture = {}",prefecture);
 
         String cityName = findCity(address);
-        log.info("cityName = {}" , cityName);
-
 
         String Gu = findGu(address);
-        log.info("Gu = {}", Gu);
-
 
         String Dong = findDong(address);
-        log.info("Dong = {}", Dong);
-
 
         String streetName = findStreetName(address);
-        log.info("streetName = {}", streetName);
-
 
         String streetNumber = findStreetNumber(address);
-        log.info("streetNumber = {}" , streetNumber);
-
 
         MissingAddress missingAddress = new MissingAddress();
         missingAddress.setPrefecture(prefecture);
@@ -90,6 +80,7 @@ public class RegisterServiceImpl implements RegisterService {
         register.setMissingAddress(missingAddress);
 
         Member findMember = memberRepository.findByUserId(member.getUserId());
+
         register.setMember(findMember);
 
         Long saveId = registerRepositorySDJ.save(register).getId();
@@ -157,6 +148,34 @@ public class RegisterServiceImpl implements RegisterService {
         if(register.getReportedStatus() != null)
             findRegister.setReportedStatus(register.getReportedStatus());
 
+        if(register.getMissingAddress() != null) {
+
+            MissingAddress missingAddress = findRegister.getMissingAddress();
+
+            String address = register.getMissingAddress().getStreetName();
+            String prefecture = findPrefecture(address);
+            String cityName = findCity(address);
+            String Gu = findGu(address);
+            String Dong = findDong(address);
+            String streetName = findStreetName(address);
+            String streetNumber = findStreetNumber(address);
+
+            if (hasText(prefecture))
+                missingAddress.setPrefecture(prefecture);
+            if (hasText(cityName))
+                missingAddress.setCityName(cityName);
+            if (hasText(Gu))
+                missingAddress.setGu(Gu);
+            if (hasText(Dong))
+                missingAddress.setDong(Dong);
+            if (hasText(streetName))
+                missingAddress.setStreetName(streetName);
+            if (hasText(streetNumber))
+                missingAddress.setStreetNumber(streetNumber);
+
+            if (hasText(register.getMissingAddress().getZipcode()))
+                missingAddress.setZipcode(register.getMissingAddress().getZipcode());
+        }
 
         return registerId;
     }
@@ -215,29 +234,29 @@ public class RegisterServiceImpl implements RegisterService {
     public Page<Register> searchByRegisterCond2(RegisterSearchCond registerSearchCond, Pageable pageable) {
 
         String address = registerSearchCond.getStreetName();
+
         String prefecture = findPrefecture(address);
         registerSearchCond.setPrefecture(prefecture);
-        System.out.println("prefecture = " + prefecture);
+
 
         String cityName = findCity(address);
         registerSearchCond.setCityName(cityName);
-        System.out.println("cityName = " + cityName);
+
 
         String Gu = findGu(address);
         registerSearchCond.setGu(Gu);
-        System.out.println("Gu = " + Gu);
+
 
         String Dong = findDong(address);
         registerSearchCond.setDong(Dong);
-        System.out.println("Dong = " + Dong);
+
 
         String streetName = findStreetName(address);
         registerSearchCond.setStreetName(streetName);
-        System.out.println("streetName = " + streetName);
+
 
         String streetNumber = findStreetNumber(address);
         registerSearchCond.setStreetNumber(streetNumber);
-        System.out.println("streetNumber = " + streetNumber);
 
 
         Page<Register> page = registerRepositorySDJ.searchRegistersWithPagingComplexV2(registerSearchCond,pageable);
@@ -263,8 +282,8 @@ public class RegisterServiceImpl implements RegisterService {
         StringTokenizer st = new StringTokenizer(str," ");
 
         while (st.hasMoreTokens()){
-            //북/남/도
 
+            //북/남/도
             String s = st.nextToken();
             if(s.charAt(s.length()-1) == '북' || s.charAt(s.length()-1) == '남' || s.charAt(s.length()-1) == '도' )
                 return s;
