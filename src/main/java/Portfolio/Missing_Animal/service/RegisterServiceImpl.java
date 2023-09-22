@@ -90,7 +90,7 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     //실종 목록
-    @Override
+    @Override // 페이징 기능 x
     @Transactional(readOnly = true)
     public List<Register> listingRegister() {
 
@@ -99,7 +99,7 @@ public class RegisterServiceImpl implements RegisterService {
         return all;
     }
 
-    @Override
+    @Override // 페이징 기능 o
     public Page<Register> listingRegisterV2(Pageable pageable) {
 
         Page<Register> page = registerRepositorySDJ.findAll(pageable);
@@ -218,19 +218,16 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
 
-    @Override
+    @Override // 실종동물 이름, 성별, 나이 등을 SearchCondition으로 한다.
     public Page<Register> searchByRegisterCond(RegisterSearchCond registerSearchCond, Pageable pageable) {
 
-
-
         Page<Register> page = registerRepositorySDJ.searchRegistersWithPagingComplexV2(registerSearchCond,pageable);
-
 
         return page;
 
     }
 
-    @Override
+    @Override // 도로명 주소를 SearchCondition으로 한다.
     public Page<Register> searchByRegisterCond2(RegisterSearchCond registerSearchCond, Pageable pageable) {
 
         String address = registerSearchCond.getStreetName();
@@ -238,26 +235,24 @@ public class RegisterServiceImpl implements RegisterService {
         String prefecture = findPrefecture(address);
         registerSearchCond.setPrefecture(prefecture);
 
-
         String cityName = findCity(address);
         registerSearchCond.setCityName(cityName);
-
 
         String Gu = findGu(address);
         registerSearchCond.setGu(Gu);
 
-
         String Dong = findDong(address);
         registerSearchCond.setDong(Dong);
-
 
         String streetName = findStreetName(address);
         registerSearchCond.setStreetName(streetName);
 
-
         String streetNumber = findStreetNumber(address);
         registerSearchCond.setStreetNumber(streetNumber);
 
+        /**
+         * 도로명 주소를 Parsing한 뒤에 동적 쿼리 실행해야 함!
+         */
 
         Page<Register> page = registerRepositorySDJ.searchRegistersWithPagingComplexV2(registerSearchCond,pageable);
 
@@ -275,7 +270,9 @@ public class RegisterServiceImpl implements RegisterService {
 
     }
 
-
+    /**
+     * 도로명 주소 Parsing Method
+     */
     public static String findPrefecture(String str){
 
 

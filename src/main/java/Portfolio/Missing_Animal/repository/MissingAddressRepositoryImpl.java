@@ -29,7 +29,6 @@ public class MissingAddressRepositoryImpl implements MissingAddressRepository {
     private final MissingAddressRepositorySDJ missingAddressRepositorySDJ; // Spring Data JPA
 
 
-
     @Override
     public Long save(MissingAddress missingAddress){
 

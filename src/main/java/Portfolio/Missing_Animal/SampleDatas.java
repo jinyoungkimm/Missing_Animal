@@ -16,10 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Profile("local")
 @Component
 @RequiredArgsConstructor
-public class InitMissingAddress {
+public class SampleDatas {
 
    private final EntityManager em;
-
 
     @Transactional
     public void init(){

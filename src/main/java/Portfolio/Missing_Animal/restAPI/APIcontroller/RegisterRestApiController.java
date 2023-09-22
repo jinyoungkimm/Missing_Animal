@@ -36,15 +36,6 @@ public class RegisterRestApiController {
     private final RegisterRequestDtoValidator registerRequestDtoValidator;
     private final UpdateRegisterRequestValidator updateRegisterRequestValidator;
 
-  /*  @InitBinder
-    public void init(WebDataBinder dataBinder){
-
-        dataBinder.addValidators(registerRequestDtoValidator);
-        dataBinder.addValidators(updateRegisterRequestValidator);
-
-    }*/
-
-
 
     @PostMapping("/new") // 실종 등록 API
     public Object registerApi(@RequestBody  RegisterRequestDto registerRequestDto, BindingResult bindingResult) {

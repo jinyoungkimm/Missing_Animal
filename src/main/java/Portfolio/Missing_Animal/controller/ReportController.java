@@ -44,32 +44,20 @@ import static org.springframework.util.StringUtils.isEmpty;
 public class ReportController {
 
     private final ReportService reportService;
-
     private final StorageServiceForReport storageService;
-
-    private final RegisterRepositorySDJ registerRepository; // Spring Data JPA Repository
-
-    private final ReportRepositorySDJ reportRepository; // Spring Data JPA Repository
+    private final RegisterRepositorySDJ registerRepositorySDJory; // Spring Data JPA Repository
+    private final ReportRepositorySDJ reportRepositorySDJ; // Spring Data JPA Repository
 
     private final MissingAddressRepositorySDJ missingAddressRepository;  // Spring Data JPA Repository
 
-    private final ReportRepository _reportRepository;
-
-    private final ReportValidator reportValidator;
-
-  /*  @InitBinder
-    public void init(WebDataBinder dataBinder){
-
-        dataBinder.addValidators(reportValidator);
-
-    }*/
-
+    private final ReportRepository reportRepository; // 순수 JPA Repository
+    private final ReportValidator reportValidator; // 순수 JPA Repository
 
 
     @GetMapping("/{registerId}")
-    String clickRegisterForReport(@PathVariable("registerId") Long registerId, Model model){
+    String svaeReport_GET(@PathVariable("registerId") Long registerId, Model model){
 
-        Register register = registerRepository.findById(registerId).get();
+        Register register = registerRepositorySDJory.findById(registerId).get();
 
         Member member = register.getMember();
         String email = member.getEmail().getFirst() + "@" + member.getEmail().getLast();
@@ -86,7 +74,7 @@ public class ReportController {
     }
 
     @PostMapping("/{registerId}")
-    String report(@PathVariable("registerId") Long registerId,
+    String saveReport_POST(@PathVariable("registerId") Long registerId,
                   @Login Member _member,
                   @ModelAttribute Report report, BindingResult bindingResult,
                   @ModelAttribute Member member,
@@ -110,12 +98,11 @@ public class ReportController {
         }
 
 
-
         Long saveId = reportService.saveReport(_member,registerId, report);
 
         redirectAttributes.addAttribute("status",true);
 
-        return "redirect:/report/{registerId}";
+        return "redirect:/report/{registerId}"; // PRG
     }
 
     @GetMapping("/{reportId}/getOneReport")
@@ -179,12 +166,8 @@ public class ReportController {
     String findReportsByRegisterId(@PathVariable("registerId") Long registerId,
                                    @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable,
                                    Model model){
-        System.out.println("registerId : " + registerId);
 
-        Page<Report> page = reportRepository.findReportsByRegisterId(registerId, pageable);
-        for (Report report : page) {
-            System.out.println("report="+report);
-        }
+        Page<Report> page = reportRepositorySDJ.findReportsByRegisterId(registerId, pageable);
 
         model.addAttribute("registerId",registerId);
         model.addAttribute("page",page);
@@ -203,11 +186,9 @@ public class ReportController {
 
 
     @GetMapping("/{reportId}/edit")
-    String updateReportGet(@PathVariable("reportId") Long reportId, Model model){
+    String updateReport_Get(@PathVariable("reportId") Long reportId, Model model){
 
         Report findReport = reportService.findOne(reportId);
-
-        System.out.println("findReport = " + findReport);
 
         model.addAttribute("report",findReport);
 
@@ -216,7 +197,7 @@ public class ReportController {
     }
 
     @PostMapping("/{reportId}/edit")
-    String updateReportPost(@Validated @ModelAttribute Report report,BindingResult bindingResult,
+    String updateReport_Post(@Validated @ModelAttribute Report report,BindingResult bindingResult,
                             @PathVariable("reportId") Long reportId,
                             @RequestParam("file") MultipartFile file,RedirectAttributes redirectAttributes) throws IOException {
 
@@ -224,7 +205,7 @@ public class ReportController {
             return "reports/reportUpdate";
 
         //Report findReport = reportService.findOne(reportId);
-        Report findReport = _reportRepository.findById(reportId);
+        Report findReport = reportRepository.findById(reportId);
 
         if(!file.isEmpty())
         {
@@ -258,9 +239,5 @@ public class ReportController {
         return "redirect:/report/{reportId}/edit";
 
     }
-
-
-
-
 
 }

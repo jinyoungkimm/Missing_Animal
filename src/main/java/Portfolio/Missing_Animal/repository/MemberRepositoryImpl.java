@@ -31,7 +31,6 @@ public class MemberRepositoryImpl implements MemberRepository {
     private final EntityManager em;
     private final MemberRepositorySDJ memberRepositorySDJ; // [Spring Data JPA]
 
-
     //CRUD
     @Override
     public Long save(Member member){

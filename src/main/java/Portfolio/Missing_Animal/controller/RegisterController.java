@@ -51,7 +51,7 @@ public class RegisterController {
 
 
     @GetMapping("")
-    public String registerMissingGet(Model model){
+    public String registerMissing_Get(Model model){
 
         Register register = new Register();
 
@@ -64,7 +64,7 @@ public class RegisterController {
     }
 
     @PostMapping("")
-    public String registerMissingPost( @ModelAttribute Register register, BindingResult bindingResult,
+    public String registerMissing_Post( @ModelAttribute Register register, BindingResult bindingResult,
                                        @Login Member member,
                                        @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
 
@@ -99,7 +99,7 @@ public class RegisterController {
 
 
     @GetMapping("/list")
-    public String registerListV2(Model model, @PageableDefault(page = 0,size = 2,sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+    public String registerList(Model model, @PageableDefault(page = 0,size = 2,sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
 
         Page<Register> page = registerService.listingRegisterV2(pageable);
 
@@ -124,11 +124,9 @@ public class RegisterController {
                                                @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable,
                                                RegisterSearchCond registerSearchCond)
     {
-        System.out.println("registerSearchCond = " + registerSearchCond);;
 
         Page<Register> page = registerService.searchByRegisterCond(registerSearchCond,pageable);
 
-        System.out.println("size = " + page.getTotalElements());
 
         int nowPage = page.getPageable().getPageNumber() + 1; // or pageable.getPageNumber();
         int startPage = Math.max(nowPage - 4,1);
@@ -146,11 +144,22 @@ public class RegisterController {
 
     }
 
-    @PostMapping("/search/list/myVilage") // 우리 동네 실종 동물 찾기
-    public String registerListBySearchCondtion2(
-                                                @ModelAttribute RegisterSearchCond registerSearchCond ,BindingResult bindingResult, Model model,
-                                                @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable
-                                              )
+    @GetMapping("/missingAddress") // 우리 동네 실종 동물 찾기
+    public String showRegistersWithMissingAddress(Model model){
+
+        RegisterSearchCond registerSearchCond = new RegisterSearchCond();
+
+        model.addAttribute("registerSearchCond",registerSearchCond);
+
+        return "registers/registersByMissingAddress";
+
+    }
+
+    @PostMapping("/search/list/myVilage") // [우리 동네 실종 찾기]의 결과
+    public String registerListBySearchCondtion(
+            @ModelAttribute RegisterSearchCond registerSearchCond ,BindingResult bindingResult, Model model,
+            @PageableDefault(page = 0, size = 2, sort = "id",direction = Sort.Direction.ASC) Pageable pageable
+    )
     {
 
         if(!StringUtils.hasText(registerSearchCond.getZipcode()))
@@ -176,6 +185,7 @@ public class RegisterController {
         return "registers/registerListMyVilage";
 
     }
+
 
     @GetMapping("/{registerId}/edit")
     String updateRegisterGet(@PathVariable("registerId") Long registerId, Model model){
@@ -203,6 +213,8 @@ public class RegisterController {
 
         return "registers/registerUpdate";
     }
+
+
 
     @PostMapping("/{registerId}/edit")
     public String updateRegister(@Validated @ModelAttribute Register register, BindingResult bindingResult,
@@ -248,16 +260,7 @@ public class RegisterController {
     }
 
 
-    @GetMapping("/missingAddress")
-    public String showRegistersWithMissingAddress(Model model){
 
-        RegisterSearchCond registerSearchCond = new RegisterSearchCond();
-
-        model.addAttribute("registerSearchCond",registerSearchCond);
-
-        return "registers/registersByMissingAddress";
-
-    }
 
     @GetMapping("{registerId}/getOneRegister")
     public String findOneRegister_NoUpdate(@PathVariable("registerId") Long registerId, Model model)

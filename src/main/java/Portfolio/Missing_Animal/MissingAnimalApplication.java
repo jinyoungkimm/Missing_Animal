@@ -41,7 +41,7 @@ public class MissingAnimalApplication {
 	}
 
 	@Bean
-	CommandLineRunner init2(InitMissingAddress initMissingAddress) {
+	CommandLineRunner init2(SampleDatas initMissingAddress) {
 		return (args) -> {
 
 			initMissingAddress.init();
