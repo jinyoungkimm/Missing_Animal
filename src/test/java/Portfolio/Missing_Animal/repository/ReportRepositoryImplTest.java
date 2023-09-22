@@ -18,9 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 class ReportRepositoryImplTest {
 
-    /*@Autowired
-    ReportRepository reportRepository;*/ // 순수 JPA Repository
-
     @Autowired
     ReportRepositorySDJ reportRepository; // Spring Data JPA Repository
 

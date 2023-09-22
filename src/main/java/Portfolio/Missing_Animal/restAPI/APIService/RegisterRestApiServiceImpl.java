@@ -42,7 +42,6 @@ public class RegisterRestApiServiceImpl implements RegisterRestApiService {
 
             Long saveId = registerRepository.save(register).getId();
 
-
             return saveId;
         }
         catch (NonUniqueResultException e){

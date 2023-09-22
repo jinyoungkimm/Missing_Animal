@@ -22,8 +22,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 @Transactional
 class MemberRepositoryTest {
 
-    //@Autowired
-    //MemberRepositoryImpl memberRepository; // 순수 JPA Repository
 
     @Autowired
     MemberRepositorySDJ memberRepository; // Spring Data JPA
@@ -34,20 +32,7 @@ class MemberRepositoryTest {
     @Test
     void save(){
 
-        // 순수 JPA Repository
-        /*//given
-        Member member = new Member();
-        member.setUsername("kim");
 
-        //when
-        Long id = memberRepository.save(member);
-
-        em.flush();
-        em.clear();
-
-
-        //then
-        assertThat(id).isEqualTo(memberRepository.findById(id).getId());*/
 
         // Spring Data JPA
         //given
@@ -71,17 +56,6 @@ class MemberRepositoryTest {
 
     @Test
     void delete(){
-        // 순수 JPA Repository
-       /* //givien
-        Member findMember1 = memberRepository.findById(1L);
-
-        //when
-        memberRepository.delete(findMember1);
-
-        //then
-        Member findMember2 = memberRepository.findById(1L);
-
-        fail("예외가 터졌어야 했다.");*/
 
         // Spring Data JPA
         //givien
@@ -98,11 +72,6 @@ class MemberRepositoryTest {
 
     @Test
     void count(){
-        // 순수 JPA Repository
-        /*long count = memberRepository.count();
-
-
-        assertThat(count).isEqualTo(4l);*/
 
 
         // Spring Data JPA
@@ -115,20 +84,6 @@ class MemberRepositoryTest {
 
     @Test
     void findById(){
-        // 순수 JPA Repository
-        /*//given
-        Member member = new Member();
-        member.setUsername("kim1");
-        Long id = memberRepository.save(member);
-
-        em.flush();
-        em.clear();
-
-        //when
-        Member findMember = memberRepository.findById(id);
-
-        //then
-        assertThat(findMember.getUsername()).isEqualTo("kim1");*/
 
         // Spring Data JPA
         //given
@@ -151,26 +106,6 @@ class MemberRepositoryTest {
     @Test
     void findAll(){
 
-        // 순수 JPA Repository
-       /* //when
-        List<Member> findMembers = memberRepository.findAll();
-        for (Member findMember : findMembers) {
-
-            System.out.println("=============");
-            List<Register> registers = findMember.getRegisters();
-            for (Register register : registers) {
-                System.out.println(register.getId());
-            }
-
-            System.out.println("=============");
-            List<Report> reports = findMember.getReports();
-            for (Report report : reports) {
-                System.out.println(report.getId());
-            }
-
-        }
-        assertThat(findMembers.get(0).getId()).isEqualTo(1);
-        assertThat(findMembers.get(1).getId()).isEqualTo(2);*/
 
 
         // Spring Data JPA
@@ -226,23 +161,7 @@ class MemberRepositoryTest {
 
     @Test
     void findByuserName(){
-        // 순수 JPA Repository
-       /* //given
-        Member member = new Member();
-        member.setUsername("kim1");
-        Long id = memberRepository.save(member);
 
-        em.flush();
-        em.clear();
-
-        //when
-
-        List<Member> findMembers = memberRepository.findByUserName("kim1");
-
-
-
-        //then
-        assertThat(findMembers.get(0).getUsername()).isEqualTo("kim1");*/
 
         // Spring Data JPA
         //given

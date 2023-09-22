@@ -57,7 +57,7 @@ class RegisterRepositoryImplTest {
 
     }
 
- /*   @Test
+    @Test
     void delete(){
 
         //givien
@@ -105,12 +105,12 @@ class RegisterRepositoryImplTest {
         //then
         assertThat(findRegister.getAnimalName()).isEqualTo("사랑이");
     }
-*/
+
     @Test
     void findAll() {
 
         //givien
-       /* Register register1 = new Register();
+        Register register1 = new Register();
         register1.setAnimalName("사랑이1");
         registerRepository.save(register1);
 
@@ -124,9 +124,9 @@ class RegisterRepositoryImplTest {
 
         Register register4 = new Register();
         register4.setAnimalName("사랑이4");
-        registerRepository.save(register4);*/
-        //when
+        registerRepository.save(register4);
 
+        //when
         List<Register> all = registerRepository.findAll();
         for(int x = 1; x <= all.size();x++){
             assertThat(all.get(x-1).getAnimalName()).isEqualTo("사랑이"+x);
@@ -139,7 +139,7 @@ class RegisterRepositoryImplTest {
     void findByAnimalName() {
 
         //givien
-       /* Register register1 = new Register();
+        Register register1 = new Register();
         register1.setAnimalName("사랑이1");
         registerRepository.save(register1);
 
@@ -153,7 +153,7 @@ class RegisterRepositoryImplTest {
 
         Register register4 = new Register();
         register4.setAnimalName("사랑이4");
-        registerRepository.save(register4);*/
+        registerRepository.save(register4);
 
         //when
         List<Register> 사랑이1 = registerRepository.findByAnimalName("사랑이");

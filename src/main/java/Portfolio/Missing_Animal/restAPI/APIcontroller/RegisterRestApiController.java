@@ -98,9 +98,9 @@ public class RegisterRestApiController {
         register.setRegisterStatus(updateRegisterRequest.getRegisterStatus());
         register.setReportedStatus(updateRegisterRequest.getReportedStatus());
 
-
         Long registerId = updateRegisterRequest.getRegisterId();
         Long updateId = registerService.updateForm(registerId, register);
+
 
         if(updateId != null){
 
