@@ -14,7 +14,7 @@
 ![Slide7](https://github.com/jinyoungkimm/Missing_Animal/assets/100742333/c165bd60-fca4-4a1e-9316-e81aacfb34f0)
 
 
-
+![Slide31](https://github.com/jinyoungkimm/Missing_Animal/assets/100742333/e27d89d9-ce0b-4abe-8a9c-d6e2762b62b0)
 
 
 
