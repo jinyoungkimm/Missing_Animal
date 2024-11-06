@@ -1,5 +1,5 @@
-🎯 운영 서버 : http://43.202.152.228:8080/(현재 서비스 종료) <br>
-🎯 모니터링 서버 : http://13.125.108.7:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s&from=not-5m&to=now(현재 서비스 종료)  ( ID : admin /  PW : eoskan6523)
+🎯 운영 서버 : http://43.202.152.228:8080/ (현재 서비스 종료) <br>
+🎯 모니터링 서버 : http://13.125.108.7:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s&from=not-5m&to=now (현재 서비스 종료)  ( ID : admin /  PW : eoskan6523)
 
 
 📓 포트폴리오 소개 PDF :https://drive.google.com/file/d/1fDPPNPbmRvO1N3I9QCKV367spsqWQa3S/view?usp=sharing<br><br>
