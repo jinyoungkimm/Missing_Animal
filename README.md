@@ -1,10 +1,10 @@
-🎯 운영 서버 : http://43.202.152.228:8080/ (현재 서비스 종료) <br>
-🎯 모니터링 서버 : http://13.125.108.7:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s&from=not-5m&to=now (현재 서비스 종료)  ( ID : admin /  PW : eoskan6523)
+🎯 運営　サーバー : http://43.202.152.228:8080/ (現在サービス終了) <br>
+🎯 モニタリング　サーバー : http://13.125.108.7:3000/d/spring_boot_21/spring-boot-2-1-system-monitor?orgId=1&refresh=5s&from=not-5m&to=now (現在サービス終了)  ( ID : admin /  PW : eoskan6523)
 
 
-📓 포트폴리오 소개 PDF https://drive.google.com/file/d/1gEDHABDgeDMU0AxU7DByIoE0d9aQ2EFR/view?usp=sharing<br><br>
+📓 プロジェクト紹介 PDF https://drive.google.com/file/d/1gEDHABDgeDMU0AxU7DByIoE0d9aQ2EFR/view?usp=sharing<br><br>
 
- - 포프폴리오 소개 자료 中 <br><br>
+ - プロジェクト紹介 PDF 中 <br><br>
 ![Slide3](https://github.com/jinyoungkimm/Missing_Animal/assets/100742333/808a6caa-6065-40a7-b815-317c35038961)
 
 
