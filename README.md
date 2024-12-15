@@ -5,16 +5,19 @@
 📓 プロジェクト紹介 PDF [https://drive.google.com/file/d/1gEDHABDgeDMU0AxU7DByIoE0d9aQ2EFR/view?usp=sharing](https://drive.google.com/file/d/1CSe0GnMslqU4AsciN5SAS0bZCZIcwVD8/view?usp=sharing)<br><br>
 
  - プロジェクト紹介 PDF 中 <br><br>
-![Slide3](https://github.com/jinyoungkimm/Missing_Animal/assets/100742333/808a6caa-6065-40a7-b815-317c35038961)
+![1](https://github.com/user-attachments/assets/fa018592-408e-43ae-b8f7-d9594c086edf)
 
 
-![Slide4](https://github.com/jinyoungkimm/Missing_Animal/assets/100742333/3f0cacb1-8d27-4ac2-87c5-ec7e3e8ace9f)
+![2](https://github.com/user-attachments/assets/a593fbdc-3bc5-48db-8ecd-70bf25bf7105)
 
 
-![Slide7](https://github.com/jinyoungkimm/Missing_Animal/assets/100742333/c165bd60-fca4-4a1e-9316-e81aacfb34f0)
+![3](https://github.com/user-attachments/assets/6557c41a-e2b7-4d4a-b4cb-ea55cacddf3f)
 
 
-![Slide31](https://github.com/jinyoungkimm/Missing_Animal/assets/100742333/e27d89d9-ce0b-4abe-8a9c-d6e2762b62b0)
+![4](https://github.com/user-attachments/assets/4a29a0c9-353f-4f8c-b91f-1fc7a41d9de9)
+
+
+
 
 
 
